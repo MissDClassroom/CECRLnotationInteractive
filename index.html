@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notation Orale : Fiches d'évaluation CECRL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#1b4965;
+    --primary-dark:#0d2e42;
+    --primary-light:#e9f2f7;
+    --primary-soft:#eef5f9;
+    --accent:#dd8a3f;
+    --accent-light:#fcefdf;
+    --ok:#2f9e6e;
+    --ok-light:#e5f7ee;
+    --warn:#d0524a;
+    --warn-light:#fbeae9;
+    --bg:#f2f5f8;
+    --card:#ffffff;
+    --border:#e1e8ee;
+    --text:#182631;
+    --text-mute:#647388;
+    --radius:12px;
+    --radius-lg:18px;
+    --shadow:0 1px 2px rgba(15,32,45,.05), 0 6px 16px rgba(15,32,45,.06);
+    --shadow-md:0 10px 28px rgba(15,32,45,.12);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    background:
+      radial-gradient(1100px 420px at 12% -10%, rgba(27,73,101,.06), transparent 60%),
+      linear-gradient(180deg, #f7fafc, var(--bg) 340px);
+    color:var(--text);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--primary-light);color:var(--primary-dark);}
+  ::-webkit-scrollbar{width:10px;height:10px;}
+  ::-webkit-scrollbar-thumb{background:#c7d3dc;border-radius:10px;}
+  ::-webkit-scrollbar-thumb:hover{background:#adbcc8;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  h1,h2,h3,h4{font-weight:800;margin:0 0 .4em;letter-spacing:-.015em;color:var(--primary-dark);}
+  header.topbar{
+    background:
+      radial-gradient(600px 240px at 85% -60%, rgba(255,255,255,.14), transparent 60%),
+      linear-gradient(120deg,var(--primary),var(--primary-dark) 120%);
+    color:#fff;
+    padding:20px 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:14px;
+  }
+  .brand{display:flex;align-items:center;gap:14px;}
+  .brand-mark{
+    width:42px;height:42px;border-radius:12px;flex-shrink:0;
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.28);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:.82rem;letter-spacing:.02em;color:#fff;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.2);
+  }
+  header.topbar h1{font-size:1.3rem;margin:0;color:#fff;letter-spacing:-.01em;}
+  header.topbar .sub{font-size:.82rem;opacity:.82;font-weight:400;margin-top:1px;}
+  header.topbar .rgpd-note{color:#eaf3f8;font-size:.74rem;opacity:.9;background:rgba(255,255,255,.1);padding:6px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.18);}
+  nav.tabs{
+    display:flex;
+    gap:4px;
+    background:rgba(247,250,252,.86);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    padding:10px 24px;
+    border-bottom:1px solid var(--border);
+    position:sticky;
+    top:0;
+    z-index:50;
+    flex-wrap:wrap;
+  }
+  nav.tabs button{
+    display:inline-flex;align-items:center;gap:8px;
+    border:none;
+    background:transparent;
+    color:var(--text-mute);
+    font-family:inherit;
+    font-size:.88rem;
+    font-weight:600;
+    padding:9px 16px 9px 9px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:background .15s,color .15s,box-shadow .15s;
+  }
+  nav.tabs .tab-num{
+    width:22px;height:22px;border-radius:7px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.72rem;font-weight:800;
+    background:var(--primary-light);color:var(--primary);
+    transition:.15s;
+  }
+  nav.tabs button:hover{background:var(--primary-soft);color:var(--primary-dark);}
+  nav.tabs button.active{background:var(--primary);color:#fff;box-shadow:0 6px 16px rgba(27,73,101,.3);}
+  nav.tabs button.active .tab-num{background:rgba(255,255,255,.2);color:#fff;}
+  main{max-width:1180px;margin:0 auto;padding:28px 20px 80px;}
+  .view{display:none;animation:fade .2s ease;}
+  .view.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius-lg);
+    padding:20px 22px;
+    margin-bottom:18px;
+    box-shadow:var(--shadow);
+  }
+  .card-head{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap;
+  }
+  .btn{
+    font-family:inherit;
+    border:1px solid var(--border);
+    background:#fff;
+    color:var(--text);
+    padding:9px 15px;
+    border-radius:9px;
+    font-size:.85rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:.15s;
+    white-space:nowrap;
+  }
+  .btn:hover{border-color:var(--primary);color:var(--primary-dark);background:var(--primary-soft);}
+  .btn:active{transform:translateY(1px);}
+  .btn-primary{background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:0 2px 8px rgba(27,73,101,.25);}
+  .btn-primary:hover{background:var(--primary-dark);border-color:var(--primary-dark);color:#fff;}
+  .btn-accent{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(221,138,63,.3);}
+  .btn-accent:hover{filter:brightness(0.94);color:#fff;}
+  .btn-danger{color:var(--warn);}
+  .btn-danger:hover{background:var(--warn-light);border-color:var(--warn);color:var(--warn);}
+  .btn-sm{padding:6px 11px;font-size:.78rem;border-radius:8px;}
+  .btn-ghost{border-color:transparent;background:transparent;box-shadow:none;}
+  .btn-ghost:hover{background:var(--primary-soft);box-shadow:none;}
+  input[type=text],input[type=number],input[type=date],select,textarea{
+    font-family:inherit;
+    font-size:.9rem;
+    padding:9px 11px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:#fff;
+    color:var(--text);
+    width:100%;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  input[type=text]:focus,input[type=number]:focus,input[type=date]:focus,select:focus,textarea:focus{
+    outline:none;border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light);
+  }
+  textarea{resize:vertical;min-height:44px;}
+  label.field-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-mute);display:block;margin-bottom:5px;}
+  .field{margin-bottom:12px;}
+  .row{display:flex;gap:12px;flex-wrap:wrap;}
+  .row > .field{flex:1;min-width:160px;}
+  .muted{color:var(--text-mute);font-size:.85rem;}
+  .pill{
+    display:inline-block;
+    background:var(--primary-light);
+    color:var(--primary-dark);
+    font-size:.7rem;
+    font-weight:700;
+    padding:3px 10px;
+    border-radius:99px;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  }
+  .competence-block{border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;background:#fbfdfe;transition:box-shadow .15s,border-color .15s;}
+  .competence-block:hover{border-color:#cfdbe4;box-shadow:var(--shadow);}
+  .competence-block h3{font-size:.96rem;color:var(--primary-dark);display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;}
+  .critere-row{
+    display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
+    padding:9px 0;border-top:1px solid var(--border);
+  }
+  .critere-row:first-of-type{border-top:none;}
+  .critere-main{flex:1;}
+  .critere-main .lib{font-weight:600;font-size:.89rem;}
+  .critere-main .desc{font-size:.79rem;color:var(--text-mute);margin-top:2px;}
+  .critere-main .conseil{font-size:.77rem;color:var(--accent);margin-top:4px;font-style:italic;}
+  .critere-actions{display:flex;gap:4px;flex-shrink:0;}
+  .inline-form{background:var(--primary-soft);border:1px solid var(--primary-light);border-radius:var(--radius);padding:14px;margin-top:8px;}
+  .empty-msg{color:var(--text-mute);font-size:.85rem;padding:22px 14px;text-align:center;border:1.5px dashed var(--border);border-radius:var(--radius);}
+
+  /* Modèles */
+  .type-badge{font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:99px;background:var(--accent-light);color:var(--accent);text-transform:uppercase;letter-spacing:.02em;}
+  .checkbox-grid label.chk{
+    display:flex;align-items:flex-start;gap:8px;padding:6px 4px;border-radius:7px;font-size:.86rem;cursor:pointer;transition:background .12s;
+  }
+  .checkbox-grid label.chk:hover{background:var(--primary-soft);}
+  .checkbox-grid label.chk input{margin-top:3px;width:auto;accent-color:var(--primary);}
+  .template-card{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;background:#fff;flex-wrap:wrap;transition:box-shadow .15s,border-color .15s,transform .15s;}
+  .template-card:hover{box-shadow:var(--shadow-md);border-color:#cfdbe4;transform:translateY(-1px);}
+  .template-card .meta{font-size:.78rem;color:var(--text-mute);margin-top:3px;}
+  .quickbtns{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 4px;}
+
+  /* Session */
+  .session-controls{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;}
+  .count-picker{display:flex;gap:6px;background:var(--bg);padding:5px;border-radius:11px;border:1px solid var(--border);}
+  .count-picker button{
+    width:38px;height:38px;border-radius:8px;border:none;background:transparent;
+    font-weight:700;font-size:.95rem;cursor:pointer;color:var(--text-mute);transition:.15s;
+  }
+  .count-picker button:hover{color:var(--primary-dark);}
+  .count-picker button.active{background:var(--primary);color:#fff;box-shadow:0 3px 10px rgba(27,73,101,.3);}
+  .fiches-grid{display:grid;gap:18px;margin-top:20px;}
+  .fiches-grid.n1{grid-template-columns:minmax(0,720px);justify-content:center;}
+  .fiches-grid.n2{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .fiches-grid.n3{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .fiches-grid.n4{grid-template-columns:repeat(2,minmax(0,1fr));}
+  @media (max-width:900px){
+    .fiches-grid.n2,.fiches-grid.n3,.fiches-grid.n4{grid-template-columns:1fr;}
+  }
+  .fiche-card{border:1px solid var(--border);border-radius:var(--radius-lg);background:#fff;box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden;transition:box-shadow .18s;}
+  .fiche-card:hover{box-shadow:var(--shadow-md);}
+  .fiche-head{background:linear-gradient(120deg,var(--primary-light),var(--primary-soft));padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+  .fiche-head .slotnum{
+    width:28px;height:28px;border-radius:9px;background:var(--primary);color:#fff;font-weight:800;font-size:.8rem;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 6px rgba(27,73,101,.3);
+  }
+  .fiche-body{padding:14px 16px;flex:1;}
+  .fiche-crit{border-top:1px solid var(--border);padding:10px 0;}
+  .fiche-crit:first-child{border-top:none;padding-top:2px;}
+  .fiche-crit .crit-label{font-size:.83rem;font-weight:600;margin-bottom:7px;}
+  .crit-comment{margin-top:7px;font-size:.78rem;padding:6px 9px;min-height:30px;background:#fbfdfe;}
+  .crit-comp{font-size:.66rem;color:var(--primary);text-transform:uppercase;letter-spacing:.03em;font-weight:800;margin-top:4px;}
+  .level-picker{display:flex;gap:4px;flex-wrap:wrap;}
+  .level-btn{
+    flex:1;min-width:38px;
+    border:1px solid var(--border);
+    border-bottom:3px solid var(--lvl-color, var(--border));
+    background:#fff;color:var(--text-mute);
+    font-size:.72rem;font-weight:700;
+    padding:7px 2px;border-radius:7px;cursor:pointer;text-align:center;
+    transition:.12s;
+  }
+  .level-btn:hover{border-color:var(--lvl-color, var(--primary));color:var(--text);transform:translateY(-1px);}
+  .level-btn.sel{background:var(--lvl-color, var(--primary));border-color:var(--lvl-color, var(--primary));color:#fff;box-shadow:0 3px 8px rgba(0,0,0,.14);}
+  .level-btn.target{box-shadow:0 0 0 2px var(--accent) inset;}
+  .level-btn.sel.target{box-shadow:0 0 0 2px var(--accent), 0 3px 8px rgba(0,0,0,.14);}
+  .fiche-score{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 16px;background:#fbfdfe;border-top:1px solid var(--border);
+  }
+  .fiche-score .val{font-size:1.5rem;font-weight:800;color:var(--primary-dark);transition:color .15s;}
+  .fiche-score .val small{font-size:.85rem;font-weight:600;color:var(--text-mute);}
+  .fiche-foot{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--border);background:#fff;}
+  .fiche-foot .btn{flex:1;}
+
+  .completed-list{margin-top:10px;}
+  .completed-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;background:#fff;flex-wrap:wrap;transition:box-shadow .15s,border-color .15s;}
+  .completed-row:hover{box-shadow:var(--shadow);border-color:#cfdbe4;}
+  .completed-row .name{font-weight:700;flex:1;min-width:120px;}
+  .completed-row .score{font-weight:800;}
+
+  .toast{
+    position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--primary-dark);color:#fff;padding:11px 20px;border-radius:10px;
+    font-size:.86rem;font-weight:600;box-shadow:var(--shadow-md);opacity:0;pointer-events:none;
+    transition:.25s;z-index:200;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  .rgpd-note{font-size:.76rem;color:var(--text-mute);display:flex;align-items:center;gap:6px;margin-top:6px;}
+
+  footer.appfoot{max-width:1180px;margin:0 auto;padding:4px 20px 40px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
+  footer.appfoot .muted{font-size:.74rem;color:#9aa7b4;}
+
+  /* Print / PDF */
+  #print-area{display:none;}
+  @media print{
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    body > header.topbar, body > nav.tabs, body > main, body > footer.appfoot, body > .toast{display:none !important;}
+    #print-area{display:block !important;}
+    @page{size:A4;margin:9mm 11mm;}
+    .print-page{
+      page-break-after:always;
+      font-family:'Inter',Arial,sans-serif;
+      display:flex;flex-direction:column;
+    }
+    .print-page:last-child{page-break-after:auto;}
+
+    .p-header{
+      display:flex;justify-content:space-between;align-items:center;gap:12px;
+      background:linear-gradient(135deg,#1d4e6b,#12374b);
+      color:#fff;border-radius:10px;padding:10px 16px;margin-bottom:8px;
+    }
+    .p-title{font-size:1rem;font-weight:800;}
+    .p-sub{font-size:.7rem;opacity:.92;margin-top:2px;}
+    .p-score-badge{
+      flex-shrink:0;width:56px;height:56px;border-radius:50%;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.35) inset;
+    }
+    .p-score-badge .num{font-size:1.15rem;font-weight:800;line-height:1;}
+    .p-score-badge .lbl{font-size:.5rem;text-transform:uppercase;font-weight:700;color:#5c6b74;letter-spacing:.02em;}
+
+    .p-grid{display:flex;flex-direction:column;margin-bottom:6px;}
+    .p-comp-title{
+      width:100%;
+      font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;
+      color:#12374b;background:#e8f1f6;padding:4px 8px;border-radius:5px;
+      margin-top:9px;margin-bottom:3px;
+    }
+    .p-grid > .p-comp-title:first-child{margin-top:0;}
+    .p-crit-row{width:100%;display:flex;align-items:flex-start;gap:8px;padding:4px 8px;border-bottom:1px solid #eef2f4;}
+    .p-crit-row:last-child{border-bottom:none;}
+    .p-crit-main{flex:1;min-width:0;}
+    .p-crit-name{font-size:.72rem;line-height:1.25;}
+    .p-crit-comment{font-size:.63rem;color:#5c6b74;font-style:italic;line-height:1.2;margin-top:1px;}
+    .p-level-pill{
+      flex-shrink:0;min-width:32px;text-align:center;
+      font-size:.62rem;font-weight:800;color:#fff;
+      padding:2px 6px;border-radius:99px;line-height:1.3;
+    }
+
+    .p-advice{display:flex;flex-direction:column;gap:8px;margin-top:auto;padding-top:6px;}
+    .p-advice-box{border-radius:8px;padding:7px 10px;font-size:.66rem;line-height:1.3;}
+    .p-advice-box.forts{background:#e4f5eb;border-left:3px solid #2e8b57;}
+    .p-advice-box.faibles{background:#fbeadb;border-left:3px solid #c97a2e;}
+    .p-advice-box h4{font-size:.64rem;margin:0 0 4px;text-transform:uppercase;letter-spacing:.02em;}
+    .p-advice-box.forts h4{color:#2e8b57;}
+    .p-advice-box.faibles h4{color:#c97a2e;}
+    .p-advice-box ul{margin:0;padding-left:13px;}
+    .p-advice-box li{margin-bottom:2px;}
+
+    .p-footer{margin-top:8px;padding-top:5px;border-top:1px solid #dbe3e8;font-size:.58rem;color:#9aa7ae;}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">NO</div>
+    <div>
+      <h1>Notation Orale</h1>
+      <div class="sub">Fiches d'évaluation modulables, repères CECRL</div>
+    </div>
+  </div>
+  <div class="rgpd-note">🔒 Données stockées uniquement dans ce navigateur</div>
+</header>
+
+<nav class="tabs">
+  <button data-view="modeles" class="active"><span class="tab-num">1</span>Modèles de fiches</button>
+  <button data-view="session"><span class="tab-num">2</span>Session de notation</button>
+  <button data-view="banque"><span class="tab-num">3</span>Banque de critères</button>
+</nav>
+
+<main>
+
+  <!-- ===================== VUE 1 : MODELES ===================== -->
+  <section id="view-modeles" class="view active">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h2>Modèles de fiches</h2>
+          <div class="muted">Choisissez un type d'activité et sélectionnez les critères à évaluer pour ce modèle. Le modèle est enregistré et réutilisable. Les critères viennent de la banque (onglet 3), déjà pré-remplie ; vous pouvez la compléter à tout moment.</div>
+        </div>
+        <button class="btn btn-primary" id="btn-new-template">+ Nouveau modèle</button>
+      </div>
+      <div id="template-form-zone"></div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom:12px;">Modèles enregistrés</h3>
+      <div id="templates-list"></div>
+    </div>
+  </section>
+
+  <!-- ===================== VUE 2 : SESSION ===================== -->
+  <section id="view-session" class="view">
+    <div class="card">
+      <h2 style="margin-bottom:12px;">Session de notation</h2>
+      <div class="row">
+        <div class="field">
+          <label class="field-label">Titre de la séance (apparaît sur les PDF)</label>
+          <input type="text" id="session-titre" placeholder="Ex. Oral LLCER : Réflecteurs orbitaux">
+        </div>
+        <div class="field" style="max-width:180px;">
+          <label class="field-label">Date</label>
+          <input type="date" id="session-date">
+        </div>
+      </div>
+      <div class="session-controls">
+        <div class="field" style="margin:0;">
+          <label class="field-label">Fiches simultanées à l'écran</label>
+          <div class="count-picker" id="count-picker"></div>
+        </div>
+        <div class="field" style="margin:0;max-width:170px;">
+          <label class="field-label">Niveau visé (défaut)</label>
+          <select id="default-niveau-vise"></select>
+        </div>
+        <div class="field" style="margin:0;max-width:170px;">
+          <label class="field-label">Note si niveau atteint</label>
+          <input type="number" id="default-baseline-note" min="0" max="20" step="0.5">
+        </div>
+        <button class="btn btn-sm" id="btn-apply-niveau-all">Appliquer à toutes les fiches</button>
+      </div>
+      <div class="muted" style="margin-top:6px;">Le niveau visé adapte le barème au moment de l'année : l'atteindre donne la note indiquée ; en dessous elle baisse proportionnellement, au-dessus elle monte vers 20.</div>
+    </div>
+
+    <div class="fiches-grid n1" id="fiches-grid"></div>
+
+    <div class="card" style="margin-top:20px;">
+      <div class="card-head">
+        <h3 style="margin:0;">Fiches terminées de la session</h3>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-accent" id="btn-download-all">⬇ Télécharger toutes les fiches (PDF)</button>
+          <button class="btn btn-danger" id="btn-clear-completed">Vider la liste</button>
+        </div>
+      </div>
+      <div id="completed-list" class="completed-list"></div>
+    </div>
+  </section>
+
+  <!-- ===================== VUE 3 : BANQUE ===================== -->
+  <section id="view-banque" class="view">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h2>Banque de critères</h2>
+          <div class="muted">Organisée par compétence. Chaque critère est ensuite évalué sur les 7 paliers du CECRL (A1 → C1). Modifiable librement.</div>
+        </div>
+        <button class="btn btn-primary" id="btn-add-competence">+ Compétence</button>
+      </div>
+      <div id="add-competence-form"></div>
+      <div id="competences-list"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h3 style="margin:0;">Sauvegarde / portabilité</h3>
+          <div class="muted">Exportez la banque et les modèles pour les réutiliser sur un autre poste, ou en garder une copie.</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn" id="btn-export">Exporter (JSON)</button>
+          <label class="btn" style="margin:0;">Importer
+            <input type="file" id="input-import" accept="application/json" style="display:none;">
+          </label>
+          <button class="btn btn-danger" id="btn-reset-all">Réinitialiser</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="appfoot">
+  <div class="muted">@MD</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<div id="print-area"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   MODELE DE DONNEES
+   ============================================================ */
+const LEVELS = [
+  {code:'A1', pts:1, color:'#d6564a'},{code:'A2', pts:2, color:'#e0793a'},{code:'B1', pts:3, color:'#e2a52f'},
+  {code:'B1+',pts:4, color:'#cbbe3c'},{code:'B2', pts:5, color:'#9dbd3f'},{code:'B2+',pts:6, color:'#63ab5b'},{code:'C1', pts:7, color:'#2e8b57'}
+];
+function scoreColor(score){
+  if (score < 10) return '#c0392b';
+  if (score < 14) return '#c97a2e';
+  if (score < 16) return '#1d4e6b';
+  return '#2e8b57';
+}
+const MAX_PTS_PER_CRIT = 7;
+const DEFAULT_TARGET_IDX = 2; // B1 par défaut
+const DEFAULT_BASELINE_NOTE = 14; // note obtenue si le niveau visé est atteint pile
+const ACTIVITY_TYPES = ['Monologue suivi','Commentaire / analyse','Discussion / interaction','Mixte'];
+
+const LS_BANK = 'oe_bank_v1';
+const LS_TEMPLATES = 'oe_templates_v1';
+const LS_SLOTS = 'oe_slots_v1';
+const LS_COMPLETED = 'oe_completed_v1';
+
+function uid(){ return 'id-' + Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(-4); }
+function todayISO(){ const d=new Date(); return d.toISOString().slice(0,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function loadLS(key, fallback){
+  try{ const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; }
+  catch(e){ return fallback; }
+}
+function saveLS(key, val){ try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){ /* ignore quota errors */ } }
+
+function seedBank(){
+  return {
+    competences: [
+      { id: uid(), nom: 'Aisance et fluidité', criteres: [
+        { id: uid(), libelle: 'Fluidité du discours (débit, peu d’hésitations)', description: 'Capacité à parler en continu sans rupture excessive.', conseil: 'S’entraîner à parler plus longtemps sans s’arrêter, sur des sujets familiers, pour gagner en aisance.' },
+        { id: uid(), libelle: 'Gestion des hésitations et pauses', description: 'Utilisation d’amorces, reformulations, connecteurs de remplissage appropriés.', conseil: 'Travailler des mots et expressions de transition pour combler les hésitations sans rompre le sens.' }
+      ]},
+      { id: uid(), nom: 'Correction grammaticale', criteres: [
+        { id: uid(), libelle: 'Maîtrise des structures simples', description: 'Temps de base, structure de phrase, accords.', conseil: 'Revoir les structures grammaticales de base avant de complexifier le discours.' },
+        { id: uid(), libelle: 'Maîtrise des structures complexes', description: 'Subordination, voix passive, hypothétique.', conseil: 'S’exercer à construire des phrases plus complexes pour enrichir le discours.' }
+      ]},
+      { id: uid(), nom: 'Richesse lexicale', criteres: [
+        { id: uid(), libelle: 'Vocabulaire courant et adapté au sujet', description: 'Lexique thématique suffisant et pertinent.', conseil: 'Élargir le vocabulaire sur le sujet traité pour gagner en précision.' },
+        { id: uid(), libelle: 'Précision et nuance lexicale', description: 'Choix des mots justes, évite les répétitions.', conseil: 'Travailler les synonymes et nuances de sens pour varier le vocabulaire et éviter les répétitions.' }
+      ]},
+      { id: uid(), nom: 'Prononciation et intonation', criteres: [
+        { id: uid(), libelle: 'Prononciation des sons et accentuation', description: 'Sons spécifiques à l’anglais, accent de mot.', conseil: 'Travailler la prononciation et l’accentuation des mots pour gagner en clarté.' },
+        { id: uid(), libelle: 'Intonation et rythme de la phrase', description: 'Intonation montante/descendante, rythme naturel.', conseil: 'Écouter des locuteurs natifs pour s’imprégner du rythme et de l’intonation naturels de la langue.' }
+      ]},
+      { id: uid(), nom: 'Contenu et argumentation', criteres: [
+        { id: uid(), libelle: 'Pertinence et développement des idées', description: 'Idées développées, exemples concrets.', conseil: 'Structurer ses idées avec des exemples concrets et développer chaque argument avant de passer au suivant.' },
+        { id: uid(), libelle: 'Esprit critique et prise de position', description: 'Opinion personnelle justifiée et nuancée.', conseil: 'S’entraîner à formuler une opinion personnelle justifiée sur des sujets variés.' }
+      ]},
+      { id: uid(), nom: 'Cohérence et cohésion', criteres: [
+        { id: uid(), libelle: 'Organisation logique du discours', description: 'Introduction, développement, conclusion identifiables.', conseil: 'Structurer clairement son propos : une introduction, un développement organisé, une conclusion.' },
+        { id: uid(), libelle: 'Connecteurs et articulation des idées', description: 'Utilisation variée de connecteurs logiques.', conseil: 'Varier les connecteurs logiques pour mieux articuler les idées entre elles.' }
+      ]},
+      { id: uid(), nom: 'Interaction', criteres: [
+        { id: uid(), libelle: 'Écoute et réaction à l’interlocuteur', description: 'Rebondit sur les propos de l’autre.', conseil: 'S’entraîner à rebondir explicitement sur les propos de l’interlocuteur avant de développer son propre point.' },
+        { id: uid(), libelle: 'Capacité à relancer / questionner', description: 'Pose des questions pour faire avancer l’échange.', conseil: 'Préparer à l’avance quelques questions ouvertes pour relancer la discussion si besoin.' }
+      ]}
+    ]
+  };
+}
+
+let bank = loadLS(LS_BANK, null);
+if (!bank){ bank = seedBank(); saveLS(LS_BANK, bank); }
+
+let templates = loadLS(LS_TEMPLATES, []);
+let completed = loadLS(LS_COMPLETED, []);
+let slotsState = loadLS(LS_SLOTS, null);
+
+/* ============================================================
+   UTILITAIRES
+   ============================================================ */
+function allCriteres(){
+  const out = [];
+  bank.competences.forEach(c => c.criteres.forEach(cr => out.push({ ...cr, competenceId: c.id, competenceNom: c.nom })));
+  return out;
+}
+function findCritere(id){ return allCriteres().find(c => c.id === id) || null; }
+function findTemplate(id){ return templates.find(t => t.id === id) || null; }
+
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toast._h);
+  toast._h = setTimeout(()=> t.classList.remove('show'), 2200);
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+document.querySelectorAll('nav.tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('view-' + btn.dataset.view).classList.add('active');
+    if (btn.dataset.view === 'modeles') renderTemplates();
+    if (btn.dataset.view === 'session') renderSession();
+  });
+});
+
+/* ============================================================
+   VUE 1 — BANQUE DE CRITERES
+   ============================================================ */
+const competencesListEl = document.getElementById('competences-list');
+
+function renderBank(){
+  if (bank.competences.length === 0){
+    competencesListEl.innerHTML = '<div class="empty-msg">Aucune compétence pour le moment. Ajoutez-en une pour commencer.</div>';
+    return;
+  }
+  competencesListEl.innerHTML = bank.competences.map(comp => `
+    <div class="competence-block" data-comp="${comp.id}">
+      <h3>
+        <span class="comp-title">${esc(comp.nom)}</span>
+        <span style="display:flex;gap:4px;">
+          <button class="btn btn-sm btn-ghost act-edit-comp" data-comp="${comp.id}">✎</button>
+          <button class="btn btn-sm btn-ghost btn-danger act-del-comp" data-comp="${comp.id}">🗑</button>
+        </span>
+      </h3>
+      <div class="comp-edit-zone" data-comp="${comp.id}"></div>
+      <div class="criteres-zone">
+        ${comp.criteres.map(cr => `
+          <div class="critere-row" data-crit="${cr.id}">
+            <div class="critere-main">
+              <div class="lib">${esc(cr.libelle)}</div>
+              ${cr.description ? `<div class="desc">${esc(cr.description)}</div>` : ''}
+              ${cr.conseil ? `<div class="conseil">💡 Conseil : ${esc(cr.conseil)}</div>` : ''}
+            </div>
+            <div class="critere-actions">
+              <button class="btn btn-sm btn-ghost act-edit-crit" data-comp="${comp.id}" data-crit="${cr.id}">✎</button>
+              <button class="btn btn-sm btn-ghost btn-danger act-del-crit" data-comp="${comp.id}" data-crit="${cr.id}">🗑</button>
+            </div>
+          </div>
+          <div class="crit-edit-zone" data-comp="${comp.id}" data-crit="${cr.id}"></div>
+        `).join('')}
+      </div>
+      <button class="btn btn-sm" style="margin-top:8px;" data-add-crit="${comp.id}">+ Critère</button>
+      <div class="add-crit-zone" data-comp="${comp.id}"></div>
+    </div>
+  `).join('');
+  bindBankEvents();
+}
+
+function bindBankEvents(){
+  competencesListEl.querySelectorAll('.act-edit-comp').forEach(b => b.addEventListener('click', () => openEditComp(b.dataset.comp)));
+  competencesListEl.querySelectorAll('.act-del-comp').forEach(b => b.addEventListener('click', () => delComp(b.dataset.comp)));
+  competencesListEl.querySelectorAll('.act-edit-crit').forEach(b => b.addEventListener('click', () => openEditCrit(b.dataset.comp, b.dataset.crit)));
+  competencesListEl.querySelectorAll('.act-del-crit').forEach(b => b.addEventListener('click', () => delCrit(b.dataset.comp, b.dataset.crit)));
+  competencesListEl.querySelectorAll('[data-add-crit]').forEach(b => b.addEventListener('click', () => openAddCrit(b.dataset.addCrit)));
+}
+
+function openEditComp(compId){
+  const comp = bank.competences.find(c=>c.id===compId);
+  const zone = competencesListEl.querySelector(`.comp-edit-zone[data-comp="${compId}"]`);
+  zone.innerHTML = `
+    <div class="inline-form">
+      <div class="field"><label class="field-label">Nom de la compétence</label>
+        <input type="text" id="edit-comp-name" value="${esc(comp.nom)}"></div>
+      <button class="btn btn-primary btn-sm" id="save-comp-name">Enregistrer</button>
+      <button class="btn btn-sm" id="cancel-comp-name">Annuler</button>
+    </div>`;
+  zone.querySelector('#save-comp-name').addEventListener('click', () => {
+    const v = zone.querySelector('#edit-comp-name').value.trim();
+    if (v){ comp.nom = v; saveLS(LS_BANK, bank); renderBank(); }
+  });
+  zone.querySelector('#cancel-comp-name').addEventListener('click', () => zone.innerHTML = '');
+}
+
+function delComp(compId){
+  const comp = bank.competences.find(c=>c.id===compId);
+  if (!confirm(`Supprimer la compétence « ${comp.nom} » et tous ses critères ?`)) return;
+  bank.competences = bank.competences.filter(c=>c.id!==compId);
+  saveLS(LS_BANK, bank);
+  renderBank();
+}
+
+function openEditCrit(compId, critId){
+  const comp = bank.competences.find(c=>c.id===compId);
+  const cr = comp.criteres.find(c=>c.id===critId);
+  const zone = competencesListEl.querySelector(`.crit-edit-zone[data-comp="${compId}"][data-crit="${critId}"]`);
+  zone.innerHTML = critForm(cr);
+  bindCritForm(zone, (data) => {
+    Object.assign(cr, data);
+    saveLS(LS_BANK, bank);
+    renderBank();
+  }, () => zone.innerHTML = '');
+}
+
+function delCrit(compId, critId){
+  const comp = bank.competences.find(c=>c.id===compId);
+  if (!confirm('Supprimer ce critère ?')) return;
+  comp.criteres = comp.criteres.filter(c=>c.id!==critId);
+  saveLS(LS_BANK, bank);
+  renderBank();
+}
+
+function openAddCrit(compId){
+  const zone = competencesListEl.querySelector(`.add-crit-zone[data-comp="${compId}"]`);
+  if (zone.innerHTML){ zone.innerHTML=''; return; }
+  zone.innerHTML = critForm(null);
+  bindCritForm(zone, (data) => {
+    const comp = bank.competences.find(c=>c.id===compId);
+    comp.criteres.push({ id: uid(), ...data });
+    saveLS(LS_BANK, bank);
+    renderBank();
+  }, () => zone.innerHTML = '');
+}
+
+function critForm(cr){
+  return `
+    <div class="inline-form">
+      <div class="field"><label class="field-label">Libellé du critère</label>
+        <input type="text" class="f-lib" value="${cr ? esc(cr.libelle) : ''}" placeholder="Ex. Fluidité du discours"></div>
+      <div class="field"><label class="field-label">Description (optionnel)</label>
+        <textarea class="f-desc" placeholder="Précision sur ce qui est observé">${cr ? esc(cr.description||'') : ''}</textarea></div>
+      <div class="field"><label class="field-label">Conseil de progression (optionnel, utilisé dans le PDF si le niveau est faible)</label>
+        <textarea class="f-conseil" placeholder="Ex. S'entraîner à...">${cr ? esc(cr.conseil||'') : ''}</textarea></div>
+      <button class="btn btn-primary btn-sm f-save">Enregistrer</button>
+      <button class="btn btn-sm f-cancel">Annuler</button>
+    </div>`;
+}
+function bindCritForm(zone, onSave, onCancel){
+  zone.querySelector('.f-save').addEventListener('click', () => {
+    const lib = zone.querySelector('.f-lib').value.trim();
+    if (!lib){ toast('Le libellé est requis'); return; }
+    onSave({
+      libelle: lib,
+      description: zone.querySelector('.f-desc').value.trim(),
+      conseil: zone.querySelector('.f-conseil').value.trim()
+    });
+  });
+  zone.querySelector('.f-cancel').addEventListener('click', onCancel);
+}
+
+document.getElementById('btn-add-competence').addEventListener('click', () => {
+  const zone = document.getElementById('add-competence-form');
+  if (zone.innerHTML){ zone.innerHTML=''; return; }
+  zone.innerHTML = `
+    <div class="inline-form">
+      <div class="field"><label class="field-label">Nom de la nouvelle compétence</label>
+        <input type="text" id="new-comp-name" placeholder="Ex. Aisance et fluidité"></div>
+      <button class="btn btn-primary btn-sm" id="save-new-comp">Ajouter</button>
+      <button class="btn btn-sm" id="cancel-new-comp">Annuler</button>
+    </div>`;
+  zone.querySelector('#save-new-comp').addEventListener('click', () => {
+    const v = zone.querySelector('#new-comp-name').value.trim();
+    if (!v){ toast('Nom requis'); return; }
+    bank.competences.push({ id: uid(), nom: v, criteres: [] });
+    saveLS(LS_BANK, bank);
+    zone.innerHTML='';
+    renderBank();
+  });
+  zone.querySelector('#cancel-new-comp').addEventListener('click', () => zone.innerHTML='');
+});
+
+/* Export / Import / Reset */
+document.getElementById('btn-export').addEventListener('click', () => {
+  const data = { bank, templates, exportedAt: new Date().toISOString() };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'notation-orale-config.json';
+  a.click();
+});
+document.getElementById('input-import').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try{
+      const data = JSON.parse(reader.result);
+      if (data.bank && Array.isArray(data.bank.competences)){
+        if (confirm('Remplacer la banque de critères et les modèles actuels par ceux du fichier importé ?')){
+          bank = data.bank; templates = data.templates || [];
+          saveLS(LS_BANK, bank); saveLS(LS_TEMPLATES, templates);
+          renderBank(); renderTemplates();
+          toast('Import réussi');
+        }
+      } else { toast('Fichier invalide'); }
+    }catch(err){ toast('Fichier illisible'); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+document.getElementById('btn-reset-all').addEventListener('click', () => {
+  if (!confirm('Réinitialiser TOUTE la banque de critères, les modèles et les fiches enregistrées ? Cette action est irréversible.')) return;
+  if (!confirm('Confirmez-vous une seconde fois ? Toutes les données seront perdues.')) return;
+  bank = seedBank(); templates = []; completed = []; slotsState = null;
+  saveLS(LS_BANK, bank); saveLS(LS_TEMPLATES, templates); saveLS(LS_COMPLETED, completed);
+  localStorage.removeItem(LS_SLOTS);
+  renderBank(); renderTemplates(); renderSession();
+  toast('Données réinitialisées');
+});
+
+/* ============================================================
+   VUE 2 — MODELES DE FICHES
+   ============================================================ */
+const templateFormZone = document.getElementById('template-form-zone');
+const templatesListEl = document.getElementById('templates-list');
+
+document.getElementById('btn-new-template').addEventListener('click', () => openTemplateForm(null));
+
+function openTemplateForm(existing){
+  const checkedSet = new Set(existing ? existing.critereIds : []);
+  templateFormZone.innerHTML = `
+    <div class="inline-form">
+      <div class="row">
+        <div class="field"><label class="field-label">Nom du modèle</label>
+          <input type="text" id="tpl-nom" value="${existing ? esc(existing.nom) : ''}" placeholder="Ex. Discussion B2 : actualité"></div>
+        <div class="field"><label class="field-label">Type d'activité</label>
+          <select id="tpl-type">
+            ${ACTIVITY_TYPES.map(t => `<option value="${esc(t)}" ${existing && existing.typeActivite===t ? 'selected':''}>${esc(t)}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <label class="field-label">Critères à évaluer dans cette fiche</label>
+      <div class="quickbtns">
+        <button class="btn btn-sm" id="tpl-all">Tout cocher</button>
+        <button class="btn btn-sm" id="tpl-none">Tout décocher</button>
+        <button class="btn btn-sm" id="tpl-suggest">Suggestion selon le type</button>
+      </div>
+      <div class="checkbox-grid" id="tpl-checklist">
+        ${bank.competences.map(comp => `
+          <div class="competence-block" style="background:#fff;">
+            <h3 style="font-size:.88rem;">${esc(comp.nom)}</h3>
+            ${comp.criteres.map(cr => `
+              <label class="chk">
+                <input type="checkbox" value="${cr.id}" data-comp="${comp.id}" ${checkedSet.has(cr.id)?'checked':''}>
+                <span>${esc(cr.libelle)}</span>
+              </label>
+            `).join('') || '<div class="muted">Aucun critère dans cette compétence.</div>'}
+          </div>
+        `).join('')}
+      </div>
+      <div style="margin-top:10px;display:flex;gap:8px;">
+        <button class="btn btn-primary" id="tpl-save">${existing ? 'Enregistrer les modifications' : 'Enregistrer le modèle'}</button>
+        <button class="btn" id="tpl-cancel">Annuler</button>
+      </div>
+    </div>
+  `;
+
+  function getCheckedIds(){
+    return Array.from(templateFormZone.querySelectorAll('#tpl-checklist input:checked')).map(i=>i.value);
+  }
+  templateFormZone.querySelector('#tpl-all').addEventListener('click', () => {
+    templateFormZone.querySelectorAll('#tpl-checklist input').forEach(i=>i.checked=true);
+  });
+  templateFormZone.querySelector('#tpl-none').addEventListener('click', () => {
+    templateFormZone.querySelectorAll('#tpl-checklist input').forEach(i=>i.checked=false);
+  });
+  templateFormZone.querySelector('#tpl-suggest').addEventListener('click', () => {
+    const type = templateFormZone.querySelector('#tpl-type').value;
+    const interactionComp = bank.competences.find(c => /interaction/i.test(c.nom));
+    templateFormZone.querySelectorAll('#tpl-checklist input').forEach(i => {
+      const isInteraction = interactionComp && i.dataset.comp === interactionComp.id;
+      if (type === 'Discussion / interaction' || type === 'Mixte'){
+        i.checked = true;
+      } else {
+        i.checked = !isInteraction;
+      }
+    });
+    toast('Sélection suggérée appliquée');
+  });
+  templateFormZone.querySelector('#tpl-save').addEventListener('click', () => {
+    const nom = templateFormZone.querySelector('#tpl-nom').value.trim();
+    const type = templateFormZone.querySelector('#tpl-type').value;
+    const ids = getCheckedIds();
+    if (!nom){ toast('Le nom du modèle est requis'); return; }
+    if (ids.length === 0){ toast('Sélectionnez au moins un critère'); return; }
+    if (existing){
+      existing.nom = nom; existing.typeActivite = type; existing.critereIds = ids;
+    } else {
+      templates.push({ id: uid(), nom, typeActivite: type, critereIds: ids });
+    }
+    saveLS(LS_TEMPLATES, templates);
+    templateFormZone.innerHTML = '';
+    renderTemplates();
+    toast('Modèle enregistré');
+  });
+  templateFormZone.querySelector('#tpl-cancel').addEventListener('click', () => templateFormZone.innerHTML = '');
+}
+
+function renderTemplates(){
+  if (templates.length === 0){
+    templatesListEl.innerHTML = '<div class="empty-msg">Aucun modèle enregistré. Créez-en un ci-dessus.</div>';
+    return;
+  }
+  templatesListEl.innerHTML = templates.map(t => `
+    <div class="template-card">
+      <div>
+        <span class="type-badge">${esc(t.typeActivite)}</span>
+        <div style="font-weight:700;margin-top:4px;">${esc(t.nom)}</div>
+        <div class="meta">${t.critereIds.length} critère(s) sélectionné(s)</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <button class="btn btn-sm act-tpl-edit" data-id="${t.id}">✎ Modifier</button>
+        <button class="btn btn-sm act-tpl-dup" data-id="${t.id}">⧉ Dupliquer</button>
+        <button class="btn btn-sm btn-danger act-tpl-del" data-id="${t.id}">🗑 Supprimer</button>
+      </div>
+    </div>
+  `).join('');
+  templatesListEl.querySelectorAll('.act-tpl-edit').forEach(b => b.addEventListener('click', () => openTemplateForm(findTemplate(b.dataset.id))));
+  templatesListEl.querySelectorAll('.act-tpl-dup').forEach(b => b.addEventListener('click', () => {
+    const t = findTemplate(b.dataset.id);
+    templates.push({ id: uid(), nom: t.nom + ' (copie)', typeActivite: t.typeActivite, critereIds: [...t.critereIds] });
+    saveLS(LS_TEMPLATES, templates);
+    renderTemplates();
+  }));
+  templatesListEl.querySelectorAll('.act-tpl-del').forEach(b => b.addEventListener('click', () => {
+    if (!confirm('Supprimer ce modèle ?')) return;
+    templates = templates.filter(t=>t.id!==b.dataset.id);
+    saveLS(LS_TEMPLATES, templates);
+    renderTemplates();
+  }));
+}
+
+/* ============================================================
+   VUE 3 — SESSION DE NOTATION
+   ============================================================ */
+function defaultSlots(n){
+  const arr = [];
+  for (let i=0;i<4;i++){
+    arr.push({ modeleId: (templates[0] && templates[0].id) || null, prenom: '', scores: {}, commentaires: {}, niveauViseIdx: DEFAULT_TARGET_IDX, baselineNote: DEFAULT_BASELINE_NOTE });
+  }
+  return { nb: n, slots: arr };
+}
+if (!slotsState) slotsState = defaultSlots(1);
+slotsState.slots.forEach(s => {
+  if (s.niveauViseIdx === undefined || s.niveauViseIdx === null) s.niveauViseIdx = DEFAULT_TARGET_IDX;
+  if (s.baselineNote === undefined || s.baselineNote === null) s.baselineNote = DEFAULT_BASELINE_NOTE;
+  if (!s.commentaires) s.commentaires = {};
+});
+
+const countPickerEl = document.getElementById('count-picker');
+[1,2,3,4].forEach(n => {
+  const b = document.createElement('button');
+  b.textContent = n;
+  b.dataset.n = n;
+  b.addEventListener('click', () => { slotsState.nb = n; saveLS(LS_SLOTS, slotsState); renderSession(); });
+  countPickerEl.appendChild(b);
+});
+
+const sessionTitreEl = document.getElementById('session-titre');
+const sessionDateEl = document.getElementById('session-date');
+sessionDateEl.value = loadLS('oe_session_date', todayISO());
+sessionTitreEl.value = loadLS('oe_session_titre', '');
+sessionTitreEl.addEventListener('input', () => saveLS('oe_session_titre', sessionTitreEl.value));
+sessionDateEl.addEventListener('input', () => saveLS('oe_session_date', sessionDateEl.value));
+
+const defaultNiveauEl = document.getElementById('default-niveau-vise');
+const defaultBaselineEl = document.getElementById('default-baseline-note');
+defaultNiveauEl.innerHTML = LEVELS.map((lv,idx) => `<option value="${idx}">${lv.code}</option>`).join('');
+let defaultTargetIdx = loadLS('oe_default_niveau_vise', DEFAULT_TARGET_IDX);
+let defaultBaselineNote = loadLS('oe_default_baseline_note', DEFAULT_BASELINE_NOTE);
+defaultNiveauEl.value = defaultTargetIdx;
+defaultBaselineEl.value = defaultBaselineNote;
+defaultNiveauEl.addEventListener('change', () => {
+  defaultTargetIdx = Number(defaultNiveauEl.value);
+  saveLS('oe_default_niveau_vise', defaultTargetIdx);
+});
+defaultBaselineEl.addEventListener('input', () => {
+  const v = Number(defaultBaselineEl.value);
+  if (!isNaN(v)){ defaultBaselineNote = v; saveLS('oe_default_baseline_note', defaultBaselineNote); }
+});
+document.getElementById('btn-apply-niveau-all').addEventListener('click', () => {
+  slotsState.slots.forEach(s => { s.niveauViseIdx = defaultTargetIdx; s.baselineNote = defaultBaselineNote; });
+  saveLS(LS_SLOTS, slotsState);
+  renderSession();
+  toast('Niveau visé appliqué à toutes les fiches');
+});
+
+const fichesGridEl = document.getElementById('fiches-grid');
+
+function pctForLevel(levelIdx, targetIdx, baselineNote){
+  const B = baselineNote / 20;
+  if (levelIdx === undefined || levelIdx === null) return 0;
+  const T = targetIdx;
+  if (T <= 0){
+    const span = (6 - T) || 1;
+    return B + ((levelIdx - T) / span) * (1 - B);
+  }
+  if (levelIdx <= T) return (levelIdx / T) * B;
+  const span = (6 - T) || 1;
+  return B + ((levelIdx - T) / span) * (1 - B);
+}
+function computeScore(scores, critIds, targetIdx, baselineNote){
+  if (critIds.length === 0) return 0;
+  let sumPct = 0;
+  critIds.forEach(cid => {
+    sumPct += pctForLevel(scores[cid], targetIdx, baselineNote);
+  });
+  const avgPct = sumPct / critIds.length;
+  const note = Math.max(0, Math.min(20, avgPct * 20));
+  return Math.round(note * 10) / 10;
+}
+
+function renderSession(){
+  countPickerEl.querySelectorAll('button').forEach(b => b.classList.toggle('active', Number(b.dataset.n) === slotsState.nb));
+  fichesGridEl.className = 'fiches-grid n' + slotsState.nb;
+  const n = slotsState.nb;
+  fichesGridEl.innerHTML = '';
+  for (let i=0;i<n;i++){
+    const slot = slotsState.slots[i];
+    const tpl = slot.modeleId ? findTemplate(slot.modeleId) : null;
+    const card = document.createElement('div');
+    card.className = 'fiche-card';
+    card.innerHTML = `
+      <div class="fiche-head" style="flex-wrap:wrap;">
+        <span class="slotnum">${i+1}</span>
+        <div style="flex:1;min-width:140px;">
+          <select class="slot-tpl" data-slot="${i}">
+            <option value="">Choisir un modèle</option>
+            ${templates.map(t => `<option value="${t.id}" ${slot.modeleId===t.id?'selected':''}>${esc(t.nom)} (${esc(t.typeActivite)})</option>`).join('')}
+          </select>
+        </div>
+        <select class="slot-niveau" data-slot="${i}" style="width:auto;font-size:.78rem;padding:6px 8px;" title="Niveau visé pour cette fiche">
+          ${LEVELS.map((lv,idx) => `<option value="${idx}" ${slot.niveauViseIdx===idx?'selected':''}>Visé ${lv.code}</option>`).join('')}
+        </select>
+      </div>
+      <div class="fiche-body">
+        <div class="field" style="margin-bottom:10px;">
+          <input type="text" class="slot-prenom" data-slot="${i}" placeholder="Prénom de l'élève" value="${esc(slot.prenom)}">
+        </div>
+        <div class="slot-criteres"></div>
+      </div>
+      <div class="fiche-score">
+        <div class="muted">Note calculée</div>
+        <div class="val"><span class="slot-score-val">0</span><small> / 20</small></div>
+      </div>
+      <div class="fiche-foot">
+        <button class="btn slot-clear" data-slot="${i}">Vider</button>
+        <button class="btn btn-primary slot-validate" data-slot="${i}">✓ Valider la fiche</button>
+      </div>
+    `;
+    fichesGridEl.appendChild(card);
+
+    const critZone = card.querySelector('.slot-criteres');
+    function renderCritZone(){
+      if (!tpl){
+        critZone.innerHTML = '<div class="empty-msg">Sélectionnez un modèle pour afficher les critères.</div>';
+        card.querySelector('.slot-score-val').textContent = '0';
+        return;
+      }
+      if (!slot.commentaires) slot.commentaires = {};
+      let lastComp = null;
+      critZone.innerHTML = tpl.critereIds.map(cid => {
+        const cr = findCritere(cid);
+        if (!cr) return '';
+        const showComp = cr.competenceNom !== lastComp;
+        lastComp = cr.competenceNom;
+        const sel = slot.scores[cid];
+        return `
+          ${showComp ? `<div class="crit-comp" style="margin-top:6px;">${esc(cr.competenceNom)}</div>` : ''}
+          <div class="fiche-crit" data-crit="${cid}">
+            <div class="crit-label">${esc(cr.libelle)}</div>
+            <div class="level-picker">
+              ${LEVELS.map((lv, idx) => `<button type="button" class="level-btn ${sel===idx?'sel':''} ${idx===(slot.niveauViseIdx ?? DEFAULT_TARGET_IDX)?'target':''}" style="--lvl-color:${lv.color};" data-crit="${cid}" data-idx="${idx}">${lv.code}</button>`).join('')}
+            </div>
+            <textarea class="crit-comment" data-crit="${cid}" rows="1" placeholder="Commentaire sur ce critère (facultatif)">${esc(slot.commentaires[cid]||'')}</textarea>
+          </div>
+        `;
+      }).join('');
+      critZone.querySelectorAll('.level-btn').forEach(b => {
+        b.addEventListener('click', () => {
+          const cid = b.dataset.crit;
+          const idx = Number(b.dataset.idx);
+          slot.scores[cid] = (slot.scores[cid] === idx) ? undefined : idx; // toggle off if same
+          saveLS(LS_SLOTS, slotsState);
+          updateScoreDisplay();
+          renderCritZone();
+        });
+      });
+      critZone.querySelectorAll('.crit-comment').forEach(t => {
+        t.addEventListener('input', (e) => {
+          slot.commentaires[t.dataset.crit] = e.target.value;
+          saveLS(LS_SLOTS, slotsState);
+        });
+      });
+    }
+    function updateScoreDisplay(){
+      const score = tpl ? computeScore(slot.scores, tpl.critereIds, slot.niveauViseIdx ?? DEFAULT_TARGET_IDX, slot.baselineNote ?? DEFAULT_BASELINE_NOTE) : 0;
+      const valEl = card.querySelector('.slot-score-val');
+      valEl.textContent = score;
+      valEl.style.color = tpl ? scoreColor(score) : '';
+    }
+    renderCritZone();
+    updateScoreDisplay();
+
+    card.querySelector('.slot-tpl').addEventListener('change', (e) => {
+      slot.modeleId = e.target.value || null;
+      slot.scores = {};
+      saveLS(LS_SLOTS, slotsState);
+      renderSession();
+    });
+    card.querySelector('.slot-niveau').addEventListener('change', (e) => {
+      slot.niveauViseIdx = Number(e.target.value);
+      saveLS(LS_SLOTS, slotsState);
+      renderSession();
+    });
+    card.querySelector('.slot-prenom').addEventListener('input', (e) => {
+      slot.prenom = e.target.value;
+      saveLS(LS_SLOTS, slotsState);
+    });
+    card.querySelector('.slot-clear').addEventListener('click', () => {
+      slot.prenom = ''; slot.scores = {}; slot.commentaires = {};
+      saveLS(LS_SLOTS, slotsState);
+      renderSession();
+    });
+    card.querySelector('.slot-validate').addEventListener('click', () => {
+      if (!tpl){ toast('Choisissez un modèle'); return; }
+      if (!slot.prenom.trim()){ toast('Indiquez le prénom de l’élève'); return; }
+      const critDetails = tpl.critereIds.map(cid => {
+        const cr = findCritere(cid);
+        const lvlIdx = slot.scores[cid];
+        return {
+          libelle: cr ? cr.libelle : '(critère supprimé)',
+          competence: cr ? cr.competenceNom : '',
+          conseil: cr ? cr.conseil : '',
+          levelIdx: (lvlIdx !== undefined && lvlIdx !== null) ? lvlIdx : null,
+          levelCode: (lvlIdx !== undefined && lvlIdx !== null) ? LEVELS[lvlIdx].code : '…',
+          points: (lvlIdx !== undefined && lvlIdx !== null) ? LEVELS[lvlIdx].pts : 0,
+          commentaire: ((slot.commentaires && slot.commentaires[cid]) || '').trim()
+        };
+      });
+      const targetIdx = slot.niveauViseIdx ?? DEFAULT_TARGET_IDX;
+      const baselineNote = slot.baselineNote ?? DEFAULT_BASELINE_NOTE;
+      const score = computeScore(slot.scores, tpl.critereIds, targetIdx, baselineNote);
+      completed.push({
+        id: uid(),
+        prenom: slot.prenom.trim(),
+        modeleNom: tpl.nom,
+        typeActivite: tpl.typeActivite,
+        titreSeance: sessionTitreEl.value.trim(),
+        date: sessionDateEl.value || todayISO(),
+        score,
+        niveauViseIdx: targetIdx,
+        niveauViseLabel: LEVELS[targetIdx].code,
+        criteres: critDetails
+      });
+      saveLS(LS_COMPLETED, completed);
+      slot.prenom = ''; slot.scores = {}; slot.commentaires = {};
+      saveLS(LS_SLOTS, slotsState);
+      renderSession();
+      renderCompletedList();
+      toast('Fiche enregistrée');
+    });
+  }
+}
+
+function renderCompletedList(){
+  const el = document.getElementById('completed-list');
+  if (completed.length === 0){
+    el.innerHTML = '<div class="empty-msg">Aucune fiche terminée pour le moment.</div>';
+    return;
+  }
+  el.innerHTML = completed.slice().reverse().map(f => `
+    <div class="completed-row" data-id="${f.id}">
+      <div class="name">${esc(f.prenom)} <span class="muted">(${esc(f.modeleNom)})</span></div>
+      <div class="score" style="color:${scoreColor(f.score)};">${f.score} / 20</div>
+      <button class="btn btn-sm comp-dl" data-id="${f.id}">⬇ PDF</button>
+      <button class="btn btn-sm btn-danger comp-del" data-id="${f.id}">🗑</button>
+    </div>
+  `).join('');
+  el.querySelectorAll('.comp-dl').forEach(b => b.addEventListener('click', () => downloadPDF([completed.find(f=>f.id===b.dataset.id)])));
+  el.querySelectorAll('.comp-del').forEach(b => b.addEventListener('click', () => {
+    if (!confirm('Supprimer cette fiche terminée ?')) return;
+    completed = completed.filter(f=>f.id!==b.dataset.id);
+    saveLS(LS_COMPLETED, completed);
+    renderCompletedList();
+  }));
+}
+
+document.getElementById('btn-download-all').addEventListener('click', () => {
+  if (completed.length === 0){ toast('Aucune fiche à télécharger'); return; }
+  downloadPDF(completed);
+});
+document.getElementById('btn-clear-completed').addEventListener('click', () => {
+  if (completed.length === 0) return;
+  if (!confirm('Vider la liste des fiches terminées ? (les PDF déjà téléchargés ne sont pas affectés)')) return;
+  completed = [];
+  saveLS(LS_COMPLETED, completed);
+  renderCompletedList();
+});
+
+/* ============================================================
+   GENERATION PDF (via impression navigateur)
+   ============================================================ */
+function buildAdvice(fiche){
+  const T = (fiche.niveauViseIdx !== undefined && fiche.niveauViseIdx !== null) ? fiche.niveauViseIdx : DEFAULT_TARGET_IDX;
+  const forts = fiche.criteres.filter(c => c.levelIdx !== null && c.levelIdx >= T);
+  const faibles = fiche.criteres.filter(c => c.levelIdx === null || c.levelIdx < T);
+  return { forts, faibles };
+}
+
+function levelColor(code){
+  const lv = LEVELS.find(l => l.code === code);
+  return lv ? lv.color : '#9aa7ae';
+}
+
+const ENCOURAGEMENTS = [
+  'Encore un peu de travail pour atteindre le niveau visé : chaque prise de parole est un pas de plus. Continue à t’entraîner !',
+  'Ce n’est pas encore le niveau visé, mais les bases sont là : avec un peu plus de pratique, les progrès viendront vite.',
+  'Prends confiance : à force de t’entraîner régulièrement, tu vas progresser sur ces points. Ne lâche rien !'
+];
+function encouragement(fiche){
+  let h = 0;
+  const key = (fiche.id || '') + (fiche.prenom || '');
+  for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
+  return ENCOURAGEMENTS[h % ENCOURAGEMENTS.length];
+}
+
+function fichePageHTML(fiche){
+  const { forts, faibles } = buildAdvice(fiche);
+  let lastComp = null;
+  const blocks = [];
+  fiche.criteres.forEach(c => {
+    if (c.competence !== lastComp){
+      blocks.push(`<div class="p-comp-title">${esc(c.competence)}</div>`);
+      lastComp = c.competence;
+    }
+    blocks.push(`
+      <div class="p-crit-row">
+        <div class="p-crit-main">
+          <div class="p-crit-name">${esc(c.libelle)}</div>
+          ${c.commentaire ? `<div class="p-crit-comment">${esc(c.commentaire)}</div>` : ''}
+        </div>
+        <div class="p-level-pill" style="background:${levelColor(c.levelCode)};">${esc(c.levelCode)}</div>
+      </div>
+    `);
+  });
+
+  return `
+    <div class="print-page">
+      <div class="p-header">
+        <div>
+          <div class="p-title">${esc(fiche.titreSeance || 'Évaluation orale')}</div>
+          <div class="p-sub">${esc(fiche.modeleNom)} · ${esc(fiche.typeActivite)}</div>
+          <div class="p-sub">Élève : <strong>${esc(fiche.prenom)}</strong> · ${esc(fiche.date)}${fiche.niveauViseLabel ? ' · Niveau visé : ' + esc(fiche.niveauViseLabel) : ''}</div>
+        </div>
+        <div class="p-score-badge" style="color:${scoreColor(fiche.score)};">
+          <div class="num">${fiche.score}</div>
+          <div class="lbl">/ 20</div>
+        </div>
+      </div>
+      <div class="p-grid">${blocks.join('')}</div>
+      <div class="p-advice">
+        <div class="p-advice-box forts">
+          <h4>Points forts</h4>
+          ${forts.length ? `<ul>${forts.map(c=>`<li>${esc(c.libelle)} (${esc(c.levelCode)})</li>`).join('')}</ul>` : `<div>${esc(encouragement(fiche))}</div>`}
+        </div>
+        <div class="p-advice-box faibles">
+          <h4>Axes de progression</h4>
+          ${faibles.length ? `<ul>${faibles.map(c=>`<li>${esc(c.libelle)}${c.conseil ? ' : ' + esc(c.conseil) : ' : continuer à travailler ce point.'}</li>`).join('')}</ul>` : '<div>Tous les critères atteignent ou dépassent le niveau visé. Excellent travail.</div>'}
+        </div>
+      </div>
+      <div class="p-footer">Fiche générée automatiquement le ${esc(new Date().toLocaleDateString('fr-FR'))}</div>
+    </div>
+  `;
+}
+
+function downloadPDF(fiches){
+  const area = document.getElementById('print-area');
+  area.innerHTML = fiches.map(fichePageHTML).join('');
+  const oldTitle = document.title;
+  document.title = fiches.length === 1
+    ? `fiche-${(fiches[0].prenom||'eleve').replace(/\s+/g,'-')}`
+    : 'fiches-notation-orale';
+  window.print();
+  setTimeout(() => { document.title = oldTitle; area.innerHTML = ''; }, 500);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+renderBank();
+renderTemplates();
+renderSession();
+renderCompletedList();
+
+})();
+</script>
+</body>
+</html>
