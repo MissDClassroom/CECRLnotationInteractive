@@ -263,6 +263,25 @@
   .completed-row .name{font-weight:700;flex:1;min-width:120px;}
   .completed-row .score{font-weight:800;}
 
+
+  .work-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px;}
+  .sessions-list{display:grid;gap:12px;}
+  .sess-card{background:#fff;border:1px solid var(--line, #e3e8ee);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;box-shadow:0 2px 8px rgba(13,46,66,.06);}
+  .sess-card.current{border-color:var(--primary);box-shadow:0 4px 14px rgba(27,73,101,.18);}
+  .sess-main{flex:1;min-width:220px;}
+  .sess-title{font-weight:700;font-size:1.02rem;color:var(--primary-dark);}
+  .sess-meta{margin-top:4px;display:flex;gap:6px;flex-wrap:wrap;font-size:.78rem;}
+  .sess-pill{background:var(--primary-soft);color:var(--primary-dark);border-radius:999px;padding:2px 10px;font-weight:600;}
+  .sess-pill.warm{background:#fdeedc;color:#9a5b0c;}
+  .sess-actions{display:flex;gap:8px;}
+  .modal-back{position:fixed;inset:0;background:rgba(13,46,66,.45);z-index:300;display:flex;align-items:center;justify-content:center;padding:16px;}
+  .modal-back[hidden]{display:none !important;}
+  .modal-box{background:#fff;border-radius:14px;max-width:440px;width:100%;padding:22px;box-shadow:0 20px 50px rgba(13,46,66,.35);}
+  .modal-box h3{margin:0 0 8px;font-size:18px;}
+  .modal-box #modal-msg{white-space:pre-line;margin-bottom:14px;font-size:14px;line-height:1.45;}
+  .modal-box input[type=text]{width:100%;margin-bottom:14px;}
+  .modal-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;}
+  .btn-danger-solid{background:var(--warn);border-color:var(--warn);color:#fff;}
   .toast{
     position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);
     background:var(--primary-dark);color:#fff;padding:11px 20px;border-radius:10px;
@@ -280,7 +299,7 @@
   #print-area{display:none;}
   @media print{
     *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-    body > header.topbar, body > nav.tabs, body > main, body > footer.appfoot, body > .toast{display:none !important;}
+    body > header.topbar, body > nav.tabs, body > main, body > footer.appfoot, body > .toast, body > .modal-back{display:none !important;}
     #print-area{display:block !important;}
     @page{size:A4;margin:9mm 11mm;}
     .print-page{
@@ -353,7 +372,7 @@
 
 <nav class="tabs">
   <button data-view="modeles" class="active"><span class="tab-num">1</span>Modèles de fiches</button>
-  <button data-view="session"><span class="tab-num">2</span>Session de notation</button>
+  <button data-view="session"><span class="tab-num">2</span>Sessions de notation</button>
   <button data-view="banque"><span class="tab-num">3</span>Banque de critères</button>
 </nav>
 
@@ -380,11 +399,30 @@
 
   <!-- ===================== VUE 2 : SESSION ===================== -->
   <section id="view-session" class="view">
+    <div id="sessions-hub">
+      <div class="card">
+        <div class="card-head" style="margin-bottom:0;">
+          <div>
+            <h2>Sessions de notation</h2>
+            <div class="muted">Chaque session est enregistrée automatiquement. Cliquez sur « Reprendre » pour retrouver une session exactement là où vous l'avez laissée. Une nouvelle session démarre vierge.</div>
+          </div>
+          <button class="btn btn-primary" id="btn-new-dossier">+ Nouvelle session</button>
+        </div>
+      </div>
+      <div id="sessions-list" class="sessions-list"></div>
+    </div>
+
+    <div id="session-work" hidden>
+    <div class="work-bar">
+      <button class="btn" id="btn-back-hub">← Toutes les sessions</button>
+      <div class="muted" id="dossier-info"></div>
+    </div>
+
     <div class="card">
-      <h2 style="margin-bottom:12px;">Session de notation</h2>
+      <h2 style="margin-bottom:12px;">Session en cours</h2>
       <div class="row">
         <div class="field">
-          <label class="field-label">Titre de la séance (apparaît sur les PDF)</label>
+          <label class="field-label">Nom de la session (apparaît aussi sur les PDF)</label>
           <input type="text" id="session-titre" placeholder="Ex. Oral LLCER : Réflecteurs orbitaux">
         </div>
         <div class="field" style="max-width:180px;">
@@ -414,7 +452,7 @@
 
     <div class="card" style="margin-top:20px;">
       <div class="card-head">
-        <h3 style="margin:0;">Fiches terminées de la session</h3>
+        <h3 style="margin:0;">Fiches terminées de cette session</h3>
         <div style="display:flex;gap:8px;">
           <button class="btn btn-accent" id="btn-download-all">⬇ Télécharger toutes les fiches (PDF)</button>
           <button class="btn btn-danger" id="btn-clear-completed">Vider la liste</button>
@@ -422,6 +460,7 @@
       </div>
       <div id="completed-list" class="completed-list"></div>
     </div>
+      </div>
   </section>
 
   <!-- ===================== VUE 3 : BANQUE ===================== -->
@@ -442,7 +481,7 @@
       <div class="card-head">
         <div>
           <h3 style="margin:0;">Sauvegarde / portabilité</h3>
-          <div class="muted">Exportez la banque et les modèles pour les réutiliser sur un autre poste, ou en garder une copie.</div>
+          <div class="muted">Exportez la banque, les modèles et toutes les sessions pour les réutiliser sur un autre poste, ou en garder une copie.</div>
         </div>
         <div style="display:flex;gap:8px;">
           <button class="btn" id="btn-export">Exporter (JSON)</button>
@@ -461,6 +500,7 @@
   <div class="muted">@MD</div>
 </footer>
 
+<div class="modal-back" id="modal" hidden><div class="modal-box" role="dialog" aria-modal="true"><h3 id="modal-title"></h3><div id="modal-msg" class="muted"></div><input type="text" id="modal-input" hidden><div class="modal-actions"><button class="btn" id="modal-cancel" type="button">Annuler</button><button class="btn btn-primary" id="modal-ok" type="button">OK</button></div></div></div>
 <div class="toast" id="toast"></div>
 <div id="print-area"></div>
 
@@ -490,6 +530,7 @@ const LS_BANK = 'oe_bank_v1';
 const LS_TEMPLATES = 'oe_templates_v1';
 const LS_SLOTS = 'oe_slots_v1';
 const LS_COMPLETED = 'oe_completed_v1';
+const LS_SESSIONS = 'oe_sessions_v1';
 
 function uid(){ return 'id-' + Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(-4); }
 function todayISO(){ const d=new Date(); return d.toISOString().slice(0,10); }
@@ -499,7 +540,17 @@ function loadLS(key, fallback){
   try{ const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; }
   catch(e){ return fallback; }
 }
-function saveLS(key, val){ try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){ /* ignore quota errors */ } }
+function saveLS(key, val){
+  /* Les fiches en cours et terminées appartiennent au dossier ouvert : on les range dedans. */
+  if (key === LS_SLOTS || key === LS_COMPLETED){
+    const cur = currentSession();
+    if (key === LS_SLOTS) cur.slotsState = val; else cur.completed = val;
+    persistSessions();
+    if (document.getElementById('sessions-list')) renderDossierBar();
+    return;
+  }
+  try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){ /* ignore quota errors */ }
+}
 
 function seedBank(){
   return {
@@ -540,8 +591,68 @@ let bank = loadLS(LS_BANK, null);
 if (!bank){ bank = seedBank(); saveLS(LS_BANK, bank); }
 
 let templates = loadLS(LS_TEMPLATES, []);
-let completed = loadLS(LS_COMPLETED, []);
-let slotsState = loadLS(LS_SLOTS, null);
+
+/* ============================================================
+   DOSSIERS : un dossier = une séance de notation, avec ses propres
+   fiches en cours et ses fiches terminées. On peut en ouvrir un autre
+   et y revenir plus tard sans rien perdre ni mélanger.
+   ============================================================ */
+function normalizeSlotsState(st, targetIdx, baseline){
+  if (!st || !Array.isArray(st.slots) || !st.slots.length) st = defaultSlots(1, targetIdx, baseline);
+  st.slots.forEach(s => {
+    if (s.niveauViseIdx === undefined || s.niveauViseIdx === null) s.niveauViseIdx = targetIdx;
+    if (s.baselineNote === undefined || s.baselineNote === null) s.baselineNote = baseline;
+    if (!s.commentaires) s.commentaires = {};
+    if (!s.scores) s.scores = {};
+    if (typeof s.prenom !== 'string') s.prenom = '';
+  });
+  return st;
+}
+function newSession(titre, date, targetIdx, baseline){
+  return {
+    id: uid(), titre: titre || '', date: date || todayISO(),
+    niveauViseIdx: targetIdx, baselineNote: baseline,
+    slotsState: defaultSlots(1, targetIdx, baseline), completed: [], createdAt: Date.now()
+  };
+}
+let sessionsStore = loadLS(LS_SESSIONS, null);
+if (!sessionsStore || !Array.isArray(sessionsStore.list) || !sessionsStore.list.length){
+  /* Migration : la séance unique de l'ancienne version devient le premier dossier. */
+  const tIdx = loadLS('oe_default_niveau_vise', DEFAULT_TARGET_IDX);
+  const base = loadLS('oe_default_baseline_note', DEFAULT_BASELINE_NOTE);
+  const first = {
+    id: uid(),
+    titre: loadLS('oe_session_titre', ''),
+    date: loadLS('oe_session_date', todayISO()),
+    niveauViseIdx: tIdx, baselineNote: base,
+    slotsState: loadLS(LS_SLOTS, null),
+    completed: loadLS(LS_COMPLETED, []),
+    createdAt: Date.now()
+  };
+  sessionsStore = { currentId: first.id, list: [first] };
+}
+function currentSession(){
+  return sessionsStore.list.find(s => s.id === sessionsStore.currentId) || sessionsStore.list[0];
+}
+function persistSessions(){
+  try{ localStorage.setItem(LS_SESSIONS, JSON.stringify(sessionsStore)); }catch(e){ /* ignore quota errors */ }
+}
+let completed = [];
+let slotsState = null;
+function loadCurrentSession(){
+  sessionsStore.list.forEach(s => {
+    if (typeof s.niveauViseIdx !== 'number') s.niveauViseIdx = DEFAULT_TARGET_IDX;
+    if (typeof s.baselineNote !== 'number') s.baselineNote = DEFAULT_BASELINE_NOTE;
+    s.slotsState = normalizeSlotsState(s.slotsState, s.niveauViseIdx, s.baselineNote);
+    if (!Array.isArray(s.completed)) s.completed = [];
+  });
+  const cur = currentSession();
+  sessionsStore.currentId = cur.id;
+  slotsState = cur.slotsState;
+  completed = cur.completed;
+}
+loadCurrentSession();
+persistSessions();
 
 /* ============================================================
    UTILITAIRES
@@ -553,6 +664,48 @@ function allCriteres(){
 }
 function findCritere(id){ return allCriteres().find(c => c.id === id) || null; }
 function findTemplate(id){ return templates.find(t => t.id === id) || null; }
+
+
+/* ---------- Boîtes de dialogue intégrées (les fenêtres natives peuvent être bloquées) ---------- */
+function showModal(o){
+  return new Promise(resolve => {
+    const m = document.getElementById('modal'), t = document.getElementById('modal-title'),
+          msg = document.getElementById('modal-msg'), inp = document.getElementById('modal-input'),
+          ok = document.getElementById('modal-ok'), ca = document.getElementById('modal-cancel');
+    t.textContent = o.title || 'Confirmation';
+    msg.textContent = o.message || '';
+    inp.hidden = !o.input; inp.value = o.value || ''; inp.placeholder = o.placeholder || '';
+    ok.textContent = o.okLabel || 'OK';
+    ok.className = 'btn ' + (o.danger ? 'btn-danger-solid' : 'btn-primary');
+    ca.hidden = !!o.hideCancel;
+    m.hidden = false;
+    const prevFocus = document.activeElement;
+    function done(v){
+      m.hidden = true;
+      ok.removeEventListener('click', onOk); ca.removeEventListener('click', onCa);
+      m.removeEventListener('mousedown', onBack); document.removeEventListener('keydown', onKey, true);
+      if (prevFocus && prevFocus.focus) try{ prevFocus.focus(); }catch(e){}
+      resolve(v);
+    }
+    const onOk = () => done(o.input ? inp.value : true);
+    const onCa = () => done(o.input ? null : false);
+    const onBack = e => { if (e.target === m) onCa(); };
+    const onKey = e => {
+      if (e.key === 'Escape'){ e.preventDefault(); e.stopPropagation(); onCa(); }
+      else if (e.key === 'Enter' && (o.input || document.activeElement === document.body || document.activeElement === inp)){ e.preventDefault(); e.stopPropagation(); onOk(); }
+    };
+    ok.addEventListener('click', onOk); ca.addEventListener('click', onCa);
+    m.addEventListener('mousedown', onBack); document.addEventListener('keydown', onKey, true);
+    setTimeout(() => (o.input ? inp : ok).focus(), 30);
+  });
+}
+function askConfirm(message, opts){ opts = opts || {};
+  const danger = opts.danger !== false;
+  return showModal({ title: opts.title || 'Confirmation', message, okLabel: opts.okLabel || 'Supprimer', danger });
+}
+function askText(title, message, value, placeholder, okLabel){
+  return showModal({ title, message, input: true, value, placeholder, okLabel: okLabel || 'OK' });
+}
 
 function toast(msg){
   const t = document.getElementById('toast');
@@ -644,9 +797,9 @@ function openEditComp(compId){
   zone.querySelector('#cancel-comp-name').addEventListener('click', () => zone.innerHTML = '');
 }
 
-function delComp(compId){
+async function delComp(compId){
   const comp = bank.competences.find(c=>c.id===compId);
-  if (!confirm(`Supprimer la compétence « ${comp.nom} » et tous ses critères ?`)) return;
+  if (!(await askConfirm(`Supprimer la compétence « ${comp.nom} » et tous ses critères ?`))) return;
   bank.competences = bank.competences.filter(c=>c.id!==compId);
   saveLS(LS_BANK, bank);
   renderBank();
@@ -664,9 +817,9 @@ function openEditCrit(compId, critId){
   }, () => zone.innerHTML = '');
 }
 
-function delCrit(compId, critId){
+async function delCrit(compId, critId){
   const comp = bank.competences.find(c=>c.id===compId);
-  if (!confirm('Supprimer ce critère ?')) return;
+  if (!(await askConfirm('Supprimer ce critère ?'))) return;
   comp.criteres = comp.criteres.filter(c=>c.id!==critId);
   saveLS(LS_BANK, bank);
   renderBank();
@@ -733,24 +886,36 @@ document.getElementById('btn-add-competence').addEventListener('click', () => {
 
 /* Export / Import / Reset */
 document.getElementById('btn-export').addEventListener('click', () => {
-  const data = { bank, templates, exportedAt: new Date().toISOString() };
+  const data = { bank, templates, sessions: sessionsStore, exportedAt: new Date().toISOString() };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'notation-orale-config.json';
+  a.download = 'notation-orale-sauvegarde.json';
   a.click();
 });
 document.getElementById('input-import').addEventListener('change', (e) => {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = () => {
+  reader.onload = async () => {
     try{
       const data = JSON.parse(reader.result);
       if (data.bank && Array.isArray(data.bank.competences)){
-        if (confirm('Remplacer la banque de critères et les modèles actuels par ceux du fichier importé ?')){
+        const withDossiers = !!(data.sessions && Array.isArray(data.sessions.list) && data.sessions.list.length);
+        const msg = withDossiers
+          ? 'Remplacer la banque de critères, les modèles ET toutes les sessions actuelles par ceux du fichier importé ?'
+          : 'Remplacer la banque de critères et les modèles actuels par ceux du fichier importé ? (vos sessions de notation ne changent pas)';
+        if (await askConfirm(msg, { okLabel: 'Remplacer' })){
           bank = data.bank; templates = data.templates || [];
           saveLS(LS_BANK, bank); saveLS(LS_TEMPLATES, templates);
+          if (withDossiers){
+            sessionsStore = data.sessions;
+            if (!sessionsStore.list.some(s => s.id === sessionsStore.currentId)) sessionsStore.currentId = sessionsStore.list[0].id;
+            loadCurrentSession();
+            persistSessions();
+            syncSessionFields();
+            renderSession(); renderCompletedList(); renderDossierBar(); showWork(false);
+          }
           renderBank(); renderTemplates();
           toast('Import réussi');
         }
@@ -760,13 +925,19 @@ document.getElementById('input-import').addEventListener('change', (e) => {
   reader.readAsText(file);
   e.target.value = '';
 });
-document.getElementById('btn-reset-all').addEventListener('click', () => {
-  if (!confirm('Réinitialiser TOUTE la banque de critères, les modèles et les fiches enregistrées ? Cette action est irréversible.')) return;
-  if (!confirm('Confirmez-vous une seconde fois ? Toutes les données seront perdues.')) return;
-  bank = seedBank(); templates = []; completed = []; slotsState = null;
-  saveLS(LS_BANK, bank); saveLS(LS_TEMPLATES, templates); saveLS(LS_COMPLETED, completed);
-  localStorage.removeItem(LS_SLOTS);
-  renderBank(); renderTemplates(); renderSession();
+document.getElementById('btn-reset-all').addEventListener('click', async () => {
+  if (!(await askConfirm('Réinitialiser TOUTE la banque de critères, les modèles et TOUTES les sessions de notation (fiches en cours et terminées) ? Cette action est irréversible.', { okLabel: 'Continuer' }))) return;
+  if (!(await askConfirm('Confirmez-vous une seconde fois ? Toutes les données seront perdues.', { okLabel: 'Tout effacer' }))) return;
+  bank = seedBank(); templates = [];
+  saveLS(LS_BANK, bank); saveLS(LS_TEMPLATES, templates);
+  const fresh = newSession('', todayISO(), DEFAULT_TARGET_IDX, DEFAULT_BASELINE_NOTE);
+  sessionsStore = { currentId: fresh.id, list: [fresh] };
+  ['oe_slots_v1','oe_completed_v1','oe_session_titre','oe_session_date','oe_default_niveau_vise','oe_default_baseline_note']
+    .forEach(k => localStorage.removeItem(k));
+  loadCurrentSession();
+  persistSessions();
+  syncSessionFields();
+  renderBank(); renderTemplates(); renderSession(); renderCompletedList(); renderDossierBar(); showWork(false);
   toast('Données réinitialisées');
 });
 
@@ -884,8 +1055,8 @@ function renderTemplates(){
     saveLS(LS_TEMPLATES, templates);
     renderTemplates();
   }));
-  templatesListEl.querySelectorAll('.act-tpl-del').forEach(b => b.addEventListener('click', () => {
-    if (!confirm('Supprimer ce modèle ?')) return;
+  templatesListEl.querySelectorAll('.act-tpl-del').forEach(b => b.addEventListener('click', async () => {
+    if (!(await askConfirm('Supprimer ce modèle ?'))) return;
     templates = templates.filter(t=>t.id!==b.dataset.id);
     saveLS(LS_TEMPLATES, templates);
     renderTemplates();
@@ -895,19 +1066,15 @@ function renderTemplates(){
 /* ============================================================
    VUE 3 — SESSION DE NOTATION
    ============================================================ */
-function defaultSlots(n){
+function defaultSlots(n, targetIdx, baseline){
+  const t = (typeof targetIdx === 'number') ? targetIdx : DEFAULT_TARGET_IDX;
+  const b = (typeof baseline === 'number') ? baseline : DEFAULT_BASELINE_NOTE;
   const arr = [];
   for (let i=0;i<4;i++){
-    arr.push({ modeleId: (templates[0] && templates[0].id) || null, prenom: '', scores: {}, commentaires: {}, niveauViseIdx: DEFAULT_TARGET_IDX, baselineNote: DEFAULT_BASELINE_NOTE });
+    arr.push({ modeleId: (templates[0] && templates[0].id) || null, prenom: '', scores: {}, commentaires: {}, niveauViseIdx: t, baselineNote: b });
   }
   return { nb: n, slots: arr };
 }
-if (!slotsState) slotsState = defaultSlots(1);
-slotsState.slots.forEach(s => {
-  if (s.niveauViseIdx === undefined || s.niveauViseIdx === null) s.niveauViseIdx = DEFAULT_TARGET_IDX;
-  if (s.baselineNote === undefined || s.baselineNote === null) s.baselineNote = DEFAULT_BASELINE_NOTE;
-  if (!s.commentaires) s.commentaires = {};
-});
 
 const countPickerEl = document.getElementById('count-picker');
 [1,2,3,4].forEach(n => {
@@ -920,32 +1087,127 @@ const countPickerEl = document.getElementById('count-picker');
 
 const sessionTitreEl = document.getElementById('session-titre');
 const sessionDateEl = document.getElementById('session-date');
-sessionDateEl.value = loadLS('oe_session_date', todayISO());
-sessionTitreEl.value = loadLS('oe_session_titre', '');
-sessionTitreEl.addEventListener('input', () => saveLS('oe_session_titre', sessionTitreEl.value));
-sessionDateEl.addEventListener('input', () => saveLS('oe_session_date', sessionDateEl.value));
-
 const defaultNiveauEl = document.getElementById('default-niveau-vise');
 const defaultBaselineEl = document.getElementById('default-baseline-note');
 defaultNiveauEl.innerHTML = LEVELS.map((lv,idx) => `<option value="${idx}">${lv.code}</option>`).join('');
-let defaultTargetIdx = loadLS('oe_default_niveau_vise', DEFAULT_TARGET_IDX);
-let defaultBaselineNote = loadLS('oe_default_baseline_note', DEFAULT_BASELINE_NOTE);
-defaultNiveauEl.value = defaultTargetIdx;
-defaultBaselineEl.value = defaultBaselineNote;
+
+/* Titre, date et niveau visé par défaut appartiennent au dossier ouvert. */
+function syncSessionFields(){
+  const cur = currentSession();
+  sessionTitreEl.value = cur.titre || '';
+  sessionDateEl.value = cur.date || todayISO();
+  defaultNiveauEl.value = cur.niveauViseIdx;
+  defaultBaselineEl.value = cur.baselineNote;
+}
+sessionTitreEl.addEventListener('input', () => { currentSession().titre = sessionTitreEl.value; persistSessions(); renderDossierBar(); });
+sessionDateEl.addEventListener('input', () => { currentSession().date = sessionDateEl.value; persistSessions(); renderDossierBar(); });
 defaultNiveauEl.addEventListener('change', () => {
-  defaultTargetIdx = Number(defaultNiveauEl.value);
-  saveLS('oe_default_niveau_vise', defaultTargetIdx);
+  currentSession().niveauViseIdx = Number(defaultNiveauEl.value);
+  persistSessions();
 });
 defaultBaselineEl.addEventListener('input', () => {
   const v = Number(defaultBaselineEl.value);
-  if (!isNaN(v)){ defaultBaselineNote = v; saveLS('oe_default_baseline_note', defaultBaselineNote); }
+  if (!isNaN(v)){ currentSession().baselineNote = v; persistSessions(); }
 });
 document.getElementById('btn-apply-niveau-all').addEventListener('click', () => {
-  slotsState.slots.forEach(s => { s.niveauViseIdx = defaultTargetIdx; s.baselineNote = defaultBaselineNote; });
+  const cur = currentSession();
+  slotsState.slots.forEach(s => { s.niveauViseIdx = cur.niveauViseIdx; s.baselineNote = cur.baselineNote; });
   saveLS(LS_SLOTS, slotsState);
   renderSession();
   toast('Niveau visé appliqué à toutes les fiches');
 });
+
+/* ---------- Sélecteur de dossiers ---------- */
+function dossierDateFR(iso){
+  const p = (iso || '').split('-');
+  return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : '';
+}
+function slotInProgress(s){
+  return !!((s.prenom || '').trim()) || Object.values(s.scores || {}).some(v => v !== undefined && v !== null);
+}
+function inProgressCount(sess){
+  return sess.slotsState.slots.filter(slotInProgress).length;
+}
+function plural(n, one, many){ return n + ' ' + (n > 1 ? many : one); }
+function showWork(open){
+  sessionsStore.open = !!open;
+  persistSessions();
+  document.getElementById('sessions-hub').hidden = !!open;
+  document.getElementById('session-work').hidden = !open;
+  if (open){ syncSessionFields(); renderSession(); renderCompletedList(); }
+}
+function renderDossierBar(){
+  const list = document.getElementById('sessions-list');
+  const info = document.getElementById('dossier-info');
+  if (!list || !info) return;
+  const sorted = sessionsStore.list.slice().sort((a,b) =>
+    (b.date || '').localeCompare(a.date || '') || (b.createdAt || 0) - (a.createdAt || 0));
+  list.innerHTML = sorted.map(s => {
+    const enCours = inProgressCount(s);
+    const vide = !enCours && !s.completed.length;
+    return `<div class="sess-card ${s.id === sessionsStore.currentId ? 'current' : ''}" data-id="${s.id}">
+      <div class="sess-main">
+        <div class="sess-title">${esc(s.titre || 'Session sans titre')}</div>
+        <div class="sess-meta">
+          <span class="sess-pill">${esc(dossierDateFR(s.date))}</span>
+          <span class="sess-pill">${plural(s.completed.length, 'fiche terminée', 'fiches terminées')}</span>
+          ${enCours ? `<span class="sess-pill warm">${plural(enCours, 'fiche en cours', 'fiches en cours')}</span>` : ''}
+          ${vide ? '<span class="sess-pill">vierge</span>' : ''}
+        </div>
+      </div>
+      <div class="sess-actions">
+        <button class="btn btn-primary sess-open" data-id="${s.id}">${vide ? 'Ouvrir' : 'Reprendre'}</button>
+        <button class="btn btn-danger sess-del" data-id="${s.id}">Supprimer</button>
+      </div>
+    </div>`;
+  }).join('');
+  const cur = currentSession();
+  info.textContent = `Session ouverte : ${plural(cur.completed.length, 'fiche terminée', 'fiches terminées')}, ` +
+    `${plural(inProgressCount(cur), 'fiche en cours', 'fiches en cours')}. Tout est enregistré automatiquement.`;
+  list.querySelectorAll('.sess-open').forEach(b => b.addEventListener('click', () => openSession(b.dataset.id)));
+  list.querySelectorAll('.sess-del').forEach(b => b.addEventListener('click', () => deleteSession(b.dataset.id)));
+}
+function openSession(id){
+  if (!sessionsStore.list.some(s => s.id === id)) return;
+  sessionsStore.currentId = id;
+  loadCurrentSession();
+  renderDossierBar();
+  showWork(true);
+  window.scrollTo(0, 0);
+}
+document.getElementById('btn-back-hub').addEventListener('click', () => { renderDossierBar(); showWork(false); window.scrollTo(0, 0); });
+document.getElementById('btn-new-dossier').addEventListener('click', async () => {
+  const nom = await askText('Nouvelle session', 'Donnez un nom à cette session (par exemple : T3 oral de novembre). Elle démarre vierge ; les autres sessions restent intactes.', '', 'Nom de la session', 'Créer la session');
+  if (nom === null) return;
+  const cur = currentSession();
+  const s = newSession(nom.trim() || 'Nouvelle session', todayISO(), cur.niveauViseIdx, cur.baselineNote);
+  sessionsStore.list.push(s);
+  sessionsStore.currentId = s.id;
+  loadCurrentSession();
+  renderDossierBar();
+  showWork(true);
+  window.scrollTo(0, 0);
+  toast('Nouvelle session créée');
+});
+async function deleteSession(id){
+  const target = sessionsStore.list.find(x => x.id === id);
+  if (!target) return;
+  const msg = `Supprimer définitivement la session « ${target.titre || 'Session sans titre'} » ` +
+    `(${plural(target.completed.length, 'fiche terminée', 'fiches terminées')}, ${inProgressCount(target)} en cours) ?\n\n` +
+    'Cette action est irréversible. Pensez à télécharger les PDF avant.';
+  if (!(await askConfirm(msg, { okLabel: 'Supprimer la session' }))) return;
+  sessionsStore.list = sessionsStore.list.filter(x => x.id !== id);
+  if (!sessionsStore.list.length){
+    sessionsStore.list.push(newSession('', todayISO(), target.niveauViseIdx, target.baselineNote));
+  }
+  if (sessionsStore.currentId === id) sessionsStore.currentId = sessionsStore.list[sessionsStore.list.length - 1].id;
+  loadCurrentSession();
+  persistSessions();
+  renderDossierBar();
+  showWork(false);
+  toast('Session supprimée');
+}
+syncSessionFields();
 
 const fichesGridEl = document.getElementById('fiches-grid');
 
@@ -1140,8 +1402,8 @@ function renderCompletedList(){
     </div>
   `).join('');
   el.querySelectorAll('.comp-dl').forEach(b => b.addEventListener('click', () => downloadPDF([completed.find(f=>f.id===b.dataset.id)])));
-  el.querySelectorAll('.comp-del').forEach(b => b.addEventListener('click', () => {
-    if (!confirm('Supprimer cette fiche terminée ?')) return;
+  el.querySelectorAll('.comp-del').forEach(b => b.addEventListener('click', async () => {
+    if (!(await askConfirm('Supprimer cette fiche terminée ?'))) return;
     completed = completed.filter(f=>f.id!==b.dataset.id);
     saveLS(LS_COMPLETED, completed);
     renderCompletedList();
@@ -1152,9 +1414,9 @@ document.getElementById('btn-download-all').addEventListener('click', () => {
   if (completed.length === 0){ toast('Aucune fiche à télécharger'); return; }
   downloadPDF(completed);
 });
-document.getElementById('btn-clear-completed').addEventListener('click', () => {
+document.getElementById('btn-clear-completed').addEventListener('click', async () => {
   if (completed.length === 0) return;
-  if (!confirm('Vider la liste des fiches terminées ? (les PDF déjà téléchargés ne sont pas affectés)')) return;
+  if (!(await askConfirm('Vider la liste des fiches terminées de cette session uniquement ? (les autres sessions et les PDF déjà téléchargés ne sont pas affectés)', { okLabel: 'Vider la liste' }))) return;
   completed = [];
   saveLS(LS_COMPLETED, completed);
   renderCompletedList();
@@ -1254,6 +1516,8 @@ renderBank();
 renderTemplates();
 renderSession();
 renderCompletedList();
+renderDossierBar();
+showWork(!!sessionsStore.open);
 
 })();
 </script>
