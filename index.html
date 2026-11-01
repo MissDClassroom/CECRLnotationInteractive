@@ -560,8 +560,8 @@
    MODELE DE DONNEES
    ============================================================ */
 const LEVELS = [
-  {code:'A1', pts:1, color:'#d6564a'},{code:'A2', pts:2, color:'#e0793a'},{code:'B1', pts:3, color:'#e2a52f'},
-  {code:'B1+',pts:4, color:'#cbbe3c'},{code:'B2', pts:5, color:'#9dbd3f'},{code:'B2+',pts:6, color:'#63ab5b'},{code:'C1', pts:7, color:'#2e8b57'}
+  {code:'A1', pts:1, color:'#d6564a'},{code:'A2', pts:2, color:'#e0793a'},{code:'A2+',pts:3, color:'#e1912f'},{code:'B1', pts:4, color:'#e2a52f'},
+  {code:'B1+',pts:5, color:'#cbbe3c'},{code:'B2', pts:6, color:'#9dbd3f'},{code:'B2+',pts:7, color:'#63ab5b'},{code:'C1', pts:8, color:'#2e8b57'}
 ];
 function scoreColor(score){
   if (score < 10) return '#c0392b';
@@ -569,8 +569,8 @@ function scoreColor(score){
   if (score < 16) return '#1d4e6b';
   return '#2e8b57';
 }
-const MAX_PTS_PER_CRIT = 7;
-const DEFAULT_TARGET_IDX = 2; // B1 par défaut
+const MAX_PTS_PER_CRIT = 8;
+const DEFAULT_TARGET_IDX = 3; // B1 par défaut
 const DEFAULT_BASELINE_NOTE = 20; // note obtenue si le niveau visé est atteint pile
 const ACTIVITY_TYPES = ['Monologue suivi','Commentaire / analyse','Discussion / interaction','Mixte'];
 
@@ -733,9 +733,10 @@ function newSession(titre, date, targetIdx, baseline){
   };
 }
 let sessionsStore = loadLS(LS_SESSIONS, null);
+let PRIOR_DATA = !!sessionsStore; try{ PRIOR_DATA = PRIOR_DATA || !!localStorage.getItem('oe_slots_v1'); }catch(e){}
 if (!sessionsStore || !Array.isArray(sessionsStore.list) || !sessionsStore.list.length){
   /* Migration : la séance unique de l'ancienne version devient le premier dossier. */
-  const tIdx = loadLS('oe_default_niveau_vise', DEFAULT_TARGET_IDX);
+  const tIdx = loadLS('oe_default_niveau_vise', PRIOR_DATA ? 2 : DEFAULT_TARGET_IDX);
   const base = loadLS('oe_default_baseline_note', DEFAULT_BASELINE_NOTE);
   const first = {
     id: uid(),
@@ -756,7 +757,26 @@ function persistSessions(){
 }
 let completed = [];
 let slotsState = null;
+/* Ajout du niveau A2+ (indice 2) : les anciens indices >= 2 sont décalés d'un cran */
+function shiftIdx(v){ return (typeof v === 'number' && v >= 2) ? v + 1 : v; }
+function migrateA2plus(){
+  if (loadLS('oe_a2plus_v1', false)) return;
+  if (!PRIOR_DATA){ saveLS('oe_a2plus_v1', true); return; }
+  sessionsStore.list.forEach(s => {
+    s.niveauViseIdx = shiftIdx(s.niveauViseIdx);
+    if (s.slotsState && Array.isArray(s.slotsState.slots)) s.slotsState.slots.forEach(x => {
+      x.niveauViseIdx = shiftIdx(x.niveauViseIdx);
+      if (x.scores) Object.keys(x.scores).forEach(k => { x.scores[k] = shiftIdx(x.scores[k]); });
+    });
+    (s.completed || []).forEach(f => {
+      f.niveauViseIdx = shiftIdx(f.niveauViseIdx);
+      (f.criteres || []).forEach(c => { c.levelIdx = shiftIdx(c.levelIdx); });
+    });
+  });
+  persistSessions(); saveLS('oe_a2plus_v1', true);
+}
 function loadCurrentSession(){
+  migrateA2plus();
   if (!loadLS('oe_base20_v1', false)){
     /* Le niveau visé atteint vaut désormais 20/20 : l'ancienne valeur par défaut (14) est remplacée */
     sessionsStore.list.forEach(s => {
@@ -1421,11 +1441,11 @@ function pctForLevel(levelIdx, targetIdx, baselineNote){
   if (levelIdx === undefined || levelIdx === null) levelIdx = 0; /* non validé = A1 */
   const T = targetIdx;
   if (T <= 0){
-    const span = (6 - T) || 1;
+    const span = (LEVELS.length - 1 - T) || 1;
     return B + ((levelIdx - T) / span) * (1 - B);
   }
   if (levelIdx <= T) return ((levelIdx + 1) / (T + 1)) * B; /* A1 rapporte des points, d'autant plus que le niveau visé est bas */
-  const span = (6 - T) || 1;
+  const span = (LEVELS.length - 1 - T) || 1;
   return B + ((levelIdx - T) / span) * (1 - B);
 }
 function computeScore(scores, critIds, targetIdx, baselineNote){
@@ -1871,7 +1891,7 @@ function pdfLayout(f, sc, forts, faibles){
   center('/ 20', cx, cy + 13, 'F2', 6.4, '#5c6b74', true);
   /* repère des niveaux intégré au bandeau */
   const T = (f.niveauViseIdx !== undefined && f.niveauViseIdx !== null) ? f.niveauViseIdx : DEFAULT_TARGET_IDX;
-  const ly = hy + HH - 23, lw = 29, lgap = 5, lblW = 104;
+  const ly = hy + HH - 23, lw = 26, lgap = 4, lblW = 102;
   text('Repère des niveaux (CECRL)', hx + 16, ly + 8.6, 'F2', 7.2, '#d3e4ee');
   LEVELS.forEach((lv, i) => {
     const x = hx + 16 + lblW + i * (lw + lgap);
@@ -1879,7 +1899,7 @@ function pdfLayout(f, sc, forts, faibles){
     center(lv.code, x + lw / 2, ly + 8.6, 'F2', 7.4, '#ffffff', true);
     if (i === T) ring(x - 2, ly - 2, lw + 4, 16, 8, '#ffffff', 1.2);
   });
-  text('Entouré : niveau visé', hx + 16 + lblW + 7 * (lw + lgap) + 4, ly + 8.6, 'F1', 7.2, '#d3e4ee');
+  text('Entouré : niveau visé', hx + 16 + lblW + LEVELS.length * (lw + lgap) + 3, ly + 8.6, 'F1', 7.2, '#d3e4ee');
   y = hy + HH + 9;
 
   /* critères : bandeaux de compétence, lignes séparées, pastilles de niveau */
