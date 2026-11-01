@@ -279,6 +279,9 @@
   .modal-box #modal-msg{white-space:pre-line;margin-bottom:14px;font-size:14px;line-height:1.45;}
   .modal-box input[type=text]{width:100%;margin-bottom:14px;}
   .modal-box.wide{max-width:680px;max-height:92vh;overflow:auto;}
+  .ax-note{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;padding:10px 12px;border-radius:10px;background:#eef4f8;}
+  .ax-note label{font-weight:700;}
+  .ax-note input{width:84px;font-size:18px;font-weight:800;text-align:center;}
   .ax-item{border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:8px;background:#fff;}
   .ax-item.off{opacity:.55;}
   .ax-item label{display:flex;gap:8px;align-items:center;font-weight:700;font-size:14px;cursor:pointer;}
@@ -1607,8 +1610,9 @@ function renderSession(){
       const baselineNote = slot.baselineNote ?? DEFAULT_BASELINE_NOTE;
       const score = computeScore(slot.scores, tpl.critereIds, targetIdx, baselineNote);
       const ficheTmp = { niveauViseIdx: targetIdx, niveauViseLabel: LEVELS[targetIdx].code, criteres: critDetails };
-      const axes = await pickAxes(ficheTmp, slot.prenom.trim());
-      if (axes === null) return;
+      const choix = await pickAxes(ficheTmp, slot.prenom.trim(), score);
+      if (choix === null) return;
+      const axes = choix.axes;
       completed.push({
         id: uid(),
         prenom: slot.prenom.trim(),
@@ -1616,7 +1620,8 @@ function renderSession(){
         typeActivite: tpl.typeActivite,
         titreSeance: sessionTitreEl.value.trim(),
         date: sessionDateEl.value || todayISO(),
-        score,
+        score: choix.note,
+        scoreCalcule: score,
         niveauViseIdx: targetIdx,
         niveauViseLabel: LEVELS[targetIdx].code,
         criteres: critDetails,
@@ -1696,18 +1701,18 @@ function encouragement(fiche){
 }
 
 function axeText(c, fiche){ return adviceParts(c, fiche).body; }
-function pickAxes(fiche, prenom){
+function pickAxes(fiche, prenom, score){
   const T = fiche.niveauViseIdx;
   const { faibles } = buildAdvice(fiche);
-  if (!faibles.length) return Promise.resolve([]);
   const items = faibles.map(c => ({ c, gap: (c.levelIdx === null ? 99 : T - c.levelIdx) }));
   items.sort((a, b) => b.gap - a.gap);
   return new Promise(resolve => {
     const back = document.createElement('div');
     back.className = 'modal-back';
     back.innerHTML = `<div class="modal-box wide" role="dialog" aria-modal="true">
-      <h3>Axes de progression de ${esc(prenom)}</h3>
-      <div class="muted" style="font-size:14px;margin-bottom:12px;">Coche les conseils à garder sur la fiche (les 3 plus éloignés du niveau visé sont cochés). Tu peux modifier chaque texte.</div>
+      <h3>Validation de la fiche de ${esc(prenom)}</h3>
+      <div class="ax-note"><label for="ax-score">Note finale /20</label><input type="number" id="ax-score" min="0" max="20" step="0.5" value="${score}"><span class="muted">calculée : ${score} (modifiable, par pas de 0,5)</span></div>
+      ${items.length ? '<div class="muted" style="font-size:14px;margin-bottom:12px;">Coche les conseils à garder sur la fiche (les 3 plus éloignés du niveau visé sont cochés). Tu peux modifier chaque texte.</div>' : '<div class="muted" style="margin-bottom:12px;">Tous les critères atteignent le niveau visé : aucun axe de progression à proposer.</div>'}
       <div class="ax-list">${items.map((it, i) => `<div class="ax-item${i < 3 ? '' : ' off'}" data-i="${i}">
         <label><input type="checkbox" class="ax-chk"${i < 3 ? ' checked' : ''}> ${esc(it.c.libelle)} <span class="ax-gap">(${esc(it.c.levelCode)})</span></label>
         <textarea class="ax-txt">${esc(axeText(it.c, fiche))}</textarea></div>`).join('')}</div>
@@ -1725,7 +1730,10 @@ function pickAxes(fiche, prenom){
         const it = items[+el.dataset.i];
         out.push({ libelle: it.c.libelle, levelCode: it.c.levelCode, texte: el.querySelector('.ax-txt').value.trim() });
       });
-      close(out);
+      let n = parseFloat(String(back.querySelector('#ax-score').value).replace(',', '.'));
+      if (isNaN(n)) n = score;
+      n = Math.max(0, Math.min(20, Math.round(n * 2) / 2));
+      close({ axes: out, note: n });
     });
   });
 }
