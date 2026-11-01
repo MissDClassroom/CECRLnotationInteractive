@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Notation Orale : Fiches d'évaluation CECRL</title>
+<title>Notation production orale avec feedbacks</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22%3E%3Cdefs%3E%3ClinearGradient id=%22g%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%232f8fb3%22/%3E%3Cstop offset=%221%22 stop-color=%22%231b4965%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%22512%22 height=%22512%22 rx=%22112%22 fill=%22url%28%23g%29%22/%3E%3Cpath d=%22M144 110H368a48 48 0 0 1 48 48V292a48 48 0 0 1-48 48H236L156 408V340H144a48 48 0 0 1-48-48V158a48 48 0 0 1 48-48Z%22 fill=%22%23fff%22/%3E%3Crect x=%22146%22 y=%22240%22 width=%2242%22 height=%2250%22 rx=%2213%22 fill=%22%23d6564a%22/%3E%3Crect x=%22204%22 y=%22204%22 width=%2242%22 height=%2286%22 rx=%2213%22 fill=%22%23e2a52f%22/%3E%3Crect x=%22262%22 y=%22168%22 width=%2242%22 height=%22122%22 rx=%2213%22 fill=%22%239dbd3f%22/%3E%3Crect x=%22320%22 y=%22132%22 width=%2242%22 height=%22158%22 rx=%2213%22 fill=%22%232e8b57%22/%3E%3Ccircle cx=%22396%22 cy=%22120%22 r=%2246%22 fill=%22%23e2a52f%22 stroke=%22%231b4965%22 stroke-width=%2210%22/%3E%3Cpath d=%22M376 120l14 14 28-30%22 fill=%22none%22 stroke=%22%23fff%22 stroke-width=%2212%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -60,13 +61,10 @@
   }
   .brand{display:flex;align-items:center;gap:14px;}
   .brand-mark{
-    width:42px;height:42px;border-radius:12px;flex-shrink:0;
-    background:rgba(255,255,255,.14);
-    border:1px solid rgba(255,255,255,.28);
-    display:flex;align-items:center;justify-content:center;
-    font-weight:800;font-size:.82rem;letter-spacing:.02em;color:#fff;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.2);
+    width:46px;height:46px;flex-shrink:0;line-height:0;
+    filter:drop-shadow(0 3px 8px rgba(0,0,0,.28));
   }
+  .brand-mark svg{width:100%;height:100%;display:block;}
   header.topbar h1{font-size:1.3rem;margin:0;color:#fff;letter-spacing:-.01em;}
   header.topbar .sub{font-size:.82rem;opacity:.82;font-weight:400;margin-top:1px;}
   header.topbar .rgpd-note{color:#eaf3f8;font-size:.74rem;opacity:.9;background:rgba(255,255,255,.1);padding:6px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.18);}
@@ -301,8 +299,9 @@
     *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
     body > header.topbar, body > nav.tabs, body > main, body > footer.appfoot, body > .toast, body > .modal-back{display:none !important;}
     #print-area{display:block !important;}
-    @page{size:A4;margin:9mm 11mm;}
+    @page{size:A4;margin:0;}
     .print-page{
+      box-sizing:border-box;width:210mm;height:296.4mm;padding:8mm 11mm;overflow:hidden;
       page-break-after:always;
       font-family:'Inter',Arial,sans-serif;
       display:flex;flex-direction:column;
@@ -332,7 +331,7 @@
       margin-top:9px;margin-bottom:3px;
     }
     .p-grid > .p-comp-title:first-child{margin-top:0;}
-    .p-crit-row{width:100%;display:flex;align-items:flex-start;gap:8px;padding:4px 8px;border-bottom:1px solid #eef2f4;}
+    .p-crit-row{width:100%;display:flex;align-items:flex-start;gap:8px;padding:3px 8px;border-bottom:1px solid #eef2f4;}
     .p-crit-row:last-child{border-bottom:none;}
     .p-crit-main{flex:1;min-width:0;}
     .p-crit-name{font-size:.72rem;line-height:1.25;}
@@ -343,8 +342,8 @@
       padding:2px 6px;border-radius:99px;line-height:1.3;
     }
 
-    .p-advice{display:flex;flex-direction:column;gap:8px;margin-top:auto;padding-top:6px;}
-    .p-advice-box{border-radius:8px;padding:7px 10px;font-size:.66rem;line-height:1.3;}
+    .p-advice{display:flex;flex-direction:row;align-items:stretch;gap:8px;margin-top:6px;padding-top:0;}
+    .p-advice-box{flex:1 1 0;min-width:0;border-radius:8px;padding:7px 10px;font-size:.66rem;line-height:1.3;}
     .p-advice-box.forts{background:#e4f5eb;border-left:3px solid #2e8b57;}
     .p-advice-box.faibles{background:#fbeadb;border-left:3px solid #c97a2e;}
     .p-advice-box h4{font-size:.64rem;margin:0 0 4px;text-transform:uppercase;letter-spacing:.02em;}
@@ -353,7 +352,12 @@
     .p-advice-box ul{margin:0;padding-left:13px;}
     .p-advice-box li{margin-bottom:2px;}
 
-    .p-footer{margin-top:8px;padding-top:5px;border-top:1px solid #dbe3e8;font-size:.58rem;color:#9aa7ae;}
+    .p-legend{display:flex;align-items:center;gap:5px;margin-top:7px;font-size:.56rem;color:#d3e4ee;}
+    .p-legend b{font-weight:700;margin-right:5px;}
+    .p-legend .p-level-pill{min-width:28px;padding:1px 5px;font-size:.58rem;}
+    .p-legend .p-level-pill.cible{box-shadow:0 0 0 1.5px #12374b,0 0 0 2.8px #fff;margin:0 2px;}
+    .p-legend span:last-child{margin-left:4px;}
+    .p-footer{text-align:center;margin-top:auto;padding-top:4px;border-top:1px solid #dbe3e8;font-size:.58rem;color:#9aa7ae;}
   }
 </style>
 </head>
@@ -361,9 +365,9 @@
 
 <header class="topbar">
   <div class="brand">
-    <div class="brand-mark">NO</div>
+    <div class="brand-mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="gb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2f8fb3"/><stop offset="1" stop-color="#1b4965"/></linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#gb)"/><path d="M144 110H368a48 48 0 0 1 48 48V292a48 48 0 0 1-48 48H236L156 408V340H144a48 48 0 0 1-48-48V158a48 48 0 0 1 48-48Z" fill="#fff"/><rect x="146" y="240" width="42" height="50" rx="13" fill="#d6564a"/><rect x="204" y="204" width="42" height="86" rx="13" fill="#e2a52f"/><rect x="262" y="168" width="42" height="122" rx="13" fill="#9dbd3f"/><rect x="320" y="132" width="42" height="158" rx="13" fill="#2e8b57"/><circle cx="396" cy="120" r="46" fill="#e2a52f" stroke="#1b4965" stroke-width="10"/><path d="M376 120l14 14 28-30" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     <div>
-      <h1>Notation Orale</h1>
+      <h1>Notation production orale avec feedbacks</h1>
       <div class="sub">Fiches d'évaluation modulables, repères CECRL</div>
     </div>
   </div>
@@ -454,7 +458,8 @@
       <div class="card-head">
         <h3 style="margin:0;">Fiches terminées de cette session</h3>
         <div style="display:flex;gap:8px;">
-          <button class="btn btn-accent" id="btn-download-all">⬇ Télécharger toutes les fiches (PDF)</button>
+          <button class="btn btn-accent" id="btn-download-all">⬇ Télécharger les fiches dans un dossier</button>
+          <button class="btn" id="btn-print-all" title="Un seul fichier PDF contenant toutes les fiches, via l'impression du navigateur">Un seul PDF</button>
           <button class="btn btn-danger" id="btn-clear-completed">Vider la liste</button>
         </div>
       </div>
@@ -1410,7 +1415,8 @@ function renderCompletedList(){
   }));
 }
 
-document.getElementById('btn-download-all').addEventListener('click', () => {
+document.getElementById('btn-download-all').addEventListener('click', saveFichesInFolder);
+document.getElementById('btn-print-all').addEventListener('click', () => {
   if (completed.length === 0){ toast('Aucune fiche à télécharger'); return; }
   downloadPDF(completed);
 });
@@ -1450,6 +1456,7 @@ function encouragement(fiche){
 }
 
 function fichePageHTML(fiche){
+  const tIdx = (fiche.niveauViseIdx !== undefined && fiche.niveauViseIdx !== null) ? fiche.niveauViseIdx : DEFAULT_TARGET_IDX;
   const { forts, faibles } = buildAdvice(fiche);
   let lastComp = null;
   const blocks = [];
@@ -1475,7 +1482,8 @@ function fichePageHTML(fiche){
         <div>
           <div class="p-title">${esc(fiche.titreSeance || 'Évaluation orale')}</div>
           <div class="p-sub">${esc(fiche.modeleNom)} · ${esc(fiche.typeActivite)}</div>
-          <div class="p-sub">Élève : <strong>${esc(fiche.prenom)}</strong> · ${esc(fiche.date)}${fiche.niveauViseLabel ? ' · Niveau visé : ' + esc(fiche.niveauViseLabel) : ''}</div>
+          <div class="p-sub">Élève : <strong>${esc(fiche.prenom)}</strong> · Évaluation du ${esc(dossierDateFR(fiche.date) || fiche.date)}${fiche.niveauViseLabel ? ' · Niveau visé : ' + esc(fiche.niveauViseLabel) : ''}</div>
+          <div class="p-legend"><b>Repère des niveaux (CECRL)</b>${LEVELS.map((l,i)=>`<span class="p-level-pill${i===tIdx?' cible':''}" style="background:${l.color};">${l.code}</span>`).join('')}<span>Entouré : niveau visé</span></div>
         </div>
         <div class="p-score-badge" style="color:${scoreColor(fiche.score)};">
           <div class="num">${fiche.score}</div>
@@ -1493,9 +1501,272 @@ function fichePageHTML(fiche){
           ${faibles.length ? `<ul>${faibles.map(c=>`<li>${esc(c.libelle)}${c.conseil ? ' : ' + esc(c.conseil) : ' : continuer à travailler ce point.'}</li>`).join('')}</ul>` : '<div>Tous les critères atteignent ou dépassent le niveau visé. Excellent travail.</div>'}
         </div>
       </div>
-      <div class="p-footer">Fiche générée automatiquement le ${esc(new Date().toLocaleDateString('fr-FR'))}</div>
+      <div class="p-footer">Made by MissD - Co-créé avec IA générative - RGPD</div>
     </div>
   `;
+}
+
+/* ============================================================
+   PDF INDIVIDUELS (générés dans la page, sans bibliothèque) + DOSSIER / ZIP
+   ============================================================ */
+const PDF_W = {
+  r: [278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,1015,
+      667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,333,
+      556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584],
+  b: [278,333,474,556,556,889,722,238,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,333,333,584,584,584,611,975,
+      722,722,722,722,667,611,778,722,278,556,722,611,833,722,778,667,778,722,667,611,722,667,944,667,667,611,333,278,333,584,556,333,
+      556,611,556,611,556,333,611,611,278,278,556,278,889,611,611,611,611,389,556,333,611,556,778,556,556,500,389,280,389,584]
+};
+const PDF_BASE = {}; /* lettre accentuée -> lettre de base, pour la largeur */
+'ÀÁÂÃÄÅ'.split('').forEach(c => PDF_BASE[c]='A'); 'àáâãäå'.split('').forEach(c => PDF_BASE[c]='a');
+'ÈÉÊË'.split('').forEach(c => PDF_BASE[c]='E'); 'èéêë'.split('').forEach(c => PDF_BASE[c]='e');
+'ÌÍÎÏ'.split('').forEach(c => PDF_BASE[c]='I'); 'ìíîï'.split('').forEach(c => PDF_BASE[c]='i');
+'ÒÓÔÕÖ'.split('').forEach(c => PDF_BASE[c]='O'); 'òóôõö'.split('').forEach(c => PDF_BASE[c]='o');
+'ÙÚÛÜ'.split('').forEach(c => PDF_BASE[c]='U'); 'ùúûü'.split('').forEach(c => PDF_BASE[c]='u');
+PDF_BASE['Ç']='C'; PDF_BASE['ç']='c'; PDF_BASE['Ñ']='N'; PDF_BASE['ñ']='n'; PDF_BASE['ÿ']='y'; PDF_BASE['Ý']='Y'; PDF_BASE['ý']='y';
+const PDF_SPECIAL = {0x2019:0x92,0x2018:0x91,0x201C:0x93,0x201D:0x94,0x2026:0x85,0x2013:0x96,0x2014:0x97,0x20AC:0x80,0x0153:0x9C,0x0152:0x8C,0x2022:0x95,0x202F:0x20,0x00A0:0x20};
+function pdfCode(ch){
+  const c = ch.codePointAt(0);
+  if (PDF_SPECIAL[c] !== undefined) return PDF_SPECIAL[c];
+  if (c >= 32 && c < 127) return c;
+  if (c >= 161 && c <= 255) return c;
+  return 63;
+}
+function pdfCharW(ch, bold){
+  if (ch === 'œ' || ch === 'Œ') return 944;
+  if (ch === '«' || ch === '»') return 556;
+  const b = PDF_BASE[ch] || ch;
+  const c = b.charCodeAt(0);
+  const tab = bold ? PDF_W.b : PDF_W.r;
+  return (c >= 32 && c <= 126) ? tab[c - 32] : 556;
+}
+function pdfTextW(str, size, bold){
+  let w = 0; for (const ch of str) w += pdfCharW(ch, bold); return w * size / 1000;
+}
+function pdfWrap(str, size, bold, maxW){
+  const out = [];
+  String(str).split('\n').forEach(par => {
+    const words = par.split(/\s+/).filter(Boolean);
+    let line = '';
+    words.forEach(w => {
+      const t = line ? line + ' ' + w : w;
+      if (pdfTextW(t, size, bold) <= maxW || !line){ line = t; }
+      else { out.push(line); line = w; }
+    });
+    out.push(line);
+  });
+  return out;
+}
+function pdfRGB(hex){
+  const n = parseInt(hex.slice(1), 16);
+  return [(n>>16)&255, (n>>8)&255, n&255].map(v => (v/255).toFixed(3)).join(' ');
+}
+function pdfHex(str){
+  let h = ''; for (const ch of str) h += pdfCode(ch).toString(16).padStart(2, '0'); return h;
+}
+const PDF_PW = 595.28, PDF_PH = 841.89, PDF_MX = 31, PDF_MT = 23;
+function pdfLayout(f, sc, forts, faibles){
+  const W = PDF_PW, H = PDF_PH, M = PDF_MX, ops = [];
+  const rr = (x, y, w, h, r) => {            /* rectangle arrondi, y mesuré depuis le haut */
+    r = Math.min(r, w / 2, h / 2); const k = r * 0.5523, X = x, Y = H - y - h;
+    const n = v => v.toFixed(2);
+    return `${n(X + r)} ${n(Y)} m ${n(X + w - r)} ${n(Y)} l ${n(X + w - r + k)} ${n(Y)} ${n(X + w)} ${n(Y + r - k)} ${n(X + w)} ${n(Y + r)} c ` +
+      `${n(X + w)} ${n(Y + h - r)} l ${n(X + w)} ${n(Y + h - r + k)} ${n(X + w - r + k)} ${n(Y + h)} ${n(X + w - r)} ${n(Y + h)} c ` +
+      `${n(X + r)} ${n(Y + h)} l ${n(X + r - k)} ${n(Y + h)} ${n(X)} ${n(Y + h - r + k)} ${n(X)} ${n(Y + h - r)} c ` +
+      `${n(X)} ${n(Y + r)} l ${n(X)} ${n(Y + r - k)} ${n(X + r - k)} ${n(Y)} ${n(X + r)} ${n(Y)} c h`;
+  };
+  const rect = (x, y, w, h, col, r) => ops.push(`${pdfRGB(col)} rg ${r ? rr(x, y, w, h, r) + ' f' : `${x.toFixed(2)} ${(H-y-h).toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)} re f`}`);
+  const ring = (x, y, w, h, r, col, lw) => ops.push(`${pdfRGB(col)} RG ${lw} w ${rr(x, y, w, h, r)} S`);
+  const text = (s, x, y, font, size, col) => ops.push(`BT /${font} ${size.toFixed(2)} Tf ${pdfRGB(col)} rg ${x.toFixed(2)} ${(H-y).toFixed(2)} Td <${pdfHex(s)}> Tj ET`);
+  const center = (s, cx, y, font, size, col, bold) => text(s, cx - pdfTextW(s, size, bold) / 2, y, font, size, col);
+
+  /* bandeau : titre, élève, date de l'évaluation, niveau visé, note */
+  const hx = M, hy = PDF_MT, hw = W - 2 * M;
+  const tw = hw - 32 - 62;
+  const titre = pdfWrap(f.titreSeance || 'Évaluation orale', 14, true, tw).slice(0, 2);
+  const HH = 84 + (titre.length - 1) * 16;
+  ops.push(`q ${rr(hx, hy, hw, HH, 10)} W n /Sh1 sh Q`);
+  let y = hy + 22;
+  titre.forEach(l => { text(l, hx + 16, y, 'F2', 14, '#ffffff'); y += 16; });
+  y = Math.max(y, hy + 36);
+  const sub = [f.modeleNom, f.typeActivite].filter(Boolean).join(' · ');
+  text(pdfWrap(sub, 8.6, false, tw)[0] || '', hx + 16, y, 'F1', 8.6, '#d3e4ee');
+  const d = dossierDateFR(f.date) || f.date || '';
+  text(pdfWrap(`Élève : ${f.prenom}  ·  Évaluation du ${d}${f.niveauViseLabel ? '  ·  Niveau visé : ' + f.niveauViseLabel : ''}`, 8.8, true, tw)[0], hx + 16, y + 12.5, 'F2', 8.8, '#ffffff');
+  const cx = hx + hw - 16 - 26, cy = hy + 38;
+  ops.push(`1 1 1 rg ${rr(cx - 26, cy - 26, 52, 52, 26)} f`);
+  center(String(f.score), cx, cy + 3, 'F2', 17, scoreColor(f.score), true);
+  center('/ 20', cx, cy + 13, 'F2', 6.4, '#5c6b74', true);
+  /* repère des niveaux intégré au bandeau */
+  const T = (f.niveauViseIdx !== undefined && f.niveauViseIdx !== null) ? f.niveauViseIdx : DEFAULT_TARGET_IDX;
+  const ly = hy + HH - 23, lw = 29, lgap = 5, lblW = 104;
+  text('Repère des niveaux (CECRL)', hx + 16, ly + 8.6, 'F2', 7.2, '#d3e4ee');
+  LEVELS.forEach((lv, i) => {
+    const x = hx + 16 + lblW + i * (lw + lgap);
+    rect(x, ly, lw, 12, lv.color, 6);
+    center(lv.code, x + lw / 2, ly + 8.6, 'F2', 7.4, '#ffffff', true);
+    if (i === T) ring(x - 2, ly - 2, lw + 4, 16, 8, '#ffffff', 1.2);
+  });
+  text('Entouré : niveau visé', hx + 16 + lblW + 7 * (lw + lgap) + 4, ly + 8.6, 'F1', 7.2, '#d3e4ee');
+  y = hy + HH + 9;
+
+  /* critères : bandeaux de compétence, lignes séparées, pastilles de niveau */
+  const left = [], rows = f.criteres;
+  let lastComp = null;
+  const pillW = 32 * sc, nameW = W - 2 * M - pillW - 28;
+  rows.forEach((c, idx) => {
+    if (c.competence !== lastComp){
+      lastComp = c.competence; if (idx) y += 5 * sc;
+      rect(M, y, W - 2 * M, 14.5 * sc, '#e8f1f6', 4);
+      text((c.competence || '').toUpperCase(), M + 8, y + 10 * sc, 'F2', 7.6 * sc, '#12374b');
+      y += 14.5 * sc + 2.5 * sc;
+    }
+    const nl = pdfWrap(c.libelle, 9.3 * sc, false, nameW);
+    const cl = c.commentaire ? pdfWrap(c.commentaire, 8.1 * sc, false, nameW) : [];
+    const textH = nl.length * 11.3 * sc + cl.length * 9.8 * sc + (cl.length ? 1.5 * sc : 0);
+    const h = Math.max(13 * sc, textH) + 5 * sc;
+    const col = levelColor(c.levelCode), py = y + 2.5 * sc;
+    rect(W - M - 8 - pillW, py, pillW, 13 * sc, col, 6.5 * sc);
+    center(c.levelCode, W - M - 8 - pillW / 2, py + 9.4 * sc, 'F2', 7.8 * sc, '#ffffff', true);
+    let ty = y + 2.5 * sc + 9 * sc;
+    nl.forEach(l => { text(l, M + 8, ty, 'F1', 9.3 * sc, '#1c2b36'); ty += 11.3 * sc; });
+    ty += 0.5 * sc;
+    cl.forEach(l => { text(l, M + 8, ty, 'F3', 8.1 * sc, '#5c6b74'); ty += 9.8 * sc; });
+    y += h;
+    const next = rows[idx + 1];
+    if (next && next.competence === c.competence) rect(M, y - 0.4, W - 2 * M, 0.7, '#e3eaee');
+  });
+
+  /* conseils, ancrés en bas de page comme dans la fiche imprimée */
+  const gap = 8, colW = (W - 2 * M - gap) / 2, inner = colW - 26;
+  const mk = (title, items, plain, tcol, bg, stripe) => {
+    const lines = [];
+    if (plain) pdfWrap(plain, 8.6 * sc, false, inner).forEach(l => lines.push(['', l]));
+    else items.forEach(t => pdfWrap(t, 8.6 * sc, false, inner - 9).forEach((l, i) => lines.push([i ? '' : '•', l])));
+    return { title, lines, tcol, bg, stripe, h: 15 + lines.length * 10.8 * sc + 10 };
+  };
+  const bl = mk('POINTS FORTS', forts.map(c => `${c.libelle} (${c.levelCode})`), forts.length ? '' : encouragement(f), '#2e8b57', '#e4f5eb', '#2e8b57');
+  const br = mk('AXES DE PROGRESSION', faibles.map(c => `${c.libelle}${c.conseil ? ' : ' + c.conseil : ' : continuer à travailler ce point.'}`),
+    faibles.length ? '' : 'Tous les critères atteignent ou dépassent le niveau visé. Excellent travail.', '#c97a2e', '#fbeadb', '#c97a2e');
+  const bh = Math.max(bl.h, br.h);
+  const footTop = H - PDF_MT - 14;
+  const by = y + 8;
+  [bl, br].forEach((b, i) => {
+    const x = M + i * (colW + gap);
+    rect(x, by, colW, bh, b.stripe, 6); rect(x + 3, by, colW - 3, bh, b.bg, 5);
+    text(b.title, x + 13, by + 13, 'F2', 8, b.tcol);
+    let ty = by + 13 + 12 * sc;
+    b.lines.forEach(([bul, l]) => {
+      if (bul) text('•', x + 13, ty, 'F2', 8.6 * sc, '#1c2b36');
+      text(l, x + 13 + (bul ? 9 : 0), ty, 'F1', 8.6 * sc, '#1c2b36'); ty += 10.8 * sc;
+    });
+  });
+  rect(M, footTop, W - 2 * M, 0.7, '#dbe3e8');
+  center('Made by MissD - Co-créé avec IA générative - RGPD', W / 2, footTop + 10, 'F1', 7, '#9aa7ae');
+  return { ops, y: by + bh, hh: HH };
+}
+function pdfBuild(ops, hh){
+  const W = PDF_PW, H = PDF_PH;
+  const content = ops.join('\n');
+  const x0 = PDF_MX, x1 = W - PDF_MX, y0 = H - PDF_MT, y1 = H - PDF_MT - hh;
+  const objs = [
+    '<< /Type /Catalog /Pages 2 0 R >>',
+    '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
+    `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /Font << /F1 5 0 R /F2 6 0 R /F3 7 0 R >> /Shading << /Sh1 8 0 R >> >> /Contents 4 0 R >>`,
+    `<< /Length ${content.length} >>\nstream\n${content}\nendstream`,
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>',
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>',
+    `<< /ShadingType 2 /ColorSpace /DeviceRGB /Coords [${x0} ${y0} ${x1} ${y1}] /Function << /FunctionType 2 /Domain [0 1] /C0 [${pdfRGB('#1d4e6b')}] /C1 [${pdfRGB('#12374b')}] /N 1 >> /Extend [true true] >>`
+  ];
+  let out = '%PDF-1.4\n'; const offs = [];
+  objs.forEach((o, i) => { offs.push(out.length); out += `${i + 1} 0 obj\n${o}\nendobj\n`; });
+  const xr = out.length;
+  out += `xref\n0 ${objs.length + 1}\n0000000000 65535 f \n` + offs.map(o => String(o).padStart(10, '0') + ' 00000 n \n').join('');
+  out += `trailer\n<< /Size ${objs.length + 1} /Root 1 0 R >>\nstartxref\n${xr}\n%%EOF`;
+  const bytes = new Uint8Array(out.length);
+  for (let i = 0; i < out.length; i++) bytes[i] = out.charCodeAt(i) & 255;
+  return bytes;
+}
+function pdfFicheBytes(f){
+  const { forts, faibles } = buildAdvice(f);
+  let r;
+  for (let sc = 1; sc >= 0.5; sc -= 0.05){
+    r = pdfLayout(f, sc, forts, faibles);
+    if (r.y <= 841.89 - 23 - 22) break;
+  }
+  return pdfBuild(r.ops, r.hh);
+}
+/* ZIP (stockage sans compression) */
+const CRC_TAB = (() => { const t = []; for (let n = 0; n < 256; n++){ let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t.push(c >>> 0); } return t; })();
+function crc32(b){ let c = 0xFFFFFFFF; for (let i = 0; i < b.length; i++) c = CRC_TAB[(c ^ b[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+function zipBuild(files){
+  const enc = new TextEncoder(), parts = [], central = [];
+  const d = new Date();
+  const dt = ((d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1)) & 0xFFFF;
+  const dd = (((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate()) & 0xFFFF;
+  let off = 0;
+  files.forEach(f => {
+    const nm = enc.encode(f.name), crc = crc32(f.data);
+    const lh = new DataView(new ArrayBuffer(30));
+    lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(6, 0x0800, true); lh.setUint16(8, 0, true);
+    lh.setUint16(10, dt, true); lh.setUint16(12, dd, true); lh.setUint32(14, crc, true);
+    lh.setUint32(18, f.data.length, true); lh.setUint32(22, f.data.length, true); lh.setUint16(26, nm.length, true); lh.setUint16(28, 0, true);
+    parts.push(new Uint8Array(lh.buffer), nm, f.data);
+    const ch = new DataView(new ArrayBuffer(46));
+    ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true); ch.setUint16(8, 0x0800, true);
+    ch.setUint16(12, dt, true); ch.setUint16(14, dd, true); ch.setUint32(16, crc, true);
+    ch.setUint32(20, f.data.length, true); ch.setUint32(24, f.data.length, true); ch.setUint16(28, nm.length, true);
+    ch.setUint32(42, off, true);
+    central.push(new Uint8Array(ch.buffer), nm);
+    off += 30 + nm.length + f.data.length;
+  });
+  const csize = central.reduce((a, p) => a + p.length, 0);
+  const end = new DataView(new ArrayBuffer(22));
+  end.setUint32(0, 0x06054b50, true); end.setUint16(8, files.length, true); end.setUint16(10, files.length, true);
+  end.setUint32(12, csize, true); end.setUint32(16, off, true);
+  return new Blob([...parts, ...central, new Uint8Array(end.buffer)], { type: 'application/zip' });
+}
+function safeName(s, fallback){
+  const t = String(s || '').replace(/[\\/:*?"<>|\u0000-\u001f]/g, ' ').replace(/\s+/g, ' ').trim().replace(/[. ]+$/, '');
+  return t || fallback;
+}
+function downloadBlob(blob, name){
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+function ficheFileBase(f){
+  const ev = safeName(f.titreSeance || currentSession().titre, 'Évaluation');
+  return ev + ' - ' + safeName(f.prenom, 'élève');
+}
+async function saveFichesInFolder(){
+  if (completed.length === 0){ toast('Aucune fiche à télécharger'); return; }
+  const folder = safeName(currentSession().titre, 'Session') + ' - fiches élèves';
+  let dir = null;
+  if (window.showDirectoryPicker){
+    try{ dir = await window.showDirectoryPicker({ mode: 'readwrite' }); }
+    catch(e){ if (e && e.name === 'AbortError') return; dir = null; }
+  }
+  const used = {};
+  const files = completed.map(f => {
+    let base = ficheFileBase(f), n = (used[base] = (used[base] || 0) + 1);
+    return { name: (n > 1 ? `${base} (${n})` : base) + '.pdf', data: pdfFicheBytes(f) };
+  });
+  if (dir){
+    try{
+      const sub = await dir.getDirectoryHandle(folder, { create: true });
+      for (const f of files){
+        const fh = await sub.getFileHandle(f.name, { create: true });
+        const w = await fh.createWritable(); await w.write(f.data); await w.close();
+      }
+      toast(`${plural(files.length, 'fiche enregistrée', 'fiches enregistrées')} dans le dossier « ${folder} »`);
+      return;
+    }catch(e){ /* repli sur le ZIP */ }
+  }
+  downloadBlob(zipBuild(files.map(f => ({ name: folder + '/' + f.name, data: f.data }))), folder.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\x20-\x7e]/g, '') + '.zip');
+  toast('Archive ZIP téléchargée : dézippez-la pour obtenir le dossier');
 }
 
 function downloadPDF(fiches){
@@ -1503,7 +1774,7 @@ function downloadPDF(fiches){
   area.innerHTML = fiches.map(fichePageHTML).join('');
   const oldTitle = document.title;
   document.title = fiches.length === 1
-    ? `fiche-${(fiches[0].prenom||'eleve').replace(/\s+/g,'-')}`
+    ? ficheFileBase(fiches[0])
     : 'fiches-notation-orale';
   window.print();
   setTimeout(() => { document.title = oldTitle; area.innerHTML = ''; }, 500);
