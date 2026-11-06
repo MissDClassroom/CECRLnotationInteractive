@@ -1,1 +1,2118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notation expression écrite avec feedbacks</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22%3E%3Cdefs%3E%3ClinearGradient id=%22gb%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%232fb5a5%22/%3E%3Cstop offset=%221%22 stop-color=%22%230e5a57%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%22512%22 height=%22512%22 rx=%22112%22 fill=%22url%28%23gb%29%22/%3E%3Crect x=%22104%22 y=%2280%22 width=%22250%22 height=%22340%22 rx=%2234%22 fill=%22%23fff%22/%3E%3Crect x=%22146%22 y=%22140%22 width=%22166%22 height=%2220%22 rx=%2210%22 fill=%22%23b4dad5%22/%3E%3Crect x=%22146%22 y=%22188%22 width=%22166%22 height=%2220%22 rx=%2210%22 fill=%22%23b4dad5%22/%3E%3Crect x=%22146%22 y=%22236%22 width=%22120%22 height=%2220%22 rx=%2210%22 fill=%22%23b4dad5%22/%3E%3Crect x=%22146%22 y=%22284%22 width=%22140%22 height=%2220%22 rx=%2210%22 fill=%22%23b4dad5%22/%3E%3Cg transform=%22rotate%2838 372 330%29%22%3E%3Crect x=%22346%22 y=%22190%22 width=%2252%22 height=%22170%22 rx=%2210%22 fill=%22%23e2a52f%22/%3E%3Crect x=%22346%22 y=%22164%22 width=%2252%22 height=%2240%22 rx=%2212%22 fill=%22%23d6564a%22/%3E%3Cpolygon points=%22346,360 398,360 372,418%22 fill=%22%23f6e3bb%22/%3E%3Cpolygon points=%22361,391 383,391 372,418%22 fill=%22%230e5a57%22/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#19675d;
+    --primary-dark:#0c433c;
+    --primary-light:#e9f7f5;
+    --primary-soft:#eef9f8;
+    --accent:#dd8a3f;
+    --accent-light:#fcefdf;
+    --ok:#2f9e6e;
+    --ok-light:#e5f7ee;
+    --warn:#d0524a;
+    --warn-light:#fbeae9;
+    --bg:#f2f8f8;
+    --card:#ffffff;
+    --border:#e1eeee;
+    --text:#173230;
+    --text-mute:#638689;
+    --radius:12px;
+    --radius-lg:18px;
+    --shadow:0 1px 2px rgba(15,32,45,.05), 0 6px 16px rgba(15,32,45,.06);
+    --shadow-md:0 10px 28px rgba(15,32,45,.12);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    background:
+      radial-gradient(1100px 420px at 12% -10%, rgba(27,73,101,.06), transparent 60%),
+      linear-gradient(180deg, #f7fcfc, var(--bg) 340px);
+    color:var(--text);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--primary-light);color:var(--primary-dark);}
+  ::-webkit-scrollbar{width:10px;height:10px;}
+  ::-webkit-scrollbar-thumb{background:#c6dddb;border-radius:10px;}
+  ::-webkit-scrollbar-thumb:hover{background:#acc9c7;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  h1,h2,h3,h4{font-weight:800;margin:0 0 .4em;letter-spacing:-.015em;color:var(--primary-dark);}
+  header.topbar{
+    background:
+      radial-gradient(600px 240px at 85% -60%, rgba(255,255,255,.14), transparent 60%),
+      linear-gradient(120deg,var(--primary),var(--primary-dark) 120%);
+    color:#fff;
+    padding:20px 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:14px;
+  }
+  .brand{display:flex;align-items:center;gap:14px;}
+  .brand-mark{
+    width:46px;height:46px;flex-shrink:0;line-height:0;
+    filter:drop-shadow(0 3px 8px rgba(0,0,0,.28));
+  }
+  .brand-mark svg{width:100%;height:100%;display:block;}
+  header.topbar h1{font-size:1.3rem;margin:0;color:#fff;letter-spacing:-.01em;}
+  header.topbar .sub{font-size:.82rem;opacity:.82;font-weight:400;margin-top:1px;}
+  header.topbar .rgpd-note{color:#eaf8f6;font-size:.74rem;opacity:.9;background:rgba(255,255,255,.1);padding:6px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.18);}
+  nav.tabs{
+    display:flex;
+    gap:4px;
+    background:rgba(247,250,252,.86);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    padding:10px 24px;
+    border-bottom:1px solid var(--border);
+    position:sticky;
+    top:0;
+    z-index:50;
+    flex-wrap:wrap;
+  }
+  nav.tabs button{
+    display:inline-flex;align-items:center;gap:8px;
+    border:none;
+    background:transparent;
+    color:var(--text-mute);
+    font-family:inherit;
+    font-size:.88rem;
+    font-weight:600;
+    padding:9px 16px 9px 9px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:background .15s,color .15s,box-shadow .15s;
+  }
+  nav.tabs .tab-num{
+    width:22px;height:22px;border-radius:7px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.72rem;font-weight:800;
+    background:var(--primary-light);color:var(--primary);
+    transition:.15s;
+  }
+  nav.tabs button:hover{background:var(--primary-soft);color:var(--primary-dark);}
+  nav.tabs button.active{background:var(--primary);color:#fff;box-shadow:0 6px 16px rgba(27,73,101,.3);}
+  nav.tabs button.active .tab-num{background:rgba(255,255,255,.2);color:#fff;}
+  main{max-width:1180px;margin:0 auto;padding:28px 20px 80px;}
+  .view{display:none;animation:fade .2s ease;}
+  .view.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius-lg);
+    padding:20px 22px;
+    margin-bottom:18px;
+    box-shadow:var(--shadow);
+  }
+  .card-head{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap;
+  }
+  .btn{
+    font-family:inherit;
+    border:1px solid var(--border);
+    background:#fff;
+    color:var(--text);
+    padding:9px 15px;
+    border-radius:9px;
+    font-size:.85rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:.15s;
+    white-space:nowrap;
+  }
+  .btn:hover{border-color:var(--primary);color:var(--primary-dark);background:var(--primary-soft);}
+  .btn:active{transform:translateY(1px);}
+  .btn-primary{background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:0 2px 8px rgba(27,73,101,.25);}
+  .btn-primary:hover{background:var(--primary-dark);border-color:var(--primary-dark);color:#fff;}
+  .btn-accent{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(221,138,63,.3);}
+  .btn-accent:hover{filter:brightness(0.94);color:#fff;}
+  .btn-danger{color:var(--warn);}
+  .btn-danger:hover{background:var(--warn-light);border-color:var(--warn);color:var(--warn);}
+  .btn-sm{padding:6px 11px;font-size:.78rem;border-radius:8px;}
+  .btn-ghost{border-color:transparent;background:transparent;box-shadow:none;}
+  .btn-ghost:hover{background:var(--primary-soft);box-shadow:none;}
+  input[type=text],input[type=number],input[type=date],select,textarea{
+    font-family:inherit;
+    font-size:.9rem;
+    padding:9px 11px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:#fff;
+    color:var(--text);
+    width:100%;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  input[type=text]:focus,input[type=number]:focus,input[type=date]:focus,select:focus,textarea:focus{
+    outline:none;border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light);
+  }
+  textarea{resize:vertical;min-height:44px;}
+  label.field-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-mute);display:block;margin-bottom:5px;}
+  .field{margin-bottom:12px;}
+  .row{display:flex;gap:12px;flex-wrap:wrap;}
+  .row > .field{flex:1;min-width:160px;}
+  .muted{color:var(--text-mute);font-size:.85rem;}
+  .pill{
+    display:inline-block;
+    background:var(--primary-light);
+    color:var(--primary-dark);
+    font-size:.7rem;
+    font-weight:700;
+    padding:3px 10px;
+    border-radius:99px;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  }
+  .competence-block{border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;background:#fbfefe;transition:box-shadow .15s,border-color .15s;}
+  .competence-block:hover{border-color:#cee5e3;box-shadow:var(--shadow);}
+  .competence-block h3{font-size:.96rem;color:var(--primary-dark);display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;}
+  .critere-row{
+    display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
+    padding:9px 0;border-top:1px solid var(--border);
+  }
+  .critere-row:first-of-type{border-top:none;}
+  .critere-main{flex:1;}
+  .critere-main .lib{font-weight:600;font-size:.89rem;}
+  .critere-main .desc{font-size:.79rem;color:var(--text-mute);margin-top:2px;}
+  .critere-main .conseil{font-size:.77rem;color:var(--accent);margin-top:4px;font-style:italic;}
+  .critere-actions{display:flex;gap:4px;flex-shrink:0;}
+  .inline-form{background:var(--primary-soft);border:1px solid var(--primary-light);border-radius:var(--radius);padding:14px;margin-top:8px;}
+  .empty-msg{color:var(--text-mute);font-size:.85rem;padding:22px 14px;text-align:center;border:1.5px dashed var(--border);border-radius:var(--radius);}
 
+  /* Modèles */
+  .type-badge{font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:99px;background:var(--accent-light);color:var(--accent);text-transform:uppercase;letter-spacing:.02em;}
+  .checkbox-grid label.chk{
+    display:flex;align-items:flex-start;gap:8px;padding:6px 4px;border-radius:7px;font-size:.86rem;cursor:pointer;transition:background .12s;
+  }
+  .checkbox-grid label.chk:hover{background:var(--primary-soft);}
+  .checkbox-grid label.chk input{margin-top:3px;width:auto;accent-color:var(--primary);}
+  .template-card{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;background:#fff;flex-wrap:wrap;transition:box-shadow .15s,border-color .15s,transform .15s;}
+  .template-card:hover{box-shadow:var(--shadow-md);border-color:#cee5e3;transform:translateY(-1px);}
+  .template-card .meta{font-size:.78rem;color:var(--text-mute);margin-top:3px;}
+  .quickbtns{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 4px;}
+
+  /* Session */
+  .session-controls{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;}
+  .count-picker{display:flex;gap:6px;background:var(--bg);padding:5px;border-radius:11px;border:1px solid var(--border);}
+  .count-picker button{
+    width:38px;height:38px;border-radius:8px;border:none;background:transparent;
+    font-weight:700;font-size:.95rem;cursor:pointer;color:var(--text-mute);transition:.15s;
+  }
+  .count-picker button:hover{color:var(--primary-dark);}
+  .count-picker button.active{background:var(--primary);color:#fff;box-shadow:0 3px 10px rgba(27,73,101,.3);}
+  .fiches-grid{display:grid;gap:18px;margin-top:20px;}
+  .fiches-grid.n1{grid-template-columns:minmax(0,720px);justify-content:center;}
+  .fiches-grid.n2{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .fiches-grid.n3{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .fiches-grid.n4{grid-template-columns:repeat(2,minmax(0,1fr));}
+  @media (max-width:900px){
+    .fiches-grid.n2,.fiches-grid.n3,.fiches-grid.n4{grid-template-columns:1fr;}
+  }
+  .fiche-card{border:1px solid var(--border);border-radius:var(--radius-lg);background:#fff;box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden;transition:box-shadow .18s;}
+  .fiche-card:hover{box-shadow:var(--shadow-md);}
+  .fiche-head{background:linear-gradient(120deg,var(--primary-light),var(--primary-soft));padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+  .fiche-head .slotnum{
+    width:28px;height:28px;border-radius:9px;background:var(--primary);color:#fff;font-weight:800;font-size:.8rem;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 6px rgba(27,73,101,.3);
+  }
+  .fiche-body{padding:14px 16px;flex:1;}
+  .fiche-crit{border-top:1px solid var(--border);padding:10px 0;}
+  .fiche-crit:first-child{border-top:none;padding-top:2px;}
+  .fiche-crit .crit-label{font-size:.83rem;font-weight:600;margin-bottom:7px;}
+  .crit-comment{margin-top:7px;font-size:.78rem;padding:6px 9px;min-height:30px;background:#fbfefe;}
+  .crit-comp{font-size:.66rem;color:var(--primary);text-transform:uppercase;letter-spacing:.03em;font-weight:800;margin-top:4px;}
+  .level-picker{display:flex;gap:4px;flex-wrap:wrap;}
+  .level-btn{
+    flex:1;min-width:38px;
+    border:1px solid var(--border);
+    border-bottom:3px solid var(--lvl-color, var(--border));
+    background:#fff;color:var(--text-mute);
+    font-size:.72rem;font-weight:700;
+    padding:7px 2px;border-radius:7px;cursor:pointer;text-align:center;
+    transition:.12s;
+  }
+  .level-btn:hover{border-color:var(--lvl-color, var(--primary));color:var(--text);transform:translateY(-1px);}
+  .level-btn.sel{background:var(--lvl-color, var(--primary));border-color:var(--lvl-color, var(--primary));color:#fff;box-shadow:0 3px 8px rgba(0,0,0,.14);}
+  .level-btn.target{box-shadow:0 0 0 2px var(--accent) inset;}
+  .level-btn.sel.target{box-shadow:0 0 0 2px var(--accent), 0 3px 8px rgba(0,0,0,.14);}
+  .fiche-score{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 16px;background:#fbfefe;border-top:1px solid var(--border);
+  }
+  .fiche-score .val{font-size:1.5rem;font-weight:800;color:var(--primary-dark);transition:color .15s;}
+  .fiche-score .val small{font-size:.85rem;font-weight:600;color:var(--text-mute);}
+  .fiche-foot{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--border);background:#fff;}
+  .fiche-foot .btn{flex:1;}
+
+  .completed-list{margin-top:10px;}
+  .completed-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;background:#fff;flex-wrap:wrap;transition:box-shadow .15s,border-color .15s;}
+  .completed-row:hover{box-shadow:var(--shadow);border-color:#cee5e3;}
+  .completed-row .name{font-weight:700;flex:1;min-width:120px;}
+  .completed-row .score{font-weight:800;}
+
+
+  .work-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px;}
+  .sessions-list{display:grid;gap:12px;}
+  .sess-card{background:#fff;border:1px solid var(--line, #e3eeee);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;box-shadow:0 2px 8px rgba(8,52,50,.06);}
+  .sess-card.current{border-color:var(--primary);box-shadow:0 4px 14px rgba(27,73,101,.18);}
+  .sess-main{flex:1;min-width:220px;}
+  .sess-title{font-weight:700;font-size:1.02rem;color:var(--primary-dark);}
+  .sess-meta{margin-top:4px;display:flex;gap:6px;flex-wrap:wrap;font-size:.78rem;}
+  .sess-pill{background:var(--primary-soft);color:var(--primary-dark);border-radius:999px;padding:2px 10px;font-weight:600;}
+  .sess-pill.warm{background:#fdeedc;color:#9a5b0c;}
+  .sess-actions{display:flex;gap:8px;}
+  .modal-back{position:fixed;inset:0;background:rgba(8,52,50,.45);z-index:300;display:flex;align-items:center;justify-content:center;padding:16px;}
+  .modal-back[hidden]{display:none !important;}
+  .modal-box{background:#fff;border-radius:14px;max-width:440px;width:100%;padding:22px;box-shadow:0 20px 50px rgba(8,52,50,.35);}
+  .modal-box h3{margin:0 0 8px;font-size:18px;}
+  .modal-box #modal-msg{white-space:pre-line;margin-bottom:14px;font-size:14px;line-height:1.45;}
+  .modal-box input[type=text]{width:100%;margin-bottom:14px;}
+  .modal-box.wide{max-width:680px;max-height:92vh;overflow:auto;}
+  .ax-note{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;padding:10px 12px;border-radius:10px;background:#eef8f7;}
+  .ax-note label{font-weight:700;}
+  .ax-note input{width:84px;font-size:18px;font-weight:800;text-align:center;}
+  .ax-item{border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:8px;background:#fff;}
+  .ax-item.off{opacity:.55;}
+  .ax-item label{display:flex;gap:8px;align-items:center;font-weight:700;font-size:14px;cursor:pointer;}
+  .ax-item textarea{width:100%;margin-top:6px;font-size:13px;min-height:54px;}
+  .ax-item .ax-gap{font-weight:400;color:#667;font-size:12px;}
+  .modal-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;}
+  .btn-danger-solid{background:var(--warn);border-color:var(--warn);color:#fff;}
+  .toast{
+    position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--primary-dark);color:#fff;padding:11px 20px;border-radius:10px;
+    font-size:.86rem;font-weight:600;box-shadow:var(--shadow-md);opacity:0;pointer-events:none;
+    transition:.25s;z-index:200;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  .rgpd-note{font-size:.76rem;color:var(--text-mute);display:flex;align-items:center;gap:6px;margin-top:6px;}
+
+  footer.appfoot{max-width:1180px;margin:0 auto;padding:4px 20px 40px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
+  footer.appfoot .muted{font-size:.74rem;color:#99b5b5;}
+
+  /* Print / PDF */
+  #print-area{display:none;}
+  @media print{
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    body > header.topbar, body > nav.tabs, body > main, body > footer.appfoot, body > .toast, body > .modal-back{display:none !important;}
+    #print-area{display:block !important;}
+    @page{size:A4;margin:0;}
+  }
+
+  /* Fiche élève (mesurée à l'écran, hors affichage, pour tenir sur une page) */
+  .print-page{
+    box-sizing:border-box;width:210mm;height:296.4mm;padding:8mm 11mm;overflow:hidden;
+    page-break-after:always;
+    font-family:'Inter',Arial,sans-serif;
+    display:flex;flex-direction:column;
+  }
+  .print-page:last-child{page-break-after:auto;}
+
+  .p-header{
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+    background:linear-gradient(135deg,#1b6d62,#114c44);
+    color:#fff;border-radius:10px;padding:10px 16px;margin-bottom:8px;
+  }
+  .p-title{font-size:calc(1rem*var(--z,1));font-weight:800;}
+  .p-sub{font-size:calc(.7rem*var(--z,1));opacity:.92;margin-top:2px;}
+  .p-score-badge{
+    flex-shrink:0;width:56px;height:56px;border-radius:50%;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.35) inset;
+  }
+  .p-score-badge .num{font-size:calc(1.15rem*var(--z,1));font-weight:800;line-height:1;}
+  .p-score-badge .lbl{font-size:calc(.5rem*var(--z,1));text-transform:uppercase;font-weight:700;color:#5b7571;letter-spacing:.02em;}
+
+  .p-grid{display:flex;flex-direction:column;margin-bottom:6px;}
+  .p-comp-title{
+    width:100%;
+    font-size:calc(.62rem*var(--z,1));font-weight:800;text-transform:uppercase;letter-spacing:.03em;
+    color:#114c44;background:#e8f6f4;padding:4px 8px;border-radius:5px;
+    margin-top:9px;margin-bottom:3px;
+  }
+  .p-grid > .p-comp-title:first-child{margin-top:0;}
+  .p-crit-row{width:100%;display:flex;align-items:flex-start;gap:8px;padding:calc(3px*var(--z,1)) 8px;border-bottom:1px solid #eef4f3;}
+  .p-crit-row:last-child{border-bottom:none;}
+  .p-crit-main{flex:1;min-width:0;}
+  .p-crit-name{font-size:calc(.72rem*var(--z,1));line-height:1.25;}
+  .p-crit-att{font-size:calc(.6rem*var(--z,1));color:#3c6d67;line-height:1.2;margin-top:1px;}
+  .p-crit-att b{color:#114c44;}
+  .p-crit-comment{font-size:calc(.63rem*var(--z,1));color:#5b7571;font-style:italic;line-height:1.2;margin-top:1px;}
+  .p-level-pill{
+    flex-shrink:0;min-width:32px;text-align:center;
+    font-size:calc(.62rem*var(--z,1));font-weight:800;color:#fff;
+    padding:2px 6px;border-radius:99px;line-height:1.3;
+  }
+
+  .p-advice{display:flex;flex-direction:row;align-items:stretch;gap:8px;margin-top:6px;padding-top:0;}
+  .p-advice-box{flex:1 1 0;min-width:0;border-radius:8px;padding:7px 10px;font-size:calc(.66rem*var(--z,1));line-height:1.3;}
+  .p-advice-box.forts{flex:0 0 33%;background:#e4f5eb;border-left:3px solid #2e8b57;}
+  .p-advice-box.faibles{background:#fbeadb;border-left:3px solid #c97a2e;}
+  .p-advice-box h4{font-size:calc(.64rem*var(--z,1));margin:0 0 4px;text-transform:uppercase;letter-spacing:.02em;}
+  .p-advice-box.forts h4{color:#2e8b57;}
+  .p-advice-box.faibles h4{color:#c97a2e;}
+  .p-advice-box ul{margin:0;padding-left:13px;}
+  .p-advice-box li{margin-bottom:2px;}
+
+  .p-legend{display:flex;align-items:center;gap:5px;margin-top:7px;font-size:calc(.56rem*var(--z,1));color:#d2efeb;}
+  .p-legend b{font-weight:700;margin-right:5px;}
+  .p-legend .p-level-pill{min-width:28px;padding:1px 5px;font-size:calc(.58rem*var(--z,1));}
+  .p-legend .p-level-pill.cible{box-shadow:0 0 0 1.5px #114c44,0 0 0 2.8px #fff;margin:0 2px;}
+  .p-legend span:last-child{margin-left:4px;}
+  .p-footer{text-align:center;margin-top:auto;padding-top:4px;border-top:1px solid #dbe8e7;font-size:calc(.58rem*var(--z,1));color:#9aaeab;}
+
+  #print-area.measuring{display:block !important;position:absolute;left:-10000px;top:0;width:210mm;}
+  .p-comp-title{border-left:4px solid var(--cc,#114c44);}
+
+  /* Catégories colorées */
+  .competence-block.cat{border-left:5px solid var(--cc);}
+  .competence-block.cat h3{color:var(--ct);}
+  .comp-toggle{border:none;background:transparent;cursor:pointer;font-size:.9rem;color:var(--ct,var(--primary-dark));padding:2px 6px 2px 0;}
+  .comp-title{cursor:pointer;display:flex;align-items:center;gap:6px;flex:1;}
+  .comp-count{font-size:.72rem;font-weight:700;background:var(--cf);color:var(--ct);border-radius:99px;padding:2px 9px;}
+  .cecrl-badge{font-size:.62rem;font-weight:700;letter-spacing:.03em;background:var(--cf);color:var(--ct);border-radius:99px;padding:2px 8px;text-transform:uppercase;}
+  .lvl-edit{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px;}
+  .lvl-edit textarea{flex:1;min-height:54px;font-size:.8rem;}
+  .lvl-tag{flex-shrink:0;width:34px;text-align:center;color:#fff;font-weight:800;font-size:.72rem;border-radius:99px;padding:3px 0;margin-top:4px;}
+  .tpl-search{margin-bottom:10px;width:100%;}
+  .tpl-comp{border:1px solid var(--border);border-left:5px solid var(--cc);border-radius:10px;background:#fff;margin-bottom:8px;overflow:hidden;}
+  .tpl-comp summary{cursor:pointer;padding:9px 12px;background:var(--cf);color:var(--ct);font-weight:700;font-size:.88rem;display:flex;justify-content:flex-start;gap:10px;align-items:center;list-style:none;}
+  .tpl-comp summary::-webkit-details-marker{display:none;}
+  .tpl-comp summary::before{content:"▸";}
+  .tpl-comp[open] summary::before{content:"▾";}
+  .tpl-comp .tpl-body{padding:6px 10px 8px;}
+  .tpl-count{font-size:.72rem;font-weight:700;margin-left:auto;}
+  .crit-comp.cat{display:inline-block;background:var(--cf);color:var(--ct);border-left:4px solid var(--cc);padding:3px 8px;border-radius:5px;}
+  .crit-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;}
+  .crit-info{border:1px solid var(--border);background:#fff;color:var(--primary);border-radius:99px;width:22px;height:22px;font-size:.72rem;font-weight:800;cursor:pointer;flex-shrink:0;line-height:1;}
+  .crit-info:hover,.crit-info.on{background:var(--primary);color:#fff;}
+  .crit-help{margin:0 0 8px;padding:8px 10px;border-radius:8px;background:var(--primary-soft);font-size:.76rem;line-height:1.4;color:var(--text);}
+  .crit-help b{color:var(--primary-dark);}
+.off-ref{margin-top:.5rem;font-size:.82rem;color:#444}.off-ref p{margin:.3rem 0}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="gb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2fb5a5"/><stop offset="1" stop-color="#0e5a57"/></linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#gb)"/><rect x="104" y="80" width="250" height="340" rx="34" fill="#fff"/><rect x="146" y="140" width="166" height="20" rx="10" fill="#b4dad5"/><rect x="146" y="188" width="166" height="20" rx="10" fill="#b4dad5"/><rect x="146" y="236" width="120" height="20" rx="10" fill="#b4dad5"/><rect x="146" y="284" width="140" height="20" rx="10" fill="#b4dad5"/><g transform="rotate(38 372 330)"><rect x="346" y="190" width="52" height="170" rx="10" fill="#e2a52f"/><rect x="346" y="164" width="52" height="40" rx="12" fill="#d6564a"/><polygon points="346,360 398,360 372,418" fill="#f6e3bb"/><polygon points="361,391 383,391 372,418" fill="#0e5a57"/></g></svg></div>
+    <div>
+      <h1>Notation expression écrite avec feedbacks</h1>
+      <div class="sub">Fiches d'évaluation modulables, repères CECRL</div>
+    </div>
+  </div>
+  <div class="rgpd-note">🔒 Données stockées uniquement dans ce navigateur</div>
+</header>
+
+<nav class="tabs">
+  <button data-view="modeles" class="active"><span class="tab-num">1</span>Modèles de fiches</button>
+  <button data-view="session"><span class="tab-num">2</span>Sessions de notation</button>
+  <button data-view="banque"><span class="tab-num">3</span>Banque de critères</button>
+</nav>
+
+<main>
+
+  <!-- ===================== VUE 1 : MODELES ===================== -->
+  <section id="view-modeles" class="view active">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h2>Modèles de fiches</h2>
+          <div class="muted">Choisissez un type d'activité et sélectionnez les critères à évaluer pour ce modèle. Le modèle est enregistré et réutilisable. Les critères viennent de la banque (onglet 3), déjà pré-remplie ; vous pouvez la compléter à tout moment.</div>
+        </div>
+        <button class="btn btn-primary" id="btn-new-template">+ Nouveau modèle</button>
+      </div>
+      <div id="template-form-zone"></div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom:12px;">Modèles enregistrés</h3>
+      <div id="templates-list"></div>
+    </div>
+  </section>
+
+  <!-- ===================== VUE 2 : SESSION ===================== -->
+  <section id="view-session" class="view">
+    <div id="sessions-hub">
+      <div class="card">
+        <div class="card-head" style="margin-bottom:0;">
+          <div>
+            <h2>Sessions de notation</h2>
+            <div class="muted">Chaque session est enregistrée automatiquement. Cliquez sur « Reprendre » pour retrouver une session exactement là où vous l'avez laissée. Une nouvelle session démarre vierge.</div>
+          </div>
+          <button class="btn btn-primary" id="btn-new-dossier">+ Nouvelle session</button>
+        </div>
+      </div>
+      <div id="sessions-list" class="sessions-list"></div>
+    </div>
+
+    <div id="session-work" hidden>
+    <div class="work-bar">
+      <button class="btn" id="btn-back-hub">← Toutes les sessions</button>
+      <div class="muted" id="dossier-info"></div>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-bottom:12px;">Session en cours</h2>
+      <div class="row">
+        <div class="field">
+          <label class="field-label">Nom de la session (apparaît aussi sur les PDF)</label>
+          <input type="text" id="session-titre" placeholder="Ex. Expression écrite LLCER : La crise de l’eau">
+        </div>
+        <div class="field" style="max-width:180px;">
+          <label class="field-label">Date</label>
+          <input type="date" id="session-date">
+        </div>
+      </div>
+      <div class="session-controls">
+        <div class="field" style="margin:0;">
+          <label class="field-label">Fiches simultanées à l'écran</label>
+          <div class="count-picker" id="count-picker"></div>
+        </div>
+        <div class="field" style="margin:0;max-width:170px;">
+          <label class="field-label">Niveau visé (défaut)</label>
+          <select id="default-niveau-vise"></select>
+        </div>
+        <div class="field" style="margin:0;max-width:170px;">
+          <label class="field-label">Note si niveau atteint</label>
+          <input type="number" id="default-baseline-note" min="0" max="20" step="0.5">
+        </div>
+        <button class="btn btn-sm" id="btn-apply-niveau-all">Appliquer à toutes les fiches</button>
+      </div>
+      <div class="muted" style="margin-top:6px;">Le niveau visé adapte le barème au moment de l'année : l'atteindre donne la note indiquée (20 par défaut) ; en dessous elle baisse proportionnellement ; au-dessus, elle monte vers 20 (si la note indiquée est inférieure à 20).</div>
+    </div>
+
+    <div class="fiches-grid n1" id="fiches-grid"></div>
+
+    <div class="card" style="margin-top:20px;">
+      <div class="card-head">
+        <h3 style="margin:0;">Fiches terminées de cette session</h3>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-accent" id="btn-download-all">⬇ Télécharger les fiches dans un dossier</button>
+          <button class="btn" id="btn-print-all" title="Un seul fichier PDF contenant toutes les fiches, via l'impression du navigateur">Un seul PDF</button>
+          <button class="btn btn-danger" id="btn-clear-completed">Vider la liste</button>
+        </div>
+      </div>
+      <div id="completed-list" class="completed-list"></div>
+    </div>
+      </div>
+  </section>
+
+  <!-- ===================== VUE 3 : BANQUE ===================== -->
+  <section id="view-banque" class="view">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h2>Banque de critères</h2>
+          <div class="muted">Organisée par compétence. Chaque critère est ensuite évalué sur les 7 paliers du CECRL (A1 → C1). Les catégories reprennent les couleurs du CECRL 2021 ; chaque critère, ses descripteurs par niveau et ses repères de séquence sont modifiables librement.</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn" id="btn-show-hidden" hidden></button>
+          <button class="btn" id="btn-add-cecrl" title="Ajoute les échelles écrites du CECRL 2021 (volume complémentaire) absentes de votre banque, sans toucher à vos modifications">Ajouter la banque CECRL</button>
+          <button class="btn btn-primary" id="btn-add-competence">+ Compétence</button>
+        </div>
+      </div>
+      <div id="add-competence-form"></div>
+      <div id="competences-list"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h3 style="margin:0;">Sauvegarde / portabilité</h3>
+          <div class="muted">Exportez la banque, les modèles et toutes les sessions pour les réutiliser sur un autre poste, ou en garder une copie.</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn" id="btn-export">Exporter (JSON)</button>
+          <label class="btn" style="margin:0;">Importer
+            <input type="file" id="input-import" accept="application/json" style="display:none;">
+          </label>
+          <button class="btn btn-danger" id="btn-reset-all">Réinitialiser</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="appfoot">
+  <div class="muted">@MD</div>
+</footer>
+
+<div class="modal-back" id="modal" hidden><div class="modal-box" role="dialog" aria-modal="true"><h3 id="modal-title"></h3><div id="modal-msg" class="muted"></div><input type="text" id="modal-input" hidden><div class="modal-actions"><button class="btn" id="modal-cancel" type="button">Annuler</button><button class="btn btn-primary" id="modal-ok" type="button">OK</button></div></div></div>
+<div class="toast" id="toast"></div>
+<div id="print-area"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   MODELE DE DONNEES
+   ============================================================ */
+const LEVELS = [
+  {code:'A1', pts:1, color:'#d6564a'},{code:'A2', pts:2, color:'#e0793a'},{code:'A2+',pts:3, color:'#e1912f'},{code:'B1', pts:4, color:'#e2a52f'},
+  {code:'B1+',pts:5, color:'#cbbe3c'},{code:'B2', pts:6, color:'#9dbd3f'},{code:'B2+',pts:7, color:'#63ab5b'},{code:'C1', pts:8, color:'#2e8b57'}
+];
+function scoreColor(score){
+  if (score < 10) return '#c0392b';
+  if (score < 14) return '#c97a2e';
+  if (score < 16) return '#1b6d62';
+  return '#2e8b57';
+}
+const MAX_PTS_PER_CRIT = 8;
+const DEFAULT_TARGET_IDX = 3; // B1 par défaut
+const DEFAULT_BASELINE_NOTE = 20; // note obtenue si le niveau visé est atteint pile
+const ACTIVITY_TYPES = ['Monologue suivi','Commentaire / analyse','Discussion / interaction','Mixte'];
+
+const LS_BANK = 'ee_bank_v1';
+const LS_TEMPLATES = 'ee_templates_v1';
+const LS_SLOTS = 'ee_slots_v1';
+const LS_COMPLETED = 'ee_completed_v1';
+const LS_SESSIONS = 'ee_sessions_v1';
+
+function uid(){ return 'id-' + Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(-4); }
+function todayISO(){ const d=new Date(); return d.toISOString().slice(0,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function loadLS(key, fallback){
+  try{ const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; }
+  catch(e){ return fallback; }
+}
+function saveLS(key, val){
+  /* Les fiches en cours et terminées appartiennent au dossier ouvert : on les range dedans. */
+  if (key === LS_SLOTS || key === LS_COMPLETED){
+    const cur = currentSession();
+    if (key === LS_SLOTS) cur.slotsState = val; else cur.completed = val;
+    persistSessions();
+    if (document.getElementById('sessions-list')) renderDossierBar();
+    return;
+  }
+  try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){ /* ignore quota errors */ }
+}
+
+function seedBank(){
+  return { competences: [] };
+}
+
+let bank = loadLS(LS_BANK, null);
+if (!bank){ bank = seedBank(); saveLS(LS_BANK, bank); }
+
+let templates = loadLS(LS_TEMPLATES, []);
+
+/* ============================================================
+   BANQUE CECRL 2021 (volume complémentaire), ÉCRIT
+   Catégories, couleurs et descripteurs repris du document fourni.
+   ============================================================ */
+const CECRL_BANK = [{"nom": "Aspects qualitatifs de la langue écrite", "couleur": {"accent": "#595959", "fond": "#efefef", "texte": "#333333"}, "cle": "cecrl-ecrit-aspects-qualitatifs-de-la-langue-ecrite", "criteres": [{"libelle": "Compétence générale", "description": "", "niveaux": {"A1": "Tu écris des expressions et des phrases simples isolées ; un texte plus long reste très difficile à comprendre.", "A2": "Tu écris des phrases simples reliées par « et », « mais », « parce que » ; un texte plus long peut manquer de cohérence.", "B1": "Tu écris un texte simple et compréhensible sur des sujets variés, en enchaînant tes idées ; quelques passages obscurs peuvent gêner la lecture.", "B2": "Tu rédiges des textes détaillés en faisant la synthèse d’informations et d’arguments de sources variées, avec un registre adapté malgré quelques écarts.", "C1": "Tu rédiges des textes bien structurés sur des sujets complexes, en soulignant les points clés et en appuyant tes idées par des arguments et des exemples."}, "officiel": {"A1": "Peut écrire des expressions et phrases simples isolées. Des textes plus longs peuvent contenir des expressions et des problèmes de cohérence qui rendent le texte très difficile, voire impossible à comprendre.", "A2": "Peut rédiger une série d’expressions et de phrases simples reliées par des connecteurs simples tels que « et », « mais » et « parce que ». Des textes plus longs peuvent contenir des expressions ainsi que poser des problèmes de cohérence qui rendent le texte difficile à comprendre.", "B1": "Peut rédiger de façon simple des textes reliés, sur une gamme de sujets variés, dans son domaine d’intérêt, en liant une série d’éléments discrets en une séquence linéaire. Les textes sont compréhensibles bien que quelques expressions obscures et/ou des incohérences puissent interrompre la lecture.", "B2": "Peut rédiger des textes détaillés officiels ou presque officiels sur une gamme étendue de sujets relatifs à son domaine d’intérêt en faisant la synthèse et l’évaluation d’informations et d’arguments empruntés à des sources diverses. Peut faire la différence entre un discours formel ou pas avec de temps à autre des expressions moins appropriées.", "C1": "Peut rédiger des textes bien structurés et corrects dans l’ensemble sur des sujets complexes. Peut souligner les points pertinents les plus saillants, élargir et confirmer des points de vue de manière élaborée par l’intégration d’arguments secondaires, de justifications et d’exemples pertinents pour parvenir à une conclusion appropriée."}, "cle": "cecrl-ecrit-aspects-qualitatifs-de-la-langue-ecrite-competence-generale"}, {"libelle": "Étendue", "description": "", "niveaux": {"A1": "Tu connais quelques mots et expressions pour parler de toi et de situations concrètes.", "A2": "Tu utilises des phrases types et des expressions toutes faites pour donner des informations simples du quotidien.", "B1": "Tu as assez de langue pour écrire sur tes centres d’intérêt, le travail, les voyages ou l’actualité, en contournant parfois un mot qui manque.", "B2": "Tu as assez de langue pour décrire et donner ton point de vue avec des phrases complexes, même si ta formulation reste parfois stéréotypée.", "C1": "Tu maîtrises une grande variété de formulations et tu choisis le style adapté sur des sujets variés, sans te limiter dans ce que tu veux dire."}, "officiel": {"A1": "Possède un répertoire élémentaire de mots et d’expressions simples au sujet de détails personnels et de situations particulières concrètes.", "A2": "Peut utiliser des modèles de phrases élémentaires comportant des expressions mémorisées, de groupes de quelques mots et d’expressions toutes faites, pour communiquer des informations limitées principalement dans des situations quotidiennes.", "B1": "Possède suffisamment de moyens linguistiques pour s’en sortir avec quelques périphrases sur des sujets tels que la famille, les loisirs et centres d’intérêt, le travail, les voyages et l’actualité.", "B2": "Possède une gamme assez étendue de langue pour faire des descriptions claires et exprimer son point de vue sur la plupart des sujets généraux en utilisant des phrases complexes. Cependant, les lacunes, l’expressivité, les idiomatismes et l’utilisation de formes complexes sont encore stéréotypés.", "C1": "A une bonne maîtrise d’une grande variété de langage, ce qui lui permet de choisir une formulation pour s’exprimer clairement et dans un style approprié sur une grande gamme de sujets généraux, académiques, professionnels ou de loisirs, sans avoir à restreindre ce qu’il(elle) veut dire. La souplesse du style et du ton est cependant assez limitée."}, "cle": "cecrl-ecrit-aspects-qualitatifs-de-la-langue-ecrite-etendue"}, {"libelle": "Cohérence", "description": "", "niveaux": {"A1": "Tu relies tes groupes de mots avec « et » ou « alors ».", "A2": "Tu relies tes groupes de mots avec « et », « mais » et « parce que ».", "B1": "Tu enchaînes des éléments courts et simples en un texte qui se suit.", "B2": "Tu utilises plusieurs articulateurs pour un texte clair et cohérent, avec quelques maladresses dans un texte plus long.", "C1": "Ton texte est clair, fluide et bien structuré, avec des connecteurs et des articulateurs bien maîtrisés."}, "officiel": {"A1": "Peut relier des groupes de mots avec des connecteurs élémentaires tels que « et » ou « alors ».", "A2": "Peut relier des groupes de mots avec des connecteurs simples tels que « et », « mais » et « parce que ».", "B1": "Peut relier une série d’éléments courts, simples et distincts en un discours qui s’enchaîne.", "B2": "Peut utiliser un certain nombre d’articulateurs pour relier ses énoncés dans un texte clair et cohérent, bien qu’il puisse y avoir quelques « tensions » dans un texte plus long.", "C1": "Peut produire un texte clair, fluide et bien structuré, démontrant un usage contrôlé de structures organisationnelles de connecteurs et d’articulateurs."}, "cle": "cecrl-ecrit-aspects-qualitatifs-de-la-langue-ecrite-coherence"}, {"libelle": "Correction", "description": "", "niveaux": {"A1": "Tu maîtrises quelques structures simples apprises par cœur ; des erreurs peuvent gêner la compréhension.", "A2": "Tu utilises des structures simples, mais des erreurs de base reviennent encore et peuvent gêner la compréhension.", "B1": "Tu utilises assez correctement les tournures courantes ; tes erreurs occasionnelles restent compréhensibles grâce au contexte.", "B2": "Tu contrôles bien la grammaire : tes erreurs ne créent pas de malentendus.", "C1": "Ta grammaire est constamment correcte, avec seulement quelques erreurs occasionnelles."}, "officiel": {"A1": "A un contrôle limité de quelques structures syntaxiques et de modèles de phrases simples appartenant à un répertoire mémorisé. Les erreurs peuvent mener à des malentendus.", "A2": "Peut utiliser des structures simples correctement mais commet encore systématiquement des erreurs élémentaires. Ces erreurs peuvent parfois entraîner des malentendus.", "B1": "Peut se servir avec une correction suffisante d’un répertoire de tournures et d’expressions fréquemment utilisées et associées à des situations courantes. Fait des erreurs occasionnelles que le lecteur peut généralement interpréter correctement grâce au contexte.", "B2": "Montre un degré assez élevé de contrôle grammatical. Ne fait pas d’erreurs conduisant à des malentendus.", "C1": "Maintient constamment un haut degré de correction grammaticale ; erreurs occasionnelles en grammaire, expressions familières et idiomatiques."}, "cle": "cecrl-ecrit-aspects-qualitatifs-de-la-langue-ecrite-correction"}, {"libelle": "Description", "description": "", "niveaux": {"A1": "Tu écris des phrases simples sur toi et sur des personnages imaginaires : où ils vivent et ce qu’ils font.", "A2": "Tu décris brièvement un événement, des activités passées ou des expériences personnelles.", "B1": "Tu racontes une expérience avec tes sentiments et tes réactions, tu décris un événement ou un voyage, ou tu racontes une histoire dans un texte simple et articulé.", "B2": "Tu écris des descriptions détaillées d’événements et d’expériences réels ou imaginaires, en montrant le lien entre les idées et en respectant les règles du genre.", "C1": "Tu écris des textes descriptifs ou de fiction clairs et bien construits, dans un style sûr, personnel et adapté au lecteur."}, "officiel": {"A1": "Peut écrire des phrases et des expressions simples sur lui(elle)-même et des personnages imaginaires, où ils vivent et ce qu’ils font.", "A2": "Peut faire une description brève et élémentaire d’un événement, d’activités passées et d’expériences personnelles. Peut écrire des biographies imaginaires, courtes et simples, et des poèmes simples sur les gens.", "B1": "Peut faire le compte rendu d’expériences en décrivant ses sentiments et ses réactions dans un texte simple et articulé. Peut faire la description d’un événement, d’un voyage récent, réel ou imaginé. Peut raconter une histoire. Peut écrire des descriptions détaillées simples sur une variété de sujets familiers dans le cadre de son domaine d’intérêt.", "B2": "Peut écrire/faire des descriptions élaborées d’événements et d’expériences réels ou imaginaires en indiquant la relation entre les idées dans un texte articulé et en respectant les règles du genre en question. Peut écrire des descriptions claires et détaillées sur une variété de sujets en rapport avec son domaine d’intérêt. Peut écrire une critique de", "C1": "Peut écrire des textes descriptifs et de fiction clairs, détaillés, bien construits dans un style sûr, personnel et naturel approprié au lecteur visé."}, "cle": "cecrl-ecrit-aspects-qualitatifs-de-la-langue-ecrite-description"}, {"libelle": "Argumentation", "description": "", "niveaux": {"B1": "Tu écris un bref essai simple et tu résumes une source d’informations en donnant ton opinion.", "B2": "Tu développes une argumentation méthodique, avec les points importants et les détails qui les appuient, et tu évalues des idées ou des solutions.", "C1": "Tu exposes un sujet complexe de façon claire et structurée, et tu défends ton point de vue avec des arguments secondaires, des justifications et des exemples."}, "officiel": {"B1": "Peut écrire de brefs essais simples sur des sujets d’intérêt général. Peut résumer avec une certaine assurance une source d’informations factuelles sur des sujets familiers courants et non courants dans son domaine, en faire le rapport et donner son opinion. Peut écrire des rapports très brefs de forme standard conventionnelle qui transmettent des informations factuelles courantes et justifient des actions.", "B2": "Peut écrire un essai ou un rapport qui développe une argumentation de façon méthodique en soulignant de manière appropriée les points importants et les détails pertinents qui viennent l’appuyer. Peut évaluer des idées différentes ou des solutions à un problème. Peut écrire un essai ou un rapport qui développe une argumentation en apportant des justifications pour ou contre", "C1": "Peut exposer par écrit, clairement et de manière bien structurée, des sujets complexes en soulignant les points marquants pertinents. Peut exposer et prouver son point de vue à l’aide d’arguments secondaires, de justifications et d’exemples pertinents."}, "cle": "cecrl-ecrit-aspects-qualitatifs-de-la-langue-ecrite-argumentation"}]}, {"nom": "Production écrite", "couleur": {"accent": "#e1000f", "fond": "#ffe6e8", "texte": "#8a000a"}, "cle": "cecrl-ecrit-production-ecrite", "criteres": [{"libelle": "Production écrite générale", "description": "", "niveaux": {"A1": "Tu donnes des informations sur ta vie (ce que tu aimes, ta famille) avec des mots et des phrases simples isolées.", "A2": "Tu écris une série de phrases simples reliées par « et », « mais » et « parce que ».", "B1": "Tu écris un texte suivi, non complexe, sur des sujets variés, en enchaînant tes idées dans l’ordre.", "B2": "Tu composes un texte clair et détaillé en faisant la synthèse et l’évaluation d’informations et d’arguments de sources diverses.", "C1": "Tu composes un texte clair et bien structuré sur un sujet complexe, en développant ton point de vue avec des arguments secondaires et des exemples."}, "officiel": {"A1": "Peut donner des renseignements sur des sujets relevant de sa vie privée (par exemple ce qu’il(elle) aime et n’aime pas, la famille, les animaux domestiques) en utilisant des mots et des expressions simples. Peut produire des expressions et des phrases simples isolées.", "A2": "Peut produire une série d’expressions et de phrases simples reliées par des connecteurs simples tels que « et », « mais » et « parce que ».", "B1": "Peut produire des textes suivis non complexes sur une gamme de sujets variés dans son domaine en liant une série d’éléments discrets en une séquence linéaire.", "B2": "Peut composer des textes clairs et détaillés sur une gamme étendue de sujets relatifs à son domaine d’intérêt en faisant la synthèse et l’évaluation d’informations et d’arguments empruntés à des sources diverses.", "C1": "Peut composer des textes clairs, bien structurés sur des sujets complexes, en soulignant les points pertinents les plus saillants et en développant et confirmant un point de vue de manière élaborée par l’intégration d’arguments secondaires, de justifications et d’exemples pertinents pour parvenir à une conclusion appropriée. Peut utiliser la structure et les conventions d’une diversité de genres, en adaptant le ton, le style et le registre au public cible, ainsi que le type de texte et le sujet."}, "cle": "cecrl-ecrit-production-ecrite-production-ecrite-generale"}, {"libelle": "Écriture créative", "description": "", "niveaux": {"A1": "Tu écris des phrases simples sur toi ou sur des personnages imaginaires et tu décris très simplement un lieu ou un objet familier.", "A2": "Tu décris ton quotidien avec des phrases reliées et tu racontes une histoire simple.", "B1": "Tu racontes dans l’ordre chronologique, tu fais une critique simple de film ou de livre et tu décris avec des détails des sujets familiers.", "B2": "Tu écris des descriptions élaborées d’expériences réelles ou imaginaires, dans un texte bien structuré qui respecte les règles du genre.", "C1": "Tu écris des textes descriptifs ou de fiction détaillés, dans un style personnel et naturel, avec des expressions idiomatiques."}, "officiel": {"A1": "Peut produire des phrases et des expressions simples sur lui(elle)-même et des personnages imaginaires, où ils vivent et ce qu’ils font. Peut décrire très simplement une pièce dans une habitation. Peut utiliser des mots et des expressions simples pour décrire certains objets familiers (par exemple la couleur d’une voiture, sa taille).", "A2": "Peut décrire les aspects quotidiens de son environnement, par exemple les gens, les lieux, le travail ou les études, avec des phrases reliées entre elles. Peut faire une description brève et élémentaire d’un événement, d’activités passées et d’expériences personnelles. Peut raconter une histoire simple (par exemple sur des événements lors de vacances ou sur la vie dans un avenir lointain). Peut produire une suite de phrases et d’expressions simples sur sa famille, ses conditions de vie, sa formation, son travail actuel ou le dernier en date. Peut élaborer des biographies imaginaires et des poèmes courts et simples sur les gens. Peut créer des rubriques de journal décrivant des activités (par exemple les occupations quotidiennes, les sorties, le sport, les passe-temps), des personnes et des lieux, en utilisant un vocabulaire concret et des expressions et des phrases simples avec des connecteurs simples tels que « et », « mais », « parce que ». Peut imaginer le début d’une histoire ou en continuer une, à condition de pouvoir consulter un dictionnaire et des ouvrages de référence (par exemple les tables de conjugaisons dans un manuel scolaire).", "B1": "Peut indiquer clairement l’ordre chronologique d’un texte narratif. Peut faire une critique simple d’un film, un livre ou un programme télévisé, en utilisant une gamme limitée de langage. Peut faire des descriptions détaillées non complexes sur une gamme étendue de sujets familiers dans le cadre de son domaine d’intérêt. Peut faire le compte rendu d’expériences en décrivant ses sentiments et ses réactions dans un texte simple et structuré. Peut faire la description d’un événement, d’un voyage récent, réel ou imaginé. Peut raconter une histoire.", "B2": "Peut faire des descriptions élaborées d’événements et d’expériences réels ou imaginaires en indiquant la relation entre les idées d’un texte bien structuré et en respectant les règles du genre en question. Peut faire des descriptions claires et détaillées sur une variété de sujets en rapport avec son domaine d’intérêt. Peut faire une critique de film, de livre ou de pièce de théâtre.", "C1": "Peut composer des textes descriptifs et de fiction clairs, détaillés, bien construits dans un style sûr, personnel et naturel approprié au lecteur visé. Peut intégrer des expressions idiomatiques et humoristiques, ces dernières n’étant pas toujours utilisées à bon escient. Peut faire un rapport critique détaillé d’événements culturels ou d’œuvres littéraires (par exemple des pièces de théâtre, des films, des concerts)."}, "cle": "cecrl-ecrit-production-ecrite-ecriture-creative"}, {"libelle": "Essais et rapports", "description": "", "niveaux": {"A2": "Tu écris un texte simple sur un sujet familier, en reliant tes phrases avec « et », « parce que », « ensuite », et tu donnes ton opinion.", "B1": "Tu écris un court essai simple : tu listes avantages et inconvénients, tu donnes et tu justifies ton opinion.", "B2": "Tu développes une argumentation méthodique en soulignant les points importants et les détails qui l’appuient, et tu évalues des solutions.", "C1": "Tu exposes un sujet complexe de façon structurée, avec introduction et conclusion, et tu soutiens ton point de vue avec des arguments secondaires et des exemples."}, "officiel": {"A2": "Peut produire des textes simples sur des sujets d’intérêt familiers, en liant les phrases avec des connecteurs tels que « et », « parce que », « ensuite ». Peut donner ses impressions et son opinion sur des sujets d’intérêt personnel (par exemple les modes de vie et la culture, les histoires) en utilisant un vocabulaire et des expressions de tous les jours.", "B1": "Peut produire de courts essais simples sur des sujets d’intérêt général. Peut produire un texte sur un sujet en rapport avec son centre d’intérêt, en utilisant un langage simple pour lister les avantages et les inconvénients, donner et justifier son opinion. Peut résumer avec une certaine assurance un ensemble d’informations factuelles sur des sujets familiers courants et non courants dans son domaine, en rendre compte et donner son opinion. Peut produire des rapports très courts de forme standard conventionnelle pour transmettre des informations factuelles courantes et justifier des actions. Peut présenter un sujet dans un court rapport ou une affiche en y intégrant des illustrations, des photos ainsi que des textes courts.", "B2": "Peut produire un essai ou un rapport qui développe une argumentation de façon méthodique en soulignant de manière appropriée les points importants et les détails pertinents qui viennent l’appuyer. Peut rédiger, dans le détail, un processus complexe. Peut évaluer des idées différentes ou des solutions à un problème. Peut produire un essai ou un rapport qui développe une argumentation en apportant des justifications pour ou contre un point de vue particulier et en expliquant les avantages et les inconvénients de différentes options. Peut synthétiser des informations et des arguments issus de sources diverses.", "C1": "Peut exposer clairement et de façon bien structurée des sujets complexes en soulignant les points marquants pertinents. Peut développer et soutenir des points de vue assez longuement à l’aide d’arguments secondaires, de justifications et d’exemples pertinents. Peut concevoir une introduction et une conclusion appropriées pour un rapport, un article ou une dissertation d’une certaine longueur et sur un sujet académique ou professionnel complexe, à condition qu’il soit en rapport avec son centre d’intérêt et qu’il lui soit possible de corriger le texte."}, "cle": "cecrl-ecrit-production-ecrite-essais-et-rapports"}]}, {"nom": "Interaction écrite", "couleur": {"accent": "#00a95f", "fond": "#dcfaee", "texte": "#00643a"}, "cle": "cecrl-ecrit-interaction-ecrite", "criteres": [{"libelle": "Interaction écrite générale", "description": "", "niveaux": {"A1": "Tu demandes ou tu donnes des renseignements personnels simples.", "A2": "Tu écris de brèves notes simples pour des besoins immédiats.", "B1": "Tu échanges des informations et des idées par écrit, tu vérifies une information et tu exposes un problème assez précisément.", "B2": "Tu transmets des informations et des points de vue par écrit et tu t’adaptes à ceux des autres.", "C1": "Tu t’exprimes avec clarté et précision, en t’adaptant au destinataire avec souplesse."}, "officiel": {"A1": "Peut demander ou transmettre des renseignements personnels détaillés.", "A2": "Peut rédiger de brèves notes simples toutes faites en rapport avec des besoins immédiats.", "B1": "Peut apporter des informations et des idées sur des sujets abstraits et concrets, vérifier l’information, poser des questions sur un problème ou l’exposer assez précisément. Peut rédiger des notes et des lettres personnelles pour demander ou transmettre des informations simples d’intérêt immédiat et faire comprendre les points qu’il(elle) considère comme importants.", "B2": "Peut relater des informations et exprimer des points de vue par écrit et s’adapter à ceux des autres.", "C1": "Peut s’exprimer avec clarté et précision, en s’adaptant au destinataire avec souplesse et efficacité."}, "cle": "cecrl-ecrit-interaction-ecrite-interaction-ecrite-generale"}, {"libelle": "Correspondance", "description": "", "niveaux": {"A1": "Tu écris des messages très simples sur tes loisirs et tes préférences, avec des mots simples et des expressions toutes faites.", "A2": "Tu échanges des renseignements par SMS, mail ou courte lettre et tu donnes des informations personnelles habituelles.", "B1": "Tu écris une lettre pour donner des nouvelles, exprimer des opinions ou parler d’un film ou d’une musique.", "B2": "Tu écris des lettres qui expriment différents degrés d’émotion, en commentant les nouvelles et les points de vue de ton correspondant, avec les conventions adaptées.", "C1": "Tu écris avec clarté et précision, en correspondance personnelle comme formelle, avec souplesse et dans le registre adapté."}, "officiel": {"A1": "Peut rédiger des messages et des publications sur internet comprenant une série de phrases très courtes décrivant des passe-temps, des préférences, en utilisant des mots simples ou des expressions toutes faites, à l’aide d’un dictionnaire. Peut rédiger une carte postale simple et brève. Peut rédiger un message court et très simple (par exemple un texto) à des amis pour leur donner un renseignement ou leur poser une question.", "A2": "Peut échanger des renseignements par textos, courriels ou dans des lettres courtes, pour répondre à la demande de quelqu’un (par exemple sur un nouveau produit ou une activité). Peut transmettre des informations personnelles habituelles, par exemple dans un courriel court ou une lettre où il(elle) se présente. Peut rédiger une lettre personnelle très simple pour exprimer des remerciements ou des excuses. Peut rédiger des notes, des courriels et des textos courts et simples (par exemple pour envoyer une invitation ou y répondre, confirmer ou modifier un accord). Peut rédiger une carte de vœux courte et très simple (par exemple carte d’anniversaire ou de Nouvel An).", "B1": "Peut rédiger une lettre personnelle pour donner des nouvelles ou exprimer sa pensée sur un sujet abstrait ou culturel, tel un film ou de la musique. Peut rédiger des lettres pour exprimer diverses opinions, relater des expériences et exprimer des sentiments personnels de façon détaillée. Peut répondre par écrit à une annonce et demander un complément d’information sur les offres qui l’intéressent. Peut rédiger des courriels et des lettres formelles simples pour faire une réclamation ou demander qu’une action soit menée. Peut rédiger des lettres personnelles décrivant en détail expériences, sentiments et événements. Peut rédiger des courriels et des lettres simples portant sur des faits, pour obtenir des renseignements, demander ou donner une confirmation. Peut rédiger une lettre de motivation simple avec peu de détails à l’appui.", "B2": "Peut rédiger des lettres exprimant différents degrés d’émotion, souligner en quoi un événement ou une expérience sont importants pour lui(elle) dans un événement ou une expérience et faire des commentaires sur les nouvelles et les points de vue du correspondant. Peut utiliser les formalités et les conventions d’usage adaptées au contexte dans des lettres et des courriels personnels et professionnels. Peut rédiger des lettres ou des courriels formels d’invitation, de remerciements ou d’excuse en utilisant le registre de langue et les conventions appropriés. Peut rédiger des lettres professionnelles qui sortent de l’ordinaire, en utilisant des structures et des conventions appropriées, à condition que celles-ci ne portent que sur des faits. Peut se procurer par lettre ou par courriel les informations dont il(elle) a besoin dans un but particulier, rassembler ces informations et les transmettre par courriel à d’autres.", "C1": "Peut s’exprimer avec clarté et précision dans sa correspondance personnelle, avec souplesse et efficacité, y compris dans un registre affectif, allusif ou humoristique. Peut rédiger avec exactitude des correspondances formelles comme des demandes d’éclaircissements, des candidatures, des recommandations, références, réclamations, ou des lettres pour exprimer sa sympathie ou ses condoléances."}, "cle": "cecrl-ecrit-interaction-ecrite-correspondance"}, {"libelle": "Notes, messages et formulaires", "description": "", "niveaux": {"A1": "Tu remplis une fiche simple (nom, adresse, âge) et tu laisses un message très simple.", "A2": "Tu écris une note ou un message bref sur des besoins immédiats.", "B1": "Tu prends des messages courants et tu rédiges des notes ou des messages pour demander ou transmettre des informations simples.", "B2": "Tu prends et tu laisses des messages personnels et professionnels complexes, en demandant des précisions si besoin."}, "officiel": {"A1": "Peut écrire chiffres et dates, nom, nationalité, adresse, âge, date de naissance ou d’arrivée dans le pays, etc., sur une fiche d’hôtel par exemple. Peut laisser un message simple indiquant par exemple l’endroit où il(elle) est allé(e), à quelle heure il(elle) compte revenir (exemple : « Je fais les courses : je rentre à 5 heures »).", "A2": "Peut prendre un message bref et simple à condition de pouvoir faire répéter et reformuler. Peut rédiger une note ou un message simples et brefs, concernant des besoins immédiats. Peut fournir des renseignements personnels ou autres, sur la plupart des formulaires courants (par exemple pour ouvrir un compte bancaire ou pour envoyer une lettre par courrier recommandé).", "B1": "Peut prendre les messages habituels que l’on peut trouver dans des contextes personnels, professionnels ou académiques. Peut prendre un message concernant une demande d’information et l’explication d’un problème. Peut rédiger des notes qui transmettent une information simple et immédiatement pertinente à des amis, à des employés, à des professeurs et autres personnes fréquentées dans la vie quotidienne, en communiquant de manière compréhensible les points qui lui semblent importants. Peut prendre des messages au téléphone comportant plusieurs points, à condition que l’interlocuteur les dicte clairement et de façon indulgente.", "B2": "Peut prendre des messages personnels et professionnels complexes et en laisser, à condition qu’il(elle) puisse, si nécessaire, demander des éclaircissements ou des compléments d’information."}, "cle": "cecrl-ecrit-interaction-ecrite-notes-messages-et-formulaires"}, {"libelle": "Interaction en ligne", "description": "", "niveaux": {"A1": "Tu écris des messages ou des publications en ligne très simples sur tes goûts, avec des phrases très courtes.", "A2": "Tu te présentes et tu échanges des idées simples en ligne sur des sujets ordinaires, en prenant ton temps pour répondre.", "B1": "Tu participes à des échanges en ligne avec plusieurs personnes, en tenant compte de leurs intentions, même si tu ne comprends pas tous les détails.", "B2": "Tu engages des échanges en ligne, tu relies tes contributions à celles des autres, tu donnes ton point de vue et tu réagis de façon adéquate.", "C1": "Tu participes efficacement à des échanges en ligne, y compris sur des sujets abstraits, et tu comprends les intentions et les implications culturelles de chacun."}, "officiel": {"A1": "Peut écrire des messages et des publications personnelles en ligne très simples, sur ses loisirs, ce qu’il(elle) aime ou n’aime pas, etc., avec des phrases très courtes et à l’aide d’un outil de traduction. Peut utiliser des expressions toutes faites et des combinaisons de mots simples, pour réagir en ligne, positivement ou négativement, à des publications simples et à des médias embarqués, et peut répondre aux commentaires en remerciant ou en s’excusant à l’aide d’expressions standards.", "A2": "Peut se présenter et gérer des échanges simples en ligne, poser des questions, répondre, échanger des idées sur des sujets ordinaires prévisibles, à condition d’avoir assez de temps pour formuler ses réponses et de n’échanger qu’avec un seul interlocuteur à la fois. Peut publier de courtes descriptions en ligne avec des détails clés simples sur des questions quotidiennes, des activités sociales et des impressions. Peut commenter les publications en ligne d’autres personnes, à condition qu’elles soient rédigées en langue simple ou signées et réagir à des médias embarqués en exprimant de façon simple de la surprise, de l’intérêt, de l’indifférence. Peut s’engager dans une communication sociale simple en ligne (par exemple un message simple sur des cartes virtuelles pour des événements particuliers, pour partager des nouvelles et organiser/confirmer des rencontres). Peut faire de courts commentaires positifs et négatifs en ligne sur des médias embarqués en utilisant une langue simple, mais il(elle) aura en général besoin de faire appel à un outil de traduction en ligne ou à d’autres ressources.", "B1": "Peut s’engager dans des échanges en ligne en temps réel avec plus d’un participant, prendre en compte les intentions communicatives de chaque intervenant, mais peut ne pas comprendre les détails et les implications. Peut publier en ligne des récits d’événements sociaux, d’expériences et d’activités, se référer à des liens ou des médias embarqués et partager des impressions personnelles. Peut publier une contribution claire à une discussion en ligne sur un sujet d’ordre familier, à condition d’avoir préparé le texte à l’avance et de pouvoir utiliser en ligne des outils pour combler ses lacunes linguistiques et vérifier l’exactitude de ses écrits. Peut publier en ligne à titre personnel des expériences, des impressions et des événements, répondre de façon détaillée aux commentaires ; mais des lacunes lexicales entraînent parfois des répétitions et des difficultés de formulation.", "B2": "Peut engager des échanges en ligne, relier ses contributions à d’autres déjà publiées, saisir les implications culturelles et réagir de façon adéquate. Peut participer activement à une discussion en ligne, donner son point de vue et répondre à des opinions sur des sujets d’une certaine longueur présentant un intérêt, à condition que les participants n’utilisent pas un langage inhabituel ou complexe et laissent du temps pour répondre. Peut s’engager dans des échanges en ligne entre plusieurs participants, relier efficacement ses contributions à d’autres déjà publiées, à condition qu’un modérateur aide à gérer la discussion. Peut se rendre compte de malentendus et de désaccords lors d’une interaction en ligne et peut les gérer, à condition que le ou les interlocuteurs soient prêts à coopérer.", "C1": "Peut engager des échanges en ligne en direct avec plusieurs participants, et comprendre les intentions de communication et les implications culturelles des différentes contributions. Peut participer de façon efficace en ligne et en direct à des discussions professionnelles ou portant sur des sujets abstraits, demander et donner si nécessaire des éclaircissements complémentaires sur des questions abstraites et complexes. Peut adapter son registre en fonction du contexte d’une interaction en ligne et passer, si nécessaire, d’un registre à un autre au cours de l’échange. Peut évaluer des arguments, les reformuler et les contester dans une conversation ou une discussion en ligne professionnelle ou académique."}, "cle": "cecrl-ecrit-interaction-ecrite-interaction-en-ligne"}, {"libelle": "Transactions et coopération en ligne basées sur des objectifs", "description": "", "niveaux": {"A1": "Tu remplis un formulaire en ligne très simple avec tes informations de base.", "A2": "Tu fais des transactions simples en ligne (commande, inscription) en remplissant un formulaire.", "B1": "Tu mènes des transactions en ligne avec un échange important d’informations, si on évite une langue complexe.", "B2": "Tu joues un rôle moteur dans un travail collectif en ligne, en rappelant les rôles, les responsabilités et les échéances.", "C1": "Tu coordonnes un groupe en ligne, tu formules des instructions détaillées et tu juges l’intérêt des propositions de l’équipe."}, "officiel": {"A1": "Peut compléter un formulaire très simple d’achat ou de demande en ligne, donner des informations personnelles de base (nom, adresse électronique ou numéro de téléphone).", "A2": "Peut faire des transactions simples en ligne (comme une commande de produits ou l’inscription à un cours), en complétant un formulaire ou un questionnaire en ligne, donner des informations personnelles, accepter les conditions et refuser des services supplémentaires. Peut poser des questions simples sur la disponibilité d’un produit ou d’un article. Peut répondre à des instructions simples et poser des questions simples pour accomplir en ligne une tâche commune avec l’aide d’un interlocuteur coopératif.", "B1": "Peut s’engager dans des transactions en ligne qui supposent un échange important d’informations, à condition que les interlocuteurs évitent d’utiliser une langue complexe et soient prêts à répéter et reformuler si nécessaire. Peut interagir en ligne avec un groupe travaillant sur un projet, suivre des instructions directes, demander des éclaircissements et coopérer à la réalisation des tâches communes. Peut s’engager dans des échanges participatifs ou transactionnels qui demandent des éclaircissements simples ou des explications sur des détails importants tels que l’inscription à un cours, une visite guidée, un événement ou une demande d’adhésion. Peut interagir en ligne avec un partenaire ou un petit groupe travaillant sur un projet, à condition qu’il y ait des aides visuelles telles que des images, des statistiques et des graphiques pour clarifier les notions plus complexes. Peut répondre à des instructions et poser des questions ou demander des éclaircissements pour accomplir en ligne une tâche commune.", "B2": "Peut jouer un rôle moteur dans un travail collectif en ligne dans son domaine d’expertise, faire que le groupe se concentre sur la tâche en rappelant les rôles, les responsabilités et les échéances pour atteindre les objectifs établis. Peut s’engager dans des échanges en ligne, participatifs ou transactionnels, dans son domaine d’expertise comportant des négociations sur des conditions et des explications sur des détails compliqués et des demandes exceptionnelles. Peut gérer les malentendus et les problèmes imprévus qui surviennent dans des échanges en ligne participatifs ou transactionnels en répondant poliment et de façon appropriée pour résoudre le problème. Peut coopérer en ligne à un travail de groupe sur un projet, justifier des propositions, demander des éclaircissements et apporter son concours pour accomplir les tâches communes.", "C1": "Peut assurer la coordination d’un groupe qui travaille sur un projet en ligne, formuler et revoir des instructions détaillées, juger de l’intérêt des propositions des membres de l’équipe et apporter les éclaircissements nécessaires pour accomplir les tâches communes. Peut gérer des transactions complexes en ligne dans l’offre de services (par exemple des applications avec des demandes complexes), adapter avec aisance la langue qu’il(elle) utilise pour gérer la discussion et la négociation. Peut participer à des projets complexes impliquant une rédaction et des corrections collectives ainsi que d’autres formes de collaboration en ligne, suivre et transmettre des consignes avec précision pour atteindre l’objectif. Peut gérer efficacement des problèmes de communication et des problèmes culturels qui surviennent lors d’échanges en ligne participatifs ou transactionnels, reformuler, clarifier et donner des exemples à l’aide de moyens audiovisuels (visuel, audio, graphique)."}, "cle": "cecrl-ecrit-interaction-ecrite-transactions-et-cooperation-en-ligne-basees-sur-des-objectifs"}]}, {"nom": "Stratégies de production", "couleur": {"accent": "#e1000f", "fond": "#ffe6e8", "texte": "#8a000a"}, "cle": "cecrl-ecrit-strategies-de-production", "criteres": [{"libelle": "Planification", "description": "", "niveaux": {"A2": "Tu prépares à l’avance des expressions que tu connais pour écrire.", "B1": "Tu testes de nouvelles expressions, tu demandes des commentaires et tu prépares les points importants à transmettre.", "B2": "Tu planifies ce que tu vas écrire en pensant aux réactions possibles du lecteur et à la formulation adaptée.", "C1": "Tu adoptes consciemment les conventions du type de texte (structure, niveau de formalité)."}, "officiel": {"A2": "Peut tirer de son répertoire une série d’expressions appropriées, les préparer et les répéter à l’avance.", "B1": "Peut répéter à l’avance et essayer de nouvelles expressions et combinaisons de mots et solliciter des commentaires. Peut prévoir et préparer la façon de communiquer les points importants qu’il(elle) veut transmettre en exploitant toutes les ressources disponibles et en limitant le message aux moyens d’expression qu’il(elle) trouve ou dont il(elle) se souvient.", "B2": "Peut, en se préparant à une situation potentiellement compliquée ou délicate, planifier ce qu’il(elle) va dire en prévision de réactions différentes de ses interlocuteurs et réfléchir à une façon de s’exprimer adéquate. Peut planifier ce qu’il faut dire et les moyens de le dire en tenant compte de l’effet à produire sur le(s) destinataire(s).", "C1": "Peut, en préparant un texte formel, adopter consciemment les conventions propres à un type particulier de texte (par exemple la structure, le niveau de formalité)."}, "cle": "cecrl-ecrit-strategies-de-production-planification"}, {"libelle": "Compensation", "description": "", "niveaux": {"A1": "Tu t’appuies sur des mots simples pour te faire comprendre.", "A2": "Quand il te manque un mot, tu utilises un mot approchant pour clarifier ce que tu veux dire.", "B1": "Quand un mot te manque, tu décris la chose ou tu utilises un mot proche (« un camion pour voyageurs » pour « un bus »).", "B2": "Tu contournes les mots qui manquent avec des périphrases et des paraphrases.", "C1": "Tu utilises un vocabulaire varié et créatif pour contourner un mot manquant."}, "officiel": {"A1": "Peut accompagner ses mots de gestes pour exprimer un besoin.", "A2": "Peut utiliser un mot/un signe inadéquat de son répertoire et faire des gestes pour clarifier ce qu’il veut dire. Peut identifier ce qu’il(elle) veut en le désignant du doigt (par exemple : « Je voudrais cela, s’il vous plaît »).", "B1": "Peut définir les caractéristiques de quelque chose de concret dont le mot/le signe lui échappe. Peut exprimer le sens d’un mot/un signe en en donnant un autre signifiant quelque chose de semblable (par exemple, « un camion pour voyageurs » pour « un bus »). Peut utiliser un mot/un signe simple signifiant quelque chose de semblable au concept recherché et solliciter une « correction ». Peut franciser un mot/un signe de sa langue maternelle et demander s’il(si elle) a été compris(e).", "B2": "Peut utiliser des périphrases et des paraphrases pour dissimuler des lacunes lexicales et structurales. Peut faire face à la plupart des problèmes de communication en utilisant des périphrases ou en évitant les expressions difficiles.", "C1": "Peut utiliser de façon créative une grande variété de vocabulaire afin de pouvoir choisir de manière efficace des périphrases dans presque toutes les situations."}, "cle": "cecrl-ecrit-strategies-de-production-compensation"}, {"libelle": "Contrôle et correction", "description": "", "niveaux": {"B1": "Tu corriges une erreur qui a causé un malentendu et tu reformules autrement si le lecteur ne comprend pas.", "B2": "Tu te relis et tu corriges tes lapsus et tes erreurs non systématiques, et tu surveilles tes erreurs habituelles.", "C1": "Tu reviens sur une difficulté, tu reformules et tu te corriges avec beaucoup d’efficacité."}, "officiel": {"B1": "Peut corriger des erreurs sur les indications d’horaires ou des expressions qui ont conduit à des malentendus à condition que l’interlocuteur indique qu’il y a un problème. Peut se faire confirmer la correction d’une forme utilisée. Peut recommencer avec une tactique différente s’il y a une rupture de communication.", "B2": "Peut souvent autocorriger ses lapsus occasionnels, ses erreurs non systématiques et de légers défauts dans la structure d’une phrase. Peut généralement corriger lapsus et erreurs après en avoir pris conscience ou s’ils ont débouché sur un malentendu. Peut relever ses erreurs habituelles et surveiller consciemment son discours afin de les corriger.", "C1": "Peut revenir sur une difficulté et reformuler ce qu’il(elle) veut dire sans interrompre complètement le fil du discours. Peut s’autocorriger avec beaucoup d’efficacité."}, "cle": "cecrl-ecrit-strategies-de-production-controle-et-correction"}]}, {"nom": "Médiation de textes", "couleur": {"accent": "#c8aa38", "fond": "#f7f1de", "texte": "#6f5c12"}, "cle": "cecrl-ecrit-mediation-de-textes", "criteres": [{"libelle": "Prendre des notes (conférences, séminaires, réunions, etc.)", "description": "", "niveaux": {"A2": "Tu prends de simples notes sur un sujet familier quand l’orateur te laisse le temps.", "B1": "Tu prends des notes assez précises pour les réutiliser plus tard, sur un exposé clair et bien structuré.", "B2": "Tu notes les points importants d’un exposé structuré, même si tu t’attaches parfois trop à la formulation.", "C1": "Tu prends des notes détaillées et fidèles à l’original, en décidant ce qu’il faut garder ou non."}, "officiel": {"A2": "Peut prendre de simples notes lors d’une présentation/manifestation quand le sujet est familier et prévisible, que le présentateur fait des mises au point et donne le temps de prendre les notes.", "B1": "Lors d’une conférence, peut prendre des notes suffisamment précises pour qu’il(elle) puisse les réutiliser ultérieurement à condition que le sujet appartienne à ses centres d’intérêt et que l’exposé soit clair et bien structuré. Peut prendre des notes sous forme d’une liste de points clés lors d’une conférence non complexe à condition que le sujet soit familier, qu’il soit formulé clairement et en langue courante. Peut prendre note de consignes courantes dans une réunion portant sur des sujets familiers, à condition qu’elles soient formulées en langage simple et qu’il y ait assez de temps pour le faire.", "B2": "Peut comprendre un exposé bien structuré sur un sujet familier et peut prendre en note les points qui lui paraissent importants même s’il(si elle) a tendance à s’attacher uniquement à la formulation au risque de perdre de l’information. Peut prendre des notes fidèles dans des réunions et des séminaires sur la plupart des sujets susceptibles d’être traités dans son domaine.", "C1": "Peut prendre des notes détaillées lors d’une conférence dans son domaine, en consignant l’information de façon si précise et si proche de l’original que les notes pourraient servir à d’autres personnes. Peut décider de ce qu’il faut ou non noter au cours d’une conférence ou d’un séminaire, même quand il s’agit de sujets non familiers. Peut sélectionner des informations et des arguments détaillés pertinents sur des sujets complexes, abstraits, provenant de sources orales multiples (par exemple des conférences, des « podcasts », des discussions formelles et des débats, des interviews, etc.), à condition que le débit soit normal."}, "cle": "cecrl-ecrit-mediation-de-textes-prendre-des-notes-conferences-seminaires-reunions-etc"}, {"libelle": "Exprimer une réaction personnelle à l’égard de textes créatifs (incluant la littérature)", "description": "", "niveaux": {"A1": "Tu dis avec des mots simples ce qu’une œuvre t’a fait ressentir.", "A2": "Tu exprimes simplement tes réactions et tes impressions sur une œuvre.", "B1": "Tu expliques pourquoi certains aspects d’une œuvre t’ont intéressé(e) et avec quel personnage tu t’identifies.", "B2": "Tu présentes clairement tes réactions, tu développes tes idées et tu les appuies par des exemples et des arguments.", "C1": "Tu donnes en détail ton interprétation personnelle d’une œuvre et tu expliques la signification de certains éléments."}, "officiel": {"A1": "Peut utiliser des mots et des expressions simples pour dire ce qu’une œuvre lui a fait ressentir.", "A2": "Peut exprimer ses réactions vis-à-vis d’une œuvre et faire part simplement de ses impressions et de ses idées. Peut indiquer de façon simple quels aspects d’une œuvre l’intéressent particulièrement. Peut dire s’il(si elle) a ou non aimé une œuvre et expliquer pourquoi de façon simple.", "B1": "Peut expliquer pourquoi certaines parties ou aspects d’une œuvre l’ont particulièrement intéressé(e). Peut expliquer en détail avec quel personnage il(elle) s’identifie le plus et pourquoi. Peut associer les événements d’un récit, d’un film ou d’une pièce de théâtre avec des événements similaires qu’il(elle) a vécus ou dont il(elle) a entendu parler. Peut faire le lien entre les émotions vécues par un personnage et les émotions qu’il(elle) a vécues. Peut décrire les émotions ressenties à certains passages d’un récit, par exemple les moments où il(elle) s’est inquiété(e) pour un personnage et expliquer pourquoi. Peut expliquer brièvement les impressions et les opinions suscitées par une œuvre. Peut décrire la personnalité d’un personnage. Peut décrire les sentiments d’un personnage et en expliquer les raisons.", "B2": "Peut présenter clairement ses réactions vis-à-vis d’une œuvre, développer ses idées et les étayer par des exemples et des arguments. Peut donner son interprétation personnelle du déroulement d’une intrigue, des personnages et des thèmes dans un récit, un roman, un film ou une pièce de théâtre. Peut décrire l’émotion suscitée par une œuvre et expliquer pourquoi elle a déclenché cette réaction. Peut exprimer de façon détaillée ses réactions à la forme d’expression, au style et au contenu d’une œuvre et expliquer ce qu’il(elle) a apprécié et pourquoi.", "C1": "Peut donner de façon détaillée son interprétation personnelle d’une œuvre, ainsi que ses réactions à certains éléments et expliquer leur signification. Peut donner une interprétation personnelle d’un personnage d’une œuvre : son état psychologique ou émotionnel, les raisons de ses actions ainsi que leurs conséquences."}, "cle": "cecrl-ecrit-mediation-de-textes-exprimer-une-reaction-personnelle-a-legard-de-textes-creatifs-incluant-la-litterature"}, {"libelle": "Analyser et critiquer des textes créatifs (incluant la littérature)", "description": "", "niveaux": {"A2": "Tu identifies brièvement les thèmes et les personnages clés d’un récit court et simple.", "B1": "Tu repères les épisodes importants d’un récit clair, tu expliques leur signification et tu décris les thèmes et les personnages.", "B2": "Tu compares deux œuvres (thèmes, personnages, scènes) et tu donnes un avis motivé.", "C1": "Tu donnes un avis critique sur des textes variés et tu apprécies dans quelle mesure une œuvre suit les conventions de son genre."}, "officiel": {"A2": "Peut identifier et décrire brièvement, avec des formules toutes faites simples, les thèmes et les personnages clés de récits courts et simples mettant en scène des situations familières en langage courant.", "B1": "Peut désigner les épisodes et les événements les plus importants d’un récit clairement structuré rédigé en langage courant et expliquer la signification des événements ainsi que leurs relations. Peut décrire les thèmes et les personnages clés de courts récits sur des situations familières essentiellement en langage courant.", "B2": "Peut comparer deux œuvres, leurs thèmes, les personnages et les scènes, rechercher les ressemblances et les différences et expliquer la pertinence de leurs relations. Peut donner un avis motivé sur une œuvre, tenir compte des éléments thématiques, structuraux et formels et se reporter aux opinions et aux arguments d’autres personnes. Peut apprécier la façon dont l’œuvre favorise l’identification avec les personnages et donner des exemples. Peut décrire comment des œuvres diffèrent dans leur traitement du même thème.", "C1": "Peut donner un avis critique sur une grande variété de textes dont des œuvres littéraires d’époques et de genres différents. Peut apprécier dans quelle mesure une œuvre obéit aux conventions du genre. Peut décrire et commenter la manière dont l’œuvre implique le public (par exemple en créant et trompant les attentes)."}, "cle": "cecrl-ecrit-mediation-de-textes-analyser-et-critiquer-des-textes-creatifs-incluant-la-litterature"}]}, {"nom": "Compétence linguistique", "couleur": {"accent": "#e37949", "fond": "#fbeee7", "texte": "#8a3d14"}, "cle": "cecrl-ecrit-competence-linguistique", "criteres": [{"libelle": "Étendue linguistique générale", "description": "", "niveaux": {"A1": "Tu as quelques expressions simples pour parler de toi et de tes besoins, avec des phrases très courtes.", "A2": "Tu produis de courtes expressions courantes et des phrases simples pour des besoins concrets.", "B1": "Tu as assez de langue pour décrire, expliquer une idée et donner ton avis sur un sujet abstrait ou culturel.", "B2": "Tu t’exprimes clairement, sans avoir l’impression de te limiter, avec assez de langue pour décrire et argumenter.", "C1": "Tu utilises des structures complexes avec souplesse et tu choisis la bonne formulation pour dire ce que tu veux."}, "officiel": {"A1": "Possède un choix élémentaire d’expressions simples pour les informations sur soi et les besoins de type courant. Peut utiliser quelques structures élémentaires dans des phrases à une seule clause avec quelques omissions ou simplifications d’éléments.", "A2": "Peut produire de brèves expressions courantes afin de répondre à des besoins simples de type concret : détails personnels, routines quotidiennes, désirs et besoins, demandes d’information. Peut utiliser des modèles de phrases élémentaires et communiquer à l’aide d’expressions mémorisées, de groupes de quelques mots et d’expressions toutes faites, sur soi, les gens, ce qu’ils font, les lieux, les biens, etc. Possède un répertoire limité de courtes expressions mémorisées couvrant les premières nécessités vitales des situations prévisibles ; des pannes fréquentes et des malentendus surviennent dans les situations imprévues.", "B1": "Possède une gamme assez étendue de langue pour décrire des situations imprévisibles, expliquer les points principaux d’un problème ou d’une idée avec assez de précision et exprimer sa pensée sur des sujets abstraits ou culturels tels que la musique ou le cinéma. Possède suffisamment de moyens linguistiques pour s’en sortir, et suffisamment de vocabulaire pour s’exprimer avec quelques hésitations et périphrases sur des sujets tels que la famille, les loisirs et centres d’intérêt, le travail, les voyages et l’actualité, mais le vocabulaire limité conduit à des répétitions et parfois même à des difficultés de formulation.", "B2": "Peut s’exprimer clairement et sans donner l’impression d’avoir à restreindre ce qu’il(elle) souhaite dire. Possède une gamme assez étendue de langue pour pouvoir faire des descriptions claires, exprimer des points de vue et développer des arguments sans chercher ses mots de manière évidente et en utilisant des phrases complexes.", "C1": "Peut utiliser une gamme étendue de structures grammaticales complexes de façon appropriée et avec beaucoup de souplesse. Peut choisir la formulation appropriée dans un large répertoire de langue pour exprimer sans restriction ce qu’il(elle) veut dire."}, "cle": "cecrl-ecrit-competence-linguistique-etendue-linguistique-generale"}, {"libelle": "Étendue du vocabulaire", "description": "", "niveaux": {"A1": "Tu connais des mots isolés et des expressions pour des situations concrètes précises.", "A2": "Tu as assez de vocabulaire pour les échanges quotidiens sur des sujets familiers.", "B1": "Tu as un bon vocabulaire sur des sujets familiers et tu sais contourner un mot manquant avec une périphrase.", "B2": "Tu as un bon vocabulaire pour des sujets généraux et ton domaine, et tu varies tes formulations pour éviter les répétitions.", "C1": "Tu as un vaste vocabulaire qui te permet de contourner facilement un mot manquant, sans chercher visiblement tes mots."}, "officiel": {"A1": "Possède un répertoire élémentaire de mots isolés et d’expressions relatifs à des situations concrètes précises.", "A2": "Possède un vocabulaire suffisant pour mener des transactions quotidiennes courantes dans des situations et sur des sujets familiers. Possède un vocabulaire suffisant pour satisfaire les besoins communicatifs élémentaires. Possède un vocabulaire suffisant pour satisfaire les besoins primordiaux.", "B1": "Possède un bon vocabulaire lié à des sujets familiers et à des situations de la vie quotidienne. Possède un vocabulaire suffisant pour s’exprimer à l’aide de périphrases sur la plupart des sujets relatifs à sa vie quotidienne tels que la famille, les loisirs et les centres d’intérêt, le travail, les voyages et l’actualité.", "B2": "Peut comprendre et utiliser les termes techniques généraux de son domaine, quand il(elle) en discute avec d’autres spécialistes. Possède une bonne gamme de vocabulaire pour les sujets relatifs à son domaine et les sujets plus généraux. Peut varier sa formulation pour éviter des répétitions fréquentes, mais des lacunes lexicales peuvent encore provoquer des hésitations et l’usage de périphrases. Peut produire assez systématiquement de nombreux mots adéquats dans la plupart des contextes. Peut comprendre et utiliser une grande partie du vocabulaire spécialisé de son domaine mais a des difficultés avec la terminologie d’une spécialité différente de la sienne.", "C1": "Possède une bonne maîtrise d’un vaste répertoire lexical lui permettant de surmonter facilement les lacunes par des périphrases sans recherche évidente d’expressions et de stratégies d’évitement. Peut choisir entre plusieurs possibilités lexicales dans pratiquement toutes les situations en utilisant des synonymes même pour des mots non familiers. Maîtrise bien les expressions idiomatiques familières et fait facilement des jeux de mots. Peut comprendre et utiliser de façon appropriée la gamme de vocabulaire technique et d’expressions idiomatiques propres à son domaine de spécialité."}, "cle": "cecrl-ecrit-competence-linguistique-etendue-du-vocabulaire"}, {"libelle": "Maîtrise du vocabulaire", "description": "", "niveaux": {"A2": "Ton vocabulaire est limité à tes besoins concrets du quotidien.", "B1": "Tu maîtrises bien le vocabulaire de base, mais tu fais encore des erreurs sur des idées complexes ou des sujets inhabituels.", "B2": "Ton vocabulaire est généralement exact : tu fais quelques confusions, mais elles ne gênent pas la communication.", "C1": "Tu utilises un vocabulaire moins courant de façon idiomatique et appropriée, avec seulement de petites erreurs."}, "officiel": {"A2": "Possède un répertoire restreint ayant trait à des besoins quotidiens concrets.", "B1": "Montre une bonne maîtrise du vocabulaire élémentaire mais des erreurs sérieuses se produisent encore quand il s’agit d’exprimer une pensée plus complexe ou de traiter des sujets et des situations inhabituels. Utilise une gamme étendue de vocabulaire simple de façon appropriée quand il s’agit de sujets familiers.", "B2": "L’exactitude du vocabulaire est généralement élevée bien que des confusions et le choix de mots incorrects se produisent sans gêner la communication.", "C1": "Utilise un vocabulaire moins courant de façon idiomatique et appropriée. Commet éventuellement de petites bévues, mais pas d’erreurs de vocabulaire significatives."}, "cle": "cecrl-ecrit-competence-linguistique-maitrise-du-vocabulaire"}, {"libelle": "Correction grammaticale", "description": "", "niveaux": {"A1": "Tu maîtrises un peu de structures et de formes simples apprises par cœur.", "A2": "Tu utilises des structures simples, mais des erreurs de base reviennent encore ; on te comprend tout de même.", "B1": "Tu communiques avec assez de correction dans des contextes familiers, même si ta langue maternelle influence encore tes phrases.", "B2": "Tu as une bonne maîtrise de la grammaire : tes erreurs sont rares et tu peux souvent les corriger après coup.", "C1": "Tu maintiens un haut niveau de correction : tes erreurs sont rares et difficiles à repérer."}, "officiel": {"A1": "A un contrôle limité de structures syntaxiques et de formes grammaticales simples appartenant à un répertoire mémorisé.", "A2": "Peut utiliser des structures simples correctement mais commet encore systématiquement des erreurs élémentaires ; le sens général de ce qu’il(elle) veut dire reste cependant clair.", "B1": "Communique avec une correction suffisante dans des contextes familiers ; en règle générale, a une bonne maîtrise grammaticale malgré de nettes influences de la langue maternelle. Des erreurs peuvent se produire mais le sens général de ce qu’il(elle) veut exprimer reste clair. Peut se servir avec une correction suffisante d’un répertoire de tournures et d’expressions fréquemment utilisées et associées à des situations plutôt prévisibles.", "B2": "A une bonne maîtrise grammaticale. Des bévues occasionnelles, des erreurs non systématiques et de petites fautes syntaxiques peuvent encore se produire mais elles sont rares et peuvent souvent être corrigées rétrospectivement. A une assez bonne maîtrise grammaticale. Ne fait pas de fautes conduisant à des malentendus. A un bon contrôle des structures utilisées dans un langage simple et de quelques formes grammaticales complexes, bien qu’il(elle) ait tendance à utiliser les structures complexes de façon rigide avec quelques inexactitudes.", "C1": "Peut maintenir constamment un haut degré de correction grammaticale ; les erreurs sont rares et difficiles à repérer."}, "cle": "cecrl-ecrit-competence-linguistique-correction-grammaticale"}, {"libelle": "Maîtrise de l’orthographe", "description": "", "niveaux": {"A1": "Tu recopies de courtes expressions et des mots familiers.", "A2": "Tu copies de courtes expressions et tu écris des mots courts connus avec une relative exactitude phonétique, pas forcément orthographique.", "B1": "Ton écrit est généralement compréhensible ; l’orthographe, la ponctuation et la mise en page sont assez justes pour se lire facilement.", "B2": "Ton écrit est clair et respecte la mise en page et les paragraphes ; l’orthographe et la ponctuation sont assez justes.", "C1": "Ta mise en page, tes paragraphes et ta ponctuation sont logiques ; ton orthographe est exacte, sauf quelques erreurs occasionnelles."}, "officiel": {"A1": "Peut recopier de courtes expressions et des mots familiers, par exemple des signaux ou des consignes simples, le nom des objets quotidiens, le nom des magasins et un ensemble d’expressions utilisées régulièrement. Peut orthographier son adresse, sa nationalité et d’autres informations personnelles. Peut utiliser une ponctuation très simple (par exemple le point, ou le point d’interrogation).", "A2": "Peut copier de courtes expressions sur des sujets courants, par exemple les indications pour aller quelque part. Peut écrire avec une relative exactitude phonétique (mais pas forcément orthographique) des mots courts qui appartiennent à son vocabulaire parlé.", "B1": "Peut produire un écrit suivi généralement compréhensible tout du long. L’orthographe, la ponctuation et la mise en page sont suffisamment justes pour être en général suivies facilement.", "B2": "Peut produire un écrit suivi, clair et intelligible qui suive les règles d’usage de la mise en page et de l’organisation des paragraphes. L’orthographe et la ponctuation sont relativement exactes mais peuvent subir l’influence de la première langue.", "C1": "La mise en page, les paragraphes et la ponctuation sont logiques et facilitants. L’orthographe est exacte à l’exception de quelques erreurs occasionnelles."}, "cle": "cecrl-ecrit-competence-linguistique-maitrise-de-lorthographe"}]}, {"nom": "Compétence sociolinguistique", "couleur": {"accent": "#bd9871", "fond": "#f1eae2", "texte": "#6b4f2d"}, "cle": "cecrl-ecrit-competence-sociolinguistique", "criteres": [{"libelle": "Adéquation sociolinguistique", "description": "", "niveaux": {"A1": "Tu utilises les formules de politesse de base (bonjour, merci, s’il vous plaît).", "A2": "Tu utilises des formules simples pour demander, informer ou donner un avis, et tu entres poliment en contact.", "B1": "Tu utilises les expressions courantes dans un registre neutre et tu respectes les règles de politesse importantes.", "B2": "Tu repères les codes socioculturels et tu adaptes ton registre à la situation.", "C1": "Tu reconnais un large éventail d’expressions idiomatiques et familières et les changements de registre."}, "officiel": {"A1": "Peut établir un contact social de base en utilisant les formes de politesse les plus élémentaires : accueil et prise de congé, présentations, dire « merci », « s’il-vous-plaît », « excusez-moi », etc.", "A2": "Peut employer des fonctions simples du langage et y répondre, par exemple des échanges d’informations et des demandes, et exprimer simplement des opinions et des points de vue. Peut entrer en contact simplement mais efficacement en utilisant les expressions courantes les plus simples et en suivant les usages de base. Peut se débrouiller dans des échanges sociaux très courts en utilisant les formes quotidiennes polies d’accueil et de contact. Peut faire des invitations, des excuses et y répondre.", "B1": "Peut s’exprimer et répondre à un large éventail de fonctions langagières en utilisant leurs expressions les plus courantes dans un registre neutre. Est conscient(e) des règles de politesse importantes et se conduit de manière appropriée. Est conscient(e) des différences les plus significatives entre les coutumes, les usages, les attitudes, les valeurs et les croyances qui prévalent dans la communauté concernée et celles de sa propre communauté, et en recherche les indices.", "B2": "Peut suivre des discussions de groupe et y participer en faisant quelques efforts même quand les gens parlent rapidement et utilisent des termes familiers. Peut identifier et interpréter des codes socioculturels et sociolinguistiques et modifier en connaissance de cause sa façon de s’exprimer pour qu’elle corresponde à la situation. Peut s’exprimer avec assurance, clairement et poliment dans un registre formel ou informel approprié à la situation et aux personnes concernées. Peut adapter son expression pour différencier des registres formels et informels, mais ne le fait pas toujours de manière appropriée. Peut poursuivre une relation suivie avec des locuteurs de la langue cible sans les amuser ou les irriter involontairement ou les obliger à se comporter autrement qu’ils ne le feraient avec un autre locuteur compétent. Peut s’exprimer convenablement en situation et éviter de grossières erreurs de formulation.", "C1": "Peut reconnaître un large éventail d’expressions idiomatiques et familières et apprécier les changements de registres ; peut devoir toutefois confirmer tel ou tel détail, en particulier si l’accent n’est pas familier. Peut comprendre l’humour, l’ironie et les références culturelles implicites et saisir les nuances de sens. Peut suivre des films utilisant largement l’argot et des expressions idiomatiques. Peut utiliser la langue avec efficacité et souplesse dans des relations sociales, y compris pour un usage affectif, allusif ou pour plaisanter. Peut ajuster le niveau de formalité (registre et style) pour s’adapter au contexte social (formel, informel ou familier) et garder un registre oral cohérent. Peut faire des remarques critiques ou exprimer avec tact un profond désaccord."}, "cle": "cecrl-ecrit-competence-sociolinguistique-adequation-sociolinguistique"}]}, {"nom": "Compétence pragmatique", "couleur": {"accent": "#a558a0", "fond": "#f4e8f3", "texte": "#6b2f67"}, "cle": "cecrl-ecrit-competence-pragmatique", "criteres": [{"libelle": "Souplesse", "description": "", "niveaux": {"A2": "Tu adaptes des phrases mémorisées à une situation en changeant quelques mots.", "B1": "Tu adaptes ton expression à des situations moins courantes avec une langue simple mais souple.", "B2": "Tu adaptes ce que tu dis et ta façon de le dire à la situation et à la personne, avec le bon niveau de formalité.", "C1": "Tu varies ton style, la longueur de tes phrases et ton vocabulaire pour avoir un effet positif sur ton auditoire."}, "officiel": {"A2": "Peut adapter des phrases simples, bien répétées, mémorisées et simples à des circonstances particulières au moyen d’un léger changement de lexique. Peut développer des expressions apprises par la simple recombinaison de leurs éléments.", "B1": "Peut adapter son expression pour faire face à des situations moins courantes, voire difficiles. Peut exploiter avec souplesse une gamme étendue de langue simple afin d’exprimer l’essentiel de ce qu’il(elle) veut dire.", "B2": "Peut adapter ce qu’il(elle) dit et la façon de le dire à la situation et au destinataire et adopter le niveau d’expression formelle convenant aux circonstances. Peut s’adapter aux changements d’idées, de style et de ton rencontrés normalement dans une conversation. Peut moduler la formulation de ce qu’il(elle) souhaite dire. Peut reformuler une idée afin de mettre l’accent sur un point ou de l’expliquer.", "C1": "Peut avoir un impact positif sur un auditoire choisi en variant de façon efficace le style de l’expression, la longueur des phrases ainsi qu’un vocabulaire et un ordre des mots correspondant à un registre soutenu. Peut modifier son expression pour exprimer des degrés d’engagement ou d’hésitation, de conviction ou d’incertitude."}, "cle": "cecrl-ecrit-competence-pragmatique-souplesse"}, {"libelle": "Développement thématique", "description": "", "niveaux": {"B1": "Tu racontes dans l’ordre chronologique et tu développes une argumentation compréhensible.", "B2": "Tu développes une argumentation méthodique en mettant en valeur les points importants et en enchaînant des arguments.", "C1": "Tu utilises les conventions du type de texte pour captiver et faire passer des idées complexes, avec des sous-thèmes."}, "officiel": {"B1": "Peut indiquer de façon claire la chronologie d’un texte narratif. Peut développer une argumentation suffisamment bien pour être compris la plupart du temps sans difficulté. Montre qu’il(elle) a conscience de la structure conventionnelle d’un texte au moment de communiquer ses idées. Peut rapporter assez couramment un récit ou une description non complexe sous la forme d’une suite de points.", "B2": "Peut développer méthodiquement une argumentation en mettant en évidence les points significatifs et les éléments pertinents. Peut présenter une suite d’arguments complexes et y répondre de façon convaincante. Peut suivre la structure conventionnelle d’une tâche communicative au moment de communiquer ses idées. Peut faire une description ou un récit clair en développant et justifiant les points principaux à l’aide de détails et d’exemples significatifs. Peut développer une argumentation claire, en élargissant et confirmant ses points de vue par des arguments secondaires et des exemples pertinents. Peut évaluer les avantages et les inconvénients de différentes options. Peut indiquer clairement la différence entre un fait et une opinion.", "C1": "Peut utiliser les conventions propres au type de texte concerné pour retenir l’attention du lecteur cible et communiquer des idées complexes. Peut faire des descriptions et des récits élaborés, en intégrant des sous-thèmes, en développant des points particuliers et en terminant par une conclusion appropriée. Peut écrire une introduction et une conclusion appropriées à un texte long et complexe. Peut développer et défendre assez longuement des points principaux à l’aide d’éléments complémentaires, d’arguments et d’exemples appropriés."}, "cle": "cecrl-ecrit-competence-pragmatique-developpement-thematique"}, {"libelle": "Cohérence et cohésion", "description": "", "niveaux": {"A1": "Tu relies des mots avec « et » ou « mais ».", "A2": "Tu utilises les connecteurs fréquents (« et », « mais », « parce que », « puis ») pour raconter ou décrire.", "B1": "Tu enchaînes tes idées en une suite logique et tu introduis un contre-argument (« however »).", "B2": "Tu utilises une grande variété de mots de liaison pour montrer clairement les liens entre tes idées.", "C1": "Tu produis un discours clair, fluide et bien structuré, avec des connecteurs et articulateurs bien maîtrisés."}, "officiel": {"A1": "Peut relier des groupes de mots avec des connecteurs élémentaires tels que « et » ou « mais ».", "A2": "Peut utiliser les connecteurs les plus fréquents pour relier des énoncés afin de raconter une histoire ou décrire quelque chose sous forme d’une simple liste de points. Peut relier des groupes de mots avec des connecteurs simples tels que « et », « mais » et « parce que ».", "B1": "Peut introduire un contre-argument dans un texte simple discursif (par exemple avec « cependant »). Peut relier une série d’éléments courts, simples et distincts en une suite linéaire de points qui s’enchaînent. Peut élaborer, dans un récit, des phrases assez longues et les relier entre elles en utilisant un nombre limité d’articulateurs. Peut créer des sauts de paragraphes simples et logiques dans un texte assez long.", "B2": "Peut utiliser avec efficacité une grande variété de mots de liaison pour marquer clairement les relations entre les idées. Peut utiliser un nombre limité d’articulateurs pour relier ses énoncés dans un discours clair et cohérent, bien qu’il puisse y avoir quelques « sauts » dans une longue intervention. Peut produire un texte en général bien organisé et cohérent, utilisant toute une gamme de mots de liaison et d’articulateurs. Peut organiser des textes longs en paragraphes logiques.", "C1": "Peut produire un texte clair, fluide et bien structuré, démontrant un usage contrôlé de moyens linguistiques de structuration et d’articulation, de connecteurs et d’articulateurs. Peut produire un texte bien organisé et cohérent en utilisant une variété d’articulateurs et de schémas d’organisation."}, "cle": "cecrl-ecrit-competence-pragmatique-coherence-et-cohesion"}, {"libelle": "Précision", "description": "", "niveaux": {"A1": "Tu donnes des informations très simples sur toi et tes besoins concrets.", "A2": "Tu dis ce que tu veux dans un échange simple sur des sujets familiers, mais ailleurs tu dois simplifier ton message.", "B1": "Tu expliques les points principaux d’une idée ou d’un problème avec assez de précision.", "B2": "Tu transmets une information détaillée de façon fiable, même si tu manques encore d’expressions idiomatiques.", "C1": "Tu nuances précisément tes opinions (certitude, doute, confiance…) avec les bonnes expressions."}, "officiel": {"A1": "Peut communiquer des informations très élémentaires sur des détails personnels et des besoins concrets de façon simple.", "A2": "Peut communiquer ce qu’il(elle) veut dire dans un échange d’information limité, simple et direct sur des sujets familiers et habituels, mais, dans d’autres situations, doit généralement transiger sur le sens.", "B1": "Peut expliquer les points principaux d’une idée ou d’un problème avec une précision suffisante. Peut transmettre une information simple et claire, d’intérêt immédiat, en mettant en évidence quel point/ ce qui lui semble le plus important. Peut exprimer l’essentiel de ce qu’il(elle) souhaite de façon compréhensible.", "B2": "Peut transmettre une information détaillée de façon fiable. Peut communiquer les points essentiels même dans des situations exigeantes, bien que son langage manque de puissance expressive et d’expressions idiomatiques.", "C1": "Peut juger de façon précise en termes, par exemple, de certitude/doute, ou de confiance/méfiance, similitude, etc., des opinions et des affirmations. Peut utiliser à bon escient les modalités linguistiques pour indiquer la force d’une affirmation, d’un argument ou d’un point de vue."}, "cle": "cecrl-ecrit-competence-pragmatique-precision"}]}];
+const LS_CECRL = 'ee_cecrl_v1';
+const PALETTE = {
+  'Bleu':   { accent:'#6d6dff', fond:'#e6e6ff', texte:'#000091' },
+  'Rouge':  { accent:'#e1000f', fond:'#ffe6e8', texte:'#8a000a' },
+  'Vert':   { accent:'#00a95f', fond:'#dcfaee', texte:'#00643a' },
+  'Doré':   { accent:'#c8aa38', fond:'#f7f1de', texte:'#6f5c12' },
+  'Orange': { accent:'#e37949', fond:'#fbeee7', texte:'#8a3d14' },
+  'Violet': { accent:'#a558a0', fond:'#f4e8f3', texte:'#6b2f67' },
+  'Brun':   { accent:'#bd9871', fond:'#f1eae2', texte:'#6b4f2d' },
+  'Gris':   { accent:'#595959', fond:'#efefef', texte:'#333333' },
+  'Marine': { accent:'#1b6d62', fond:'#e8f6f4', texte:'#114c44' }
+};
+const DEFAULT_COULEUR = PALETTE['Marine'];
+function compStyle(comp){ return (comp && comp.couleur && comp.couleur.accent) ? comp.couleur : DEFAULT_COULEUR; }
+function styleVars(c){ return `--cc:${c.accent};--cf:${c.fond};--ct:${c.texte}`; }
+function ensureCecrl(b){
+  let added = 0;
+  CECRL_BANK.forEach(cat => {
+    let comp = b.competences.find(c => c.cle === cat.cle);
+    if (!comp){ comp = { id: uid(), nom: cat.nom, couleur: cat.couleur, cle: cat.cle, criteres: [] }; b.competences.push(comp); }
+    cat.criteres.forEach(cr => {
+      if (!comp.criteres.some(x => x.cle === cr.cle)){
+        comp.criteres.push({ id: uid(), libelle: cr.libelle, description: cr.description || '', conseil: '', niveaux: Object.assign({}, cr.niveaux), sequence: '', cle: cr.cle });
+        added++;
+      }
+    });
+  });
+  return added;
+}
+if (!loadLS(LS_CECRL, false)){ ensureCecrl(bank); saveLS(LS_BANK, bank); saveLS(LS_CECRL, true); }
+/* Descripteurs reformulés pour les élèves : remplace les textes officiels non modifiés */
+const LS_STUDENT = 'ee_cecrl_student_v1';
+function findRef(cle){ let ref = null; CECRL_BANK.forEach(cat => cat.criteres.forEach(x => { if (x.cle === cle) ref = x; })); return ref; }
+function migrateStudent(b){
+  b.competences.forEach(comp => (comp.criteres || []).forEach(cr => {
+    if (!cr.cle || !cr.niveaux) return;
+    const ref = findRef(cr.cle); if (!ref) return;
+    Object.keys(ref.officiel).forEach(lv => {
+      if (!cr.niveaux[lv] || cr.niveaux[lv] === ref.officiel[lv]) cr.niveaux[lv] = ref.niveaux[lv];
+    });
+  }));
+}
+if (!loadLS(LS_STUDENT, false)){ migrateStudent(bank); saveLS(LS_BANK, bank); saveLS(LS_STUDENT, true); }
+
+/* Les 14 critères d'origine sont conservés, mais masqués par défaut */
+const LEGACY_BANK = [];
+const LS_LEGACY = 'ee_legacy_hidden_v1';
+function addLegacy(b){
+  LEGACY_BANK.forEach(def => {
+    let comp = b.competences.find(c => !c.cle && c.nom === def.nom);
+    const fresh = !comp;
+    if (!comp){ comp = { id: uid(), nom: def.nom, couleur: DEFAULT_COULEUR, criteres: [] }; b.competences.push(comp); }
+    def.criteres.forEach(cr => {
+      if (!comp.criteres.some(x => x.libelle === cr.libelle)) comp.criteres.push({ id: uid(), libelle: cr.libelle, description: cr.description, conseil: cr.conseil });
+    });
+    if (fresh || comp.criteres.every(x => def.criteres.some(d => d.libelle === x.libelle))) comp.cache = true;
+  });
+}
+if (!loadLS(LS_LEGACY, false)){ addLegacy(bank); saveLS(LS_BANK, bank); saveLS(LS_LEGACY, true); }
+let showHiddenComps = false;
+function visibleComps(){ return bank.competences.filter(c => !c.cache || showHiddenComps); }
+function hiddenCount(){ return bank.competences.filter(c => c.cache).length; }
+const BASE_LEVELS = ['A1','A2','B1','B2','C1'];
+/* Descripteur du palier visé (ou du plus proche disponible) */
+function descFor(niveaux, levelIdx){
+  if (!niveaux) return '';
+  const code = LEVELS[levelIdx].code, base = code.replace('+','');
+  const order = [code, base];
+  const bi = BASE_LEVELS.indexOf(base);
+  for (let k = bi - 1; k >= 0; k--) order.push(BASE_LEVELS[k]);
+  for (let k = bi + 1; k < BASE_LEVELS.length; k++) order.push(BASE_LEVELS[k]);
+  for (const c of order) if (niveaux[c]) return niveaux[c];
+  return '';
+}
+/* Palier à viser pour progresser : le niveau visé s'il n'est pas encore atteint,
+   sinon (cas des niveaux « + ») le palier supérieur */
+function nextStepIdx(levelIdx, targetIdx){
+  const baseIdx = i => LEVELS.findIndex(l => l.code === LEVELS[i].code.replace('+', ''));
+  const tb = baseIdx(targetIdx);
+  if (levelIdx === undefined || levelIdx === null) return tb;
+  const sb = baseIdx(levelIdx);
+  if (sb < tb) return tb;
+  const nxt = BASE_LEVELS[BASE_LEVELS.indexOf(LEVELS[sb].code) + 1] || 'C1';
+  return LEVELS.findIndex(l => l.code === nxt);
+}
+function shortDesc(t, max){
+  max = max || 240; t = (t || '').trim();
+  if (t.length <= max) return t;
+  const parts = t.match(/[^.!?]+[.!?]+(\s|$)/g) || [t];
+  let out = '';
+  for (const p of parts){ if (out && (out + ' ' + p).trim().length > max) break; out = (out + ' ' + p).trim(); }
+  if (out.length > max + 50){ const cut = out.slice(0, max); const k = cut.lastIndexOf(';'); out = (k > max * 0.5 ? cut.slice(0, k) : cut.replace(/\s+\S*$/, '')) + (k > max * 0.5 ? '.' : '…'); }
+  return out;
+}
+
+/* ============================================================
+   DOSSIERS : un dossier = une séance de notation, avec ses propres
+   fiches en cours et ses fiches terminées. On peut en ouvrir un autre
+   et y revenir plus tard sans rien perdre ni mélanger.
+   ============================================================ */
+function normalizeSlotsState(st, targetIdx, baseline){
+  if (!st || !Array.isArray(st.slots) || !st.slots.length) st = defaultSlots(1, targetIdx, baseline);
+  st.slots.forEach(s => {
+    if (s.niveauViseIdx === undefined || s.niveauViseIdx === null) s.niveauViseIdx = targetIdx;
+    if (s.baselineNote === undefined || s.baselineNote === null) s.baselineNote = baseline;
+    if (!s.commentaires) s.commentaires = {};
+    if (!s.scores) s.scores = {};
+    if (typeof s.prenom !== 'string') s.prenom = '';
+  });
+  return st;
+}
+function newSession(titre, date, targetIdx, baseline){
+  return {
+    id: uid(), titre: titre || '', date: date || todayISO(),
+    niveauViseIdx: targetIdx, baselineNote: baseline,
+    slotsState: defaultSlots(1, targetIdx, baseline), completed: [], createdAt: Date.now()
+  };
+}
+let sessionsStore = loadLS(LS_SESSIONS, null);
+let PRIOR_DATA = !!sessionsStore; try{ PRIOR_DATA = PRIOR_DATA || !!localStorage.getItem('ee_slots_v1'); }catch(e){}
+if (!sessionsStore || !Array.isArray(sessionsStore.list) || !sessionsStore.list.length){
+  /* Migration : la séance unique de l'ancienne version devient le premier dossier. */
+  const tIdx = loadLS('ee_default_niveau_vise', PRIOR_DATA ? 2 : DEFAULT_TARGET_IDX);
+  const base = loadLS('ee_default_baseline_note', DEFAULT_BASELINE_NOTE);
+  const first = {
+    id: uid(),
+    titre: loadLS('ee_session_titre', ''),
+    date: loadLS('ee_session_date', todayISO()),
+    niveauViseIdx: tIdx, baselineNote: base,
+    slotsState: loadLS(LS_SLOTS, null),
+    completed: loadLS(LS_COMPLETED, []),
+    createdAt: Date.now()
+  };
+  sessionsStore = { currentId: first.id, list: [first] };
+}
+function currentSession(){
+  return sessionsStore.list.find(s => s.id === sessionsStore.currentId) || sessionsStore.list[0];
+}
+function persistSessions(){
+  try{ localStorage.setItem(LS_SESSIONS, JSON.stringify(sessionsStore)); }catch(e){ /* ignore quota errors */ }
+}
+let completed = [];
+let slotsState = null;
+/* Ajout du niveau A2+ (indice 2) : les anciens indices >= 2 sont décalés d'un cran */
+function shiftIdx(v){ return (typeof v === 'number' && v >= 2) ? v + 1 : v; }
+function migrateA2plus(){
+  if (loadLS('ee_a2plus_v1', false)) return;
+  if (!PRIOR_DATA){ saveLS('ee_a2plus_v1', true); return; }
+  sessionsStore.list.forEach(s => {
+    s.niveauViseIdx = shiftIdx(s.niveauViseIdx);
+    if (s.slotsState && Array.isArray(s.slotsState.slots)) s.slotsState.slots.forEach(x => {
+      x.niveauViseIdx = shiftIdx(x.niveauViseIdx);
+      if (x.scores) Object.keys(x.scores).forEach(k => { x.scores[k] = shiftIdx(x.scores[k]); });
+    });
+    (s.completed || []).forEach(f => {
+      f.niveauViseIdx = shiftIdx(f.niveauViseIdx);
+      (f.criteres || []).forEach(c => { c.levelIdx = shiftIdx(c.levelIdx); });
+    });
+  });
+  persistSessions(); saveLS('ee_a2plus_v1', true);
+}
+function loadCurrentSession(){
+  migrateA2plus();
+  if (!loadLS('ee_base20_v1', false)){
+    /* Le niveau visé atteint vaut désormais 20/20 : l'ancienne valeur par défaut (14) est remplacée */
+    sessionsStore.list.forEach(s => {
+      if (s.baselineNote === 14) s.baselineNote = 20;
+      if (s.slotsState && Array.isArray(s.slotsState.slots)) s.slotsState.slots.forEach(x => { if (x.baselineNote === 14) x.baselineNote = 20; });
+    });
+    persistSessions(); saveLS('ee_base20_v1', true);
+  }
+  sessionsStore.list.forEach(s => {
+    if (typeof s.niveauViseIdx !== 'number') s.niveauViseIdx = DEFAULT_TARGET_IDX;
+    if (typeof s.baselineNote !== 'number') s.baselineNote = DEFAULT_BASELINE_NOTE;
+    s.slotsState = normalizeSlotsState(s.slotsState, s.niveauViseIdx, s.baselineNote);
+    if (!Array.isArray(s.completed)) s.completed = [];
+  });
+  const cur = currentSession();
+  sessionsStore.currentId = cur.id;
+  slotsState = cur.slotsState;
+  completed = cur.completed;
+}
+loadCurrentSession();
+persistSessions();
+
+/* ============================================================
+   UTILITAIRES
+   ============================================================ */
+function allCriteres(){
+  const out = [];
+  bank.competences.forEach(c => c.criteres.forEach(cr => out.push({ ...cr, competenceId: c.id, competenceNom: c.nom, couleur: compStyle(c) })));
+  return out;
+}
+function findCritere(id){ return allCriteres().find(c => c.id === id) || null; }
+function findTemplate(id){ return templates.find(t => t.id === id) || null; }
+
+
+/* ---------- Boîtes de dialogue intégrées (les fenêtres natives peuvent être bloquées) ---------- */
+function showModal(o){
+  return new Promise(resolve => {
+    const m = document.getElementById('modal'), t = document.getElementById('modal-title'),
+          msg = document.getElementById('modal-msg'), inp = document.getElementById('modal-input'),
+          ok = document.getElementById('modal-ok'), ca = document.getElementById('modal-cancel');
+    t.textContent = o.title || 'Confirmation';
+    msg.textContent = o.message || '';
+    inp.hidden = !o.input; inp.value = o.value || ''; inp.placeholder = o.placeholder || '';
+    ok.textContent = o.okLabel || 'OK';
+    ok.className = 'btn ' + (o.danger ? 'btn-danger-solid' : 'btn-primary');
+    ca.hidden = !!o.hideCancel;
+    m.hidden = false;
+    const prevFocus = document.activeElement;
+    function done(v){
+      m.hidden = true;
+      ok.removeEventListener('click', onOk); ca.removeEventListener('click', onCa);
+      m.removeEventListener('mousedown', onBack); document.removeEventListener('keydown', onKey, true);
+      if (prevFocus && prevFocus.focus) try{ prevFocus.focus(); }catch(e){}
+      resolve(v);
+    }
+    const onOk = () => done(o.input ? inp.value : true);
+    const onCa = () => done(o.input ? null : false);
+    const onBack = e => { if (e.target === m) onCa(); };
+    const onKey = e => {
+      if (e.key === 'Escape'){ e.preventDefault(); e.stopPropagation(); onCa(); }
+      else if (e.key === 'Enter' && (o.input || document.activeElement === document.body || document.activeElement === inp)){ e.preventDefault(); e.stopPropagation(); onOk(); }
+    };
+    ok.addEventListener('click', onOk); ca.addEventListener('click', onCa);
+    m.addEventListener('mousedown', onBack); document.addEventListener('keydown', onKey, true);
+    setTimeout(() => (o.input ? inp : ok).focus(), 30);
+  });
+}
+function askConfirm(message, opts){ opts = opts || {};
+  const danger = opts.danger !== false;
+  return showModal({ title: opts.title || 'Confirmation', message, okLabel: opts.okLabel || 'Supprimer', danger });
+}
+function askText(title, message, value, placeholder, okLabel){
+  return showModal({ title, message, input: true, value, placeholder, okLabel: okLabel || 'OK' });
+}
+
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toast._h);
+  toast._h = setTimeout(()=> t.classList.remove('show'), 2200);
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+document.querySelectorAll('nav.tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('view-' + btn.dataset.view).classList.add('active');
+    if (btn.dataset.view === 'modeles') renderTemplates();
+    if (btn.dataset.view === 'session') renderSession();
+  });
+});
+
+/* ============================================================
+   VUE 1 — BANQUE DE CRITERES
+   ============================================================ */
+const competencesListEl = document.getElementById('competences-list');
+
+const compOpen = new Set(bank.competences.filter(c => !c.cle).map(c => c.id));
+function nivCount(cr){ return cr.niveaux ? Object.keys(cr.niveaux).filter(k => cr.niveaux[k]).length : 0; }
+function renderBank(){
+  if (bank.competences.length === 0){
+    competencesListEl.innerHTML = '<div class="empty-msg">Aucune compétence pour le moment. Ajoutez-en une ou la banque CECRL pour commencer.</div>';
+    return;
+  }
+  competencesListEl.innerHTML = visibleComps().map(comp => {
+    const open = compOpen.has(comp.id), st = compStyle(comp);
+    return `
+    <div class="competence-block cat" data-comp="${comp.id}" style="${styleVars(st)}">
+      <h3>
+        <span class="comp-title" data-toggle="${comp.id}"><button class="comp-toggle" type="button" aria-label="Déplier">${open ? '▾' : '▸'}</button>${esc(comp.nom)} <span class="comp-count">${comp.criteres.length}</span>${comp.cle ? ' <span class="cecrl-badge">CECRL 2021</span>' : ''}${comp.cache ? ' <span class="cecrl-badge">masquée</span>' : ''}</span>
+        <span style="display:flex;gap:4px;">
+          <button class="btn btn-sm btn-ghost act-edit-comp" data-comp="${comp.id}">✎</button>
+          <button class="btn btn-sm btn-ghost btn-danger act-del-comp" data-comp="${comp.id}">🗑</button>
+        </span>
+      </h3>
+      <div class="comp-edit-zone" data-comp="${comp.id}"></div>
+      <div ${open ? '' : 'hidden'} data-body="${comp.id}">
+      <div class="criteres-zone">
+        ${comp.criteres.map(cr => `
+          <div class="critere-row" data-crit="${cr.id}">
+            <div class="critere-main">
+              <div class="lib">${esc(cr.libelle)}${nivCount(cr) ? ` <span class="cecrl-badge" title="Descripteurs par niveau renseignés">${nivCount(cr)} niveaux</span>` : ''}</div>
+              ${cr.description ? `<div class="desc">${esc(cr.description)}</div>` : ''}
+              ${cr.conseil ? `<div class="conseil">💡 Conseil : ${esc(cr.conseil)}</div>` : ''}
+              ${cr.sequence ? `<div class="conseil">📌 Séquence : ${esc(cr.sequence)}</div>` : ''}
+            </div>
+            <div class="critere-actions">
+              <button class="btn btn-sm btn-ghost act-edit-crit" data-comp="${comp.id}" data-crit="${cr.id}">✎</button>
+              <button class="btn btn-sm btn-ghost btn-danger act-del-crit" data-comp="${comp.id}" data-crit="${cr.id}">🗑</button>
+            </div>
+          </div>
+          <div class="crit-edit-zone" data-comp="${comp.id}" data-crit="${cr.id}"></div>
+        `).join('')}
+      </div>
+      <button class="btn btn-sm" style="margin-top:8px;" data-add-crit="${comp.id}">+ Critère</button>
+      <div class="add-crit-zone" data-comp="${comp.id}"></div>
+      </div>
+    </div>`;
+  }).join('');
+  bindBankEvents();
+}
+
+function bindBankEvents(){
+  competencesListEl.querySelectorAll('[data-toggle]').forEach(t => t.addEventListener('click', () => {
+    const id = t.dataset.toggle;
+    if (compOpen.has(id)) compOpen.delete(id); else compOpen.add(id);
+    renderBank();
+  }));
+  competencesListEl.querySelectorAll('.act-edit-comp').forEach(b => b.addEventListener('click', () => openEditComp(b.dataset.comp)));
+  competencesListEl.querySelectorAll('.act-del-comp').forEach(b => b.addEventListener('click', () => delComp(b.dataset.comp)));
+  competencesListEl.querySelectorAll('.act-edit-crit').forEach(b => b.addEventListener('click', () => openEditCrit(b.dataset.comp, b.dataset.crit)));
+  competencesListEl.querySelectorAll('.act-del-crit').forEach(b => b.addEventListener('click', () => delCrit(b.dataset.comp, b.dataset.crit)));
+  competencesListEl.querySelectorAll('[data-add-crit]').forEach(b => b.addEventListener('click', () => openAddCrit(b.dataset.addCrit)));
+}
+
+function openEditComp(compId){
+  const comp = bank.competences.find(c=>c.id===compId);
+  const zone = competencesListEl.querySelector(`.comp-edit-zone[data-comp="${compId}"]`);
+  zone.innerHTML = `
+    <div class="inline-form">
+      <div class="field"><label class="field-label">Nom de la compétence</label>
+        <input type="text" id="edit-comp-name" value="${esc(comp.nom)}"></div>
+      <div class="field"><label class="field-label">Couleur</label>
+        <select id="edit-comp-color">${Object.keys(PALETTE).map(n => `<option value="${n}" ${compStyle(comp).accent===PALETTE[n].accent?'selected':''}>${n}</option>`).join('')}</select></div>
+      <label class="chk" style="display:flex;gap:8px;align-items:center;margin-bottom:8px;font-size:.85rem;"><input type="checkbox" id="edit-comp-hide" style="width:auto;" ${comp.cache ? 'checked' : ''}> Masquer cette compétence (elle reste en réserve, réaffichable)</label>
+      <button class="btn btn-primary btn-sm" id="save-comp-name">Enregistrer</button>
+      <button class="btn btn-sm" id="cancel-comp-name">Annuler</button>
+    </div>`;
+  zone.querySelector('#save-comp-name').addEventListener('click', () => {
+    const v = zone.querySelector('#edit-comp-name').value.trim();
+    if (v){ comp.nom = v; comp.couleur = PALETTE[zone.querySelector('#edit-comp-color').value] || comp.couleur; comp.cache = zone.querySelector('#edit-comp-hide').checked;
+      refreshHiddenBtn(); saveLS(LS_BANK, bank); renderBank(); }
+  });
+  zone.querySelector('#cancel-comp-name').addEventListener('click', () => zone.innerHTML = '');
+}
+
+async function delComp(compId){
+  const comp = bank.competences.find(c=>c.id===compId);
+  if (!(await askConfirm(`Supprimer la compétence « ${comp.nom} » et tous ses critères ?`))) return;
+  bank.competences = bank.competences.filter(c=>c.id!==compId);
+  saveLS(LS_BANK, bank);
+  renderBank();
+}
+
+function openEditCrit(compId, critId){
+  const comp = bank.competences.find(c=>c.id===compId);
+  const cr = comp.criteres.find(c=>c.id===critId);
+  const zone = competencesListEl.querySelector(`.crit-edit-zone[data-comp="${compId}"][data-crit="${critId}"]`);
+  zone.innerHTML = critForm(cr);
+  bindCritForm(zone, (data) => {
+    Object.assign(cr, data);
+    saveLS(LS_BANK, bank);
+    renderBank();
+  }, () => zone.innerHTML = '', cr);
+}
+
+async function delCrit(compId, critId){
+  const comp = bank.competences.find(c=>c.id===compId);
+  if (!(await askConfirm('Supprimer ce critère ?'))) return;
+  comp.criteres = comp.criteres.filter(c=>c.id!==critId);
+  saveLS(LS_BANK, bank);
+  renderBank();
+}
+
+function openAddCrit(compId){
+  const zone = competencesListEl.querySelector(`.add-crit-zone[data-comp="${compId}"]`);
+  if (zone.innerHTML){ zone.innerHTML=''; return; }
+  zone.innerHTML = critForm(null);
+  bindCritForm(zone, (data) => {
+    const comp = bank.competences.find(c=>c.id===compId);
+    comp.criteres.push({ id: uid(), ...data });
+    saveLS(LS_BANK, bank);
+    renderBank();
+  }, () => zone.innerHTML = '', null);
+}
+
+function critForm(cr){
+  const niv = (cr && cr.niveaux) || {};
+  return `
+    <div class="inline-form">
+      <div class="field"><label class="field-label">Libellé du critère</label>
+        <input type="text" class="f-lib" value="${cr ? esc(cr.libelle) : ''}" placeholder="Ex. Fluidité du discours"></div>
+      <div class="field"><label class="field-label">Description (optionnel)</label>
+        <textarea class="f-desc" placeholder="Précision sur ce qui est observé">${cr ? esc(cr.description||'') : ''}</textarea></div>
+      <div class="field"><label class="field-label">Ce qui est attendu à chaque niveau, formulé pour les élèves (modifiable : adaptez-le à votre séquence)</label>
+        ${BASE_LEVELS.map(l => `<div class="lvl-edit"><span class="lvl-tag" style="background:${(LEVELS.find(x=>x.code===l)||{}).color}">${l}</span><textarea class="f-niv" data-lvl="${l}" rows="2" placeholder="Descripteur du niveau ${l} (laisser vide si non utilisé)">${esc(niv[l]||'')}</textarea></div>`).join('')}
+        ${cr && cr.cle ? '<button type="button" class="btn btn-sm f-restore">Rétablir la version élève d’origine</button>' : ''}
+        ${cr && cr.cle && findRef(cr.cle) ? `<details class="off-ref"><summary>Voir le texte officiel du CECRL (référence)</summary>${Object.keys(findRef(cr.cle).officiel).map(l => `<p><strong>${l}</strong> : ${esc(findRef(cr.cle).officiel[l])}</p>`).join('')}</details>` : ''}
+      </div>
+      <div class="field"><label class="field-label">Repères de la séquence (mots, notions ou structures à réutiliser : repris dans les conseils de la fiche élève)</label>
+        <textarea class="f-seq" rows="2" placeholder="Ex. utiliser le vocabulaire de la séquence : sustainability, carbon footprint, ...">${cr ? esc(cr.sequence||'') : ''}</textarea></div>
+      <div class="field"><label class="field-label">Conseil libre (optionnel : s'il est rempli, il remplace le conseil automatique tiré du niveau visé)</label>
+        <textarea class="f-conseil" placeholder="Ex. S'entraîner à...">${cr ? esc(cr.conseil||'') : ''}</textarea></div>
+      <button class="btn btn-primary btn-sm f-save">Enregistrer</button>
+      <button class="btn btn-sm f-cancel">Annuler</button>
+    </div>`;
+}
+function bindCritForm(zone, onSave, onCancel, cr){
+  const restore = zone.querySelector('.f-restore');
+  if (restore) restore.addEventListener('click', () => {
+    const ref = findRef(cr.cle);
+    if (!ref){ toast('Texte d’origine introuvable'); return; }
+    zone.querySelectorAll('.f-niv').forEach(t => { t.value = ref.niveaux[t.dataset.lvl] || ''; });
+    toast('Version élève rétablie (pensez à enregistrer)');
+  });
+  zone.querySelector('.f-save').addEventListener('click', () => {
+    const lib = zone.querySelector('.f-lib').value.trim();
+    if (!lib){ toast('Le libellé est requis'); return; }
+    const niveaux = {};
+    if (cr && cr.niveaux && cr.niveaux['B1+']) niveaux['B1+'] = cr.niveaux['B1+'];
+    zone.querySelectorAll('.f-niv').forEach(t => { const v = t.value.trim(); if (v) niveaux[t.dataset.lvl] = v; });
+    onSave({
+      libelle: lib,
+      description: zone.querySelector('.f-desc').value.trim(),
+      conseil: zone.querySelector('.f-conseil').value.trim(),
+      sequence: zone.querySelector('.f-seq').value.trim(),
+      niveaux
+    });
+  });
+  zone.querySelector('.f-cancel').addEventListener('click', onCancel);
+}
+
+document.getElementById('btn-add-competence').addEventListener('click', () => {
+  const zone = document.getElementById('add-competence-form');
+  if (zone.innerHTML){ zone.innerHTML=''; return; }
+  zone.innerHTML = `
+    <div class="inline-form">
+      <div class="field"><label class="field-label">Nom de la nouvelle compétence</label>
+        <input type="text" id="new-comp-name" placeholder="Ex. Aisance et fluidité"></div>
+      <div class="field"><label class="field-label">Couleur</label>
+        <select id="new-comp-color">${Object.keys(PALETTE).map(n => `<option value="${n}">${n}</option>`).join('')}</select></div>
+      <button class="btn btn-primary btn-sm" id="save-new-comp">Ajouter</button>
+      <button class="btn btn-sm" id="cancel-new-comp">Annuler</button>
+    </div>`;
+  zone.querySelector('#save-new-comp').addEventListener('click', () => {
+    const v = zone.querySelector('#new-comp-name').value.trim();
+    if (!v){ toast('Nom requis'); return; }
+    const nc = { id: uid(), nom: v, couleur: PALETTE[zone.querySelector('#new-comp-color').value], criteres: [] };
+    bank.competences.push(nc); compOpen.add(nc.id);
+    saveLS(LS_BANK, bank);
+    zone.innerHTML='';
+    renderBank();
+  });
+  zone.querySelector('#cancel-new-comp').addEventListener('click', () => zone.innerHTML='');
+});
+
+function refreshHiddenBtn(){
+  const b = document.getElementById('btn-show-hidden'), n = hiddenCount();
+  b.hidden = n === 0;
+  b.textContent = showHiddenComps ? 'Remasquer les critères masqués' : `Afficher les critères masqués (${n})`;
+}
+document.getElementById('btn-show-hidden').addEventListener('click', () => { showHiddenComps = !showHiddenComps; refreshHiddenBtn(); renderBank(); });
+refreshHiddenBtn();
+document.getElementById('btn-add-cecrl').addEventListener('click', () => {
+  const n = ensureCecrl(bank);
+  saveLS(LS_BANK, bank); saveLS(LS_CECRL, true);
+  renderBank();
+  toast(n ? `${n} critères CECRL ajoutés` : 'La banque CECRL est déjà complète');
+});
+
+/* Export / Import / Reset */
+document.getElementById('btn-export').addEventListener('click', () => {
+  const data = { bank, templates, sessions: sessionsStore, exportedAt: new Date().toISOString() };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'notation-ecrite-sauvegarde.json';
+  a.click();
+});
+document.getElementById('input-import').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = async () => {
+    try{
+      const data = JSON.parse(reader.result);
+      if (data.bank && Array.isArray(data.bank.competences)){
+        const withDossiers = !!(data.sessions && Array.isArray(data.sessions.list) && data.sessions.list.length);
+        const msg = withDossiers
+          ? 'Remplacer la banque de critères, les modèles ET toutes les sessions actuelles par ceux du fichier importé ?'
+          : 'Remplacer la banque de critères et les modèles actuels par ceux du fichier importé ? (vos sessions de notation ne changent pas)';
+        if (await askConfirm(msg, { okLabel: 'Remplacer' })){
+          bank = data.bank; templates = data.templates || [];
+          saveLS(LS_BANK, bank); saveLS(LS_TEMPLATES, templates);
+          if (withDossiers){
+            sessionsStore = data.sessions;
+            if (!sessionsStore.list.some(s => s.id === sessionsStore.currentId)) sessionsStore.currentId = sessionsStore.list[0].id;
+            loadCurrentSession();
+            persistSessions();
+            syncSessionFields();
+            renderSession(); renderCompletedList(); renderDossierBar(); showWork(false);
+          }
+          renderBank(); renderTemplates();
+          toast('Import réussi');
+        }
+      } else { toast('Fichier invalide'); }
+    }catch(err){ toast('Fichier illisible'); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+document.getElementById('btn-reset-all').addEventListener('click', async () => {
+  if (!(await askConfirm('Réinitialiser TOUTE la banque de critères, les modèles et TOUTES les sessions de notation (fiches en cours et terminées) ? Cette action est irréversible.', { okLabel: 'Continuer' }))) return;
+  if (!(await askConfirm('Confirmez-vous une seconde fois ? Toutes les données seront perdues.', { okLabel: 'Tout effacer' }))) return;
+  bank = seedBank(); ensureCecrl(bank); addLegacy(bank); templates = [];
+  saveLS(LS_BANK, bank); saveLS(LS_TEMPLATES, templates); saveLS(LS_CECRL, true); saveLS(LS_LEGACY, true);
+  const fresh = newSession('', todayISO(), DEFAULT_TARGET_IDX, DEFAULT_BASELINE_NOTE);
+  sessionsStore = { currentId: fresh.id, list: [fresh] };
+  ['ee_slots_v1','ee_completed_v1','ee_session_titre','ee_session_date','ee_default_niveau_vise','ee_default_baseline_note']
+    .forEach(k => localStorage.removeItem(k));
+  loadCurrentSession();
+  persistSessions();
+  syncSessionFields();
+  renderBank(); renderTemplates(); renderSession(); renderCompletedList(); renderDossierBar(); showWork(false);
+  toast('Données réinitialisées');
+});
+
+/* ============================================================
+   VUE 2 — MODELES DE FICHES
+   ============================================================ */
+const templateFormZone = document.getElementById('template-form-zone');
+const templatesListEl = document.getElementById('templates-list');
+
+document.getElementById('btn-new-template').addEventListener('click', () => openTemplateForm(null));
+
+function openTemplateForm(existing){
+  const checkedSet = new Set(existing ? existing.critereIds : []);
+  templateFormZone.innerHTML = `
+    <div class="inline-form">
+      <div class="row">
+        <div class="field"><label class="field-label">Nom du modèle</label>
+          <input type="text" id="tpl-nom" value="${existing ? esc(existing.nom) : ''}" placeholder="Ex. Discussion B2 : actualité"></div>
+        <div class="field"><label class="field-label">Type d'activité</label>
+          <select id="tpl-type">
+            ${ACTIVITY_TYPES.map(t => `<option value="${esc(t)}" ${existing && existing.typeActivite===t ? 'selected':''}>${esc(t)}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <label class="field-label">Critères à évaluer dans cette fiche</label>
+      <div class="quickbtns">
+        <button class="btn btn-sm" id="tpl-all">Tout cocher</button>
+        <button class="btn btn-sm" id="tpl-none">Tout décocher</button>
+        <button class="btn btn-sm" id="tpl-suggest">Suggestion selon le type</button>
+      </div>
+      <input type="search" class="tpl-search" id="tpl-search" placeholder="Rechercher un critère (ex. argumenter, vocabulaire, interaction)">
+      <div class="checkbox-grid" id="tpl-checklist">
+        ${bank.competences.filter(c => !c.cache || showHiddenComps || c.criteres.some(cr => checkedSet.has(cr.id))).map(comp => {
+          const n = comp.criteres.filter(cr => checkedSet.has(cr.id)).length;
+          const open = n > 0 || !comp.cle;
+          return `
+          <details class="tpl-comp" ${open ? 'open' : ''} style="${styleVars(compStyle(comp))}">
+            <summary><span>${esc(comp.nom)}</span><span class="tpl-count">${n ? n + ' sélectionné(s)' : ''}</span></summary>
+            <div class="tpl-body">
+            ${comp.criteres.map(cr => `
+              <label class="chk">
+                <input type="checkbox" value="${cr.id}" data-comp="${comp.id}" ${checkedSet.has(cr.id)?'checked':''}>
+                <span>${esc(cr.libelle)}</span>
+              </label>
+            `).join('') || '<div class="muted">Aucun critère dans cette compétence.</div>'}
+            </div>
+          </details>`;
+        }).join('')}
+      </div>
+      <div style="margin-top:10px;display:flex;gap:8px;">
+        <button class="btn btn-primary" id="tpl-save">${existing ? 'Enregistrer les modifications' : 'Enregistrer le modèle'}</button>
+        <button class="btn" id="tpl-cancel">Annuler</button>
+      </div>
+    </div>
+  `;
+
+  function refreshCounts(){
+    templateFormZone.querySelectorAll('.tpl-comp').forEach(d => {
+      const n = d.querySelectorAll('input:checked').length;
+      d.querySelector('.tpl-count').textContent = n ? n + ' sélectionné(s)' : '';
+    });
+  }
+  templateFormZone.querySelector('#tpl-checklist').addEventListener('change', refreshCounts);
+  templateFormZone.querySelector('#tpl-search').addEventListener('input', (e) => {
+    const q = e.target.value.trim().toLowerCase();
+    templateFormZone.querySelectorAll('.tpl-comp').forEach(d => {
+      let any = false;
+      d.querySelectorAll('label.chk').forEach(l => {
+        const ok = !q || l.textContent.toLowerCase().includes(q) || d.querySelector('summary span').textContent.toLowerCase().includes(q);
+        l.style.display = ok ? '' : 'none'; if (ok) any = true;
+      });
+      d.style.display = any ? '' : 'none';
+      if (q && any) d.open = true;
+    });
+  });
+  function getCheckedIds(){
+    return Array.from(templateFormZone.querySelectorAll('#tpl-checklist input:checked')).map(i=>i.value);
+  }
+  templateFormZone.querySelector('#tpl-all').addEventListener('click', () => {
+    templateFormZone.querySelectorAll('#tpl-checklist input').forEach(i=>i.checked=true); refreshCounts();
+  });
+  templateFormZone.querySelector('#tpl-none').addEventListener('click', () => {
+    templateFormZone.querySelectorAll('#tpl-checklist input').forEach(i=>i.checked=false); refreshCounts();
+  });
+  templateFormZone.querySelector('#tpl-suggest').addEventListener('click', () => {
+    const type = templateFormZone.querySelector('#tpl-type').value;
+    const interactionComp = bank.competences.find(c => !c.cle && /interaction/i.test(c.nom));
+    templateFormZone.querySelectorAll('#tpl-checklist input').forEach(i => {
+      const compObj = bank.competences.find(c => c.id === i.dataset.comp);
+      if (compObj && compObj.cle) return;
+      const isInteraction = interactionComp && i.dataset.comp === interactionComp.id;
+      if (type === 'Discussion / interaction' || type === 'Mixte'){
+        i.checked = true;
+      } else {
+        i.checked = !isInteraction;
+      }
+    });
+    refreshCounts(); toast('Sélection suggérée appliquée');
+  });
+  templateFormZone.querySelector('#tpl-save').addEventListener('click', () => {
+    const nom = templateFormZone.querySelector('#tpl-nom').value.trim();
+    const type = templateFormZone.querySelector('#tpl-type').value;
+    const ids = getCheckedIds();
+    if (!nom){ toast('Le nom du modèle est requis'); return; }
+    if (ids.length === 0){ toast('Sélectionnez au moins un critère'); return; }
+    if (existing){
+      existing.nom = nom; existing.typeActivite = type; existing.critereIds = ids;
+    } else {
+      templates.push({ id: uid(), nom, typeActivite: type, critereIds: ids });
+    }
+    saveLS(LS_TEMPLATES, templates);
+    templateFormZone.innerHTML = '';
+    renderTemplates();
+    toast('Modèle enregistré');
+  });
+  templateFormZone.querySelector('#tpl-cancel').addEventListener('click', () => templateFormZone.innerHTML = '');
+}
+
+function renderTemplates(){
+  if (templates.length === 0){
+    templatesListEl.innerHTML = '<div class="empty-msg">Aucun modèle enregistré. Créez-en un ci-dessus.</div>';
+    return;
+  }
+  templatesListEl.innerHTML = templates.map(t => `
+    <div class="template-card">
+      <div>
+        <span class="type-badge">${esc(t.typeActivite)}</span>
+        <div style="font-weight:700;margin-top:4px;">${esc(t.nom)}</div>
+        <div class="meta">${t.critereIds.length} critère(s) sélectionné(s)</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <button class="btn btn-sm act-tpl-edit" data-id="${t.id}">✎ Modifier</button>
+        <button class="btn btn-sm act-tpl-dup" data-id="${t.id}">⧉ Dupliquer</button>
+        <button class="btn btn-sm btn-danger act-tpl-del" data-id="${t.id}">🗑 Supprimer</button>
+      </div>
+    </div>
+  `).join('');
+  templatesListEl.querySelectorAll('.act-tpl-edit').forEach(b => b.addEventListener('click', () => openTemplateForm(findTemplate(b.dataset.id))));
+  templatesListEl.querySelectorAll('.act-tpl-dup').forEach(b => b.addEventListener('click', () => {
+    const t = findTemplate(b.dataset.id);
+    templates.push({ id: uid(), nom: t.nom + ' (copie)', typeActivite: t.typeActivite, critereIds: [...t.critereIds] });
+    saveLS(LS_TEMPLATES, templates);
+    renderTemplates();
+  }));
+  templatesListEl.querySelectorAll('.act-tpl-del').forEach(b => b.addEventListener('click', async () => {
+    if (!(await askConfirm('Supprimer ce modèle ?'))) return;
+    templates = templates.filter(t=>t.id!==b.dataset.id);
+    saveLS(LS_TEMPLATES, templates);
+    renderTemplates();
+  }));
+}
+
+/* ============================================================
+   VUE 3 — SESSION DE NOTATION
+   ============================================================ */
+function defaultSlots(n, targetIdx, baseline){
+  const t = (typeof targetIdx === 'number') ? targetIdx : DEFAULT_TARGET_IDX;
+  const b = (typeof baseline === 'number') ? baseline : DEFAULT_BASELINE_NOTE;
+  const arr = [];
+  for (let i=0;i<4;i++){
+    arr.push({ modeleId: (templates[0] && templates[0].id) || null, prenom: '', scores: {}, commentaires: {}, niveauViseIdx: t, baselineNote: b });
+  }
+  return { nb: n, slots: arr };
+}
+
+const countPickerEl = document.getElementById('count-picker');
+[1,2,3,4].forEach(n => {
+  const b = document.createElement('button');
+  b.textContent = n;
+  b.dataset.n = n;
+  b.addEventListener('click', () => { slotsState.nb = n; saveLS(LS_SLOTS, slotsState); renderSession(); });
+  countPickerEl.appendChild(b);
+});
+
+const sessionTitreEl = document.getElementById('session-titre');
+const sessionDateEl = document.getElementById('session-date');
+const defaultNiveauEl = document.getElementById('default-niveau-vise');
+const defaultBaselineEl = document.getElementById('default-baseline-note');
+defaultNiveauEl.innerHTML = LEVELS.map((lv,idx) => `<option value="${idx}">${lv.code}</option>`).join('');
+
+/* Titre, date et niveau visé par défaut appartiennent au dossier ouvert. */
+function syncSessionFields(){
+  const cur = currentSession();
+  sessionTitreEl.value = cur.titre || '';
+  sessionDateEl.value = cur.date || todayISO();
+  defaultNiveauEl.value = cur.niveauViseIdx;
+  defaultBaselineEl.value = cur.baselineNote;
+}
+sessionTitreEl.addEventListener('input', () => { currentSession().titre = sessionTitreEl.value; persistSessions(); renderDossierBar(); });
+sessionDateEl.addEventListener('input', () => { currentSession().date = sessionDateEl.value; persistSessions(); renderDossierBar(); });
+defaultNiveauEl.addEventListener('change', () => {
+  currentSession().niveauViseIdx = Number(defaultNiveauEl.value);
+  persistSessions();
+});
+defaultBaselineEl.addEventListener('input', () => {
+  const v = Number(defaultBaselineEl.value);
+  if (!isNaN(v)){ currentSession().baselineNote = v; persistSessions(); }
+});
+document.getElementById('btn-apply-niveau-all').addEventListener('click', () => {
+  const cur = currentSession();
+  slotsState.slots.forEach(s => { s.niveauViseIdx = cur.niveauViseIdx; s.baselineNote = cur.baselineNote; });
+  saveLS(LS_SLOTS, slotsState);
+  renderSession();
+  toast('Niveau visé appliqué à toutes les fiches');
+});
+
+/* ---------- Sélecteur de dossiers ---------- */
+function dossierDateFR(iso){
+  const p = (iso || '').split('-');
+  return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : '';
+}
+function slotInProgress(s){
+  return !!((s.prenom || '').trim()) || Object.values(s.scores || {}).some(v => v !== undefined && v !== null);
+}
+function inProgressCount(sess){
+  return sess.slotsState.slots.filter(slotInProgress).length;
+}
+function plural(n, one, many){ return n + ' ' + (n > 1 ? many : one); }
+function showWork(open){
+  sessionsStore.open = !!open;
+  persistSessions();
+  document.getElementById('sessions-hub').hidden = !!open;
+  document.getElementById('session-work').hidden = !open;
+  if (open){ syncSessionFields(); renderSession(); renderCompletedList(); }
+}
+function renderDossierBar(){
+  const list = document.getElementById('sessions-list');
+  const info = document.getElementById('dossier-info');
+  if (!list || !info) return;
+  const sorted = sessionsStore.list.slice().sort((a,b) =>
+    (b.date || '').localeCompare(a.date || '') || (b.createdAt || 0) - (a.createdAt || 0));
+  list.innerHTML = sorted.map(s => {
+    const enCours = inProgressCount(s);
+    const vide = !enCours && !s.completed.length;
+    return `<div class="sess-card ${s.id === sessionsStore.currentId ? 'current' : ''}" data-id="${s.id}">
+      <div class="sess-main">
+        <div class="sess-title">${esc(s.titre || 'Session sans titre')}</div>
+        <div class="sess-meta">
+          <span class="sess-pill">${esc(dossierDateFR(s.date))}</span>
+          <span class="sess-pill">${plural(s.completed.length, 'fiche terminée', 'fiches terminées')}</span>
+          ${enCours ? `<span class="sess-pill warm">${plural(enCours, 'fiche en cours', 'fiches en cours')}</span>` : ''}
+          ${vide ? '<span class="sess-pill">vierge</span>' : ''}
+        </div>
+      </div>
+      <div class="sess-actions">
+        <button class="btn btn-primary sess-open" data-id="${s.id}">${vide ? 'Ouvrir' : 'Reprendre'}</button>
+        <button class="btn btn-danger sess-del" data-id="${s.id}">Supprimer</button>
+      </div>
+    </div>`;
+  }).join('');
+  const cur = currentSession();
+  info.textContent = `Session ouverte : ${plural(cur.completed.length, 'fiche terminée', 'fiches terminées')}, ` +
+    `${plural(inProgressCount(cur), 'fiche en cours', 'fiches en cours')}. Tout est enregistré automatiquement.`;
+  list.querySelectorAll('.sess-open').forEach(b => b.addEventListener('click', () => openSession(b.dataset.id)));
+  list.querySelectorAll('.sess-del').forEach(b => b.addEventListener('click', () => deleteSession(b.dataset.id)));
+}
+function openSession(id){
+  if (!sessionsStore.list.some(s => s.id === id)) return;
+  sessionsStore.currentId = id;
+  loadCurrentSession();
+  renderDossierBar();
+  showWork(true);
+  window.scrollTo(0, 0);
+}
+document.getElementById('btn-back-hub').addEventListener('click', () => { renderDossierBar(); showWork(false); window.scrollTo(0, 0); });
+document.getElementById('btn-new-dossier').addEventListener('click', async () => {
+  const nom = await askText('Nouvelle session', 'Donnez un nom à cette session (par exemple : T1 rédaction de novembre). Elle démarre vierge ; les autres sessions restent intactes.', '', 'Nom de la session', 'Créer la session');
+  if (nom === null) return;
+  const cur = currentSession();
+  const s = newSession(nom.trim() || 'Nouvelle session', todayISO(), cur.niveauViseIdx, cur.baselineNote);
+  sessionsStore.list.push(s);
+  sessionsStore.currentId = s.id;
+  loadCurrentSession();
+  renderDossierBar();
+  showWork(true);
+  window.scrollTo(0, 0);
+  toast('Nouvelle session créée');
+});
+async function deleteSession(id){
+  const target = sessionsStore.list.find(x => x.id === id);
+  if (!target) return;
+  const msg = `Supprimer définitivement la session « ${target.titre || 'Session sans titre'} » ` +
+    `(${plural(target.completed.length, 'fiche terminée', 'fiches terminées')}, ${inProgressCount(target)} en cours) ?\n\n` +
+    'Cette action est irréversible. Pensez à télécharger les PDF avant.';
+  if (!(await askConfirm(msg, { okLabel: 'Supprimer la session' }))) return;
+  sessionsStore.list = sessionsStore.list.filter(x => x.id !== id);
+  if (!sessionsStore.list.length){
+    sessionsStore.list.push(newSession('', todayISO(), target.niveauViseIdx, target.baselineNote));
+  }
+  if (sessionsStore.currentId === id) sessionsStore.currentId = sessionsStore.list[sessionsStore.list.length - 1].id;
+  loadCurrentSession();
+  persistSessions();
+  renderDossierBar();
+  showWork(false);
+  toast('Session supprimée');
+}
+syncSessionFields();
+
+const fichesGridEl = document.getElementById('fiches-grid');
+
+function pctForLevel(levelIdx, targetIdx, baselineNote){
+  const B = baselineNote / 20;
+  if (levelIdx === undefined || levelIdx === null) levelIdx = 0; /* non validé = A1 */
+  const T = targetIdx;
+  if (T <= 0){
+    const span = (LEVELS.length - 1 - T) || 1;
+    return B + ((levelIdx - T) / span) * (1 - B);
+  }
+  if (levelIdx <= T) return ((levelIdx + 1) / (T + 1)) * B; /* A1 rapporte des points, d'autant plus que le niveau visé est bas */
+  const span = (LEVELS.length - 1 - T) || 1;
+  return B + ((levelIdx - T) / span) * (1 - B);
+}
+function computeScore(scores, critIds, targetIdx, baselineNote){
+  if (critIds.length === 0) return 0;
+  let sumPct = 0;
+  critIds.forEach(cid => {
+    sumPct += pctForLevel(scores[cid], targetIdx, baselineNote);
+  });
+  const avgPct = sumPct / critIds.length;
+  const note = Math.max(0, Math.min(20, avgPct * 20));
+  return Math.round(note * 2) / 2; /* arrondi au demi-point */
+}
+
+const helpOpen = new Set();
+function renderSession(){
+  countPickerEl.querySelectorAll('button').forEach(b => b.classList.toggle('active', Number(b.dataset.n) === slotsState.nb));
+  fichesGridEl.className = 'fiches-grid n' + slotsState.nb;
+  const n = slotsState.nb;
+  fichesGridEl.innerHTML = '';
+  for (let i=0;i<n;i++){
+    const slot = slotsState.slots[i];
+    const tpl = slot.modeleId ? findTemplate(slot.modeleId) : null;
+    const card = document.createElement('div');
+    card.className = 'fiche-card';
+    card.innerHTML = `
+      <div class="fiche-head" style="flex-wrap:wrap;">
+        <span class="slotnum">${i+1}</span>
+        <div style="flex:1;min-width:140px;">
+          <select class="slot-tpl" data-slot="${i}">
+            <option value="">Choisir un modèle</option>
+            ${templates.map(t => `<option value="${t.id}" ${slot.modeleId===t.id?'selected':''}>${esc(t.nom)} (${esc(t.typeActivite)})</option>`).join('')}
+          </select>
+        </div>
+        <select class="slot-niveau" data-slot="${i}" style="width:auto;font-size:.78rem;padding:6px 8px;" title="Niveau visé pour cette fiche">
+          ${LEVELS.map((lv,idx) => `<option value="${idx}" ${slot.niveauViseIdx===idx?'selected':''}>Visé ${lv.code}</option>`).join('')}
+        </select>
+      </div>
+      <div class="fiche-body">
+        <div class="field" style="margin-bottom:10px;">
+          <input type="text" class="slot-prenom" data-slot="${i}" placeholder="Prénom de l'élève" value="${esc(slot.prenom)}">
+        </div>
+        <div class="slot-criteres"></div>
+      </div>
+      <div class="fiche-score">
+        <div class="muted">Note calculée</div>
+        <div class="val"><span class="slot-score-val">0</span><small> / 20</small></div>
+      </div>
+      <div class="fiche-foot">
+        <button class="btn slot-clear" data-slot="${i}">Vider</button>
+        <button class="btn btn-primary slot-validate" data-slot="${i}">✓ Valider la fiche</button>
+      </div>
+    `;
+    fichesGridEl.appendChild(card);
+
+    const critZone = card.querySelector('.slot-criteres');
+    function renderCritZone(){
+      if (!tpl){
+        critZone.innerHTML = '<div class="empty-msg">Sélectionnez un modèle pour afficher les critères.</div>';
+        card.querySelector('.slot-score-val').textContent = '0';
+        return;
+      }
+      if (!slot.commentaires) slot.commentaires = {};
+      let lastComp = null;
+      critZone.innerHTML = tpl.critereIds.map(cid => {
+        const cr = findCritere(cid);
+        if (!cr) return '';
+        const showComp = cr.competenceNom !== lastComp;
+        lastComp = cr.competenceNom;
+        const sel = slot.scores[cid];
+        const tIdxSlot = slot.niveauViseIdx ?? DEFAULT_TARGET_IDX;
+        const helpIdx = (sel !== undefined && sel !== null) ? sel : tIdxSlot;
+        const helpTxt = descFor(cr.niveaux, helpIdx);
+        const helpOn = helpOpen.has(i + '|' + cid);
+        return `
+          ${showComp ? `<div class="crit-comp cat" style="margin-top:6px;${styleVars(cr.couleur)}">${esc(cr.competenceNom)}</div>` : ''}
+          <div class="fiche-crit" data-crit="${cid}">
+            <div class="crit-head"><div class="crit-label">${esc(cr.libelle)}</div>${helpTxt ? `<button type="button" class="crit-info ${helpOn?'on':''}" data-crit="${cid}" title="Voir ce qui est attendu">i</button>` : ''}</div>
+            ${helpTxt && helpOn ? `<div class="crit-help"><b>${(sel !== undefined && sel !== null) ? 'Niveau choisi : ' : 'Niveau visé : '}${LEVELS[helpIdx].code}</b> ${esc(helpTxt)}${cr.sequence ? `<br><b>Séquence :</b> ${esc(cr.sequence)}` : ''}</div>` : ''}
+            <div class="level-picker">
+              ${LEVELS.map((lv, idx) => `<button type="button" class="level-btn ${sel===idx?'sel':''} ${idx===(slot.niveauViseIdx ?? DEFAULT_TARGET_IDX)?'target':''}" style="--lvl-color:${lv.color};" data-crit="${cid}" data-idx="${idx}">${lv.code}</button>`).join('')}
+            </div>
+            <textarea class="crit-comment" data-crit="${cid}" rows="1" placeholder="Commentaire sur ce critère (facultatif)">${esc(slot.commentaires[cid]||'')}</textarea>
+          </div>
+        `;
+      }).join('');
+      critZone.querySelectorAll('.crit-info').forEach(b => b.addEventListener('click', () => {
+        const k = i + '|' + b.dataset.crit;
+        if (helpOpen.has(k)) helpOpen.delete(k); else helpOpen.add(k);
+        renderCritZone();
+      }));
+      critZone.querySelectorAll('.level-btn').forEach(b => {
+        b.addEventListener('click', () => {
+          const cid = b.dataset.crit;
+          const idx = Number(b.dataset.idx);
+          slot.scores[cid] = (slot.scores[cid] === idx) ? undefined : idx; // toggle off if same
+          saveLS(LS_SLOTS, slotsState);
+          updateScoreDisplay();
+          renderCritZone();
+        });
+      });
+      critZone.querySelectorAll('.crit-comment').forEach(t => {
+        t.addEventListener('input', (e) => {
+          slot.commentaires[t.dataset.crit] = e.target.value;
+          saveLS(LS_SLOTS, slotsState);
+        });
+      });
+    }
+    function updateScoreDisplay(){
+      const score = tpl ? computeScore(slot.scores, tpl.critereIds, slot.niveauViseIdx ?? DEFAULT_TARGET_IDX, slot.baselineNote ?? DEFAULT_BASELINE_NOTE) : 0;
+      const valEl = card.querySelector('.slot-score-val');
+      valEl.textContent = score;
+      valEl.style.color = tpl ? scoreColor(score) : '';
+    }
+    renderCritZone();
+    updateScoreDisplay();
+
+    card.querySelector('.slot-tpl').addEventListener('change', (e) => {
+      slot.modeleId = e.target.value || null;
+      slot.scores = {};
+      saveLS(LS_SLOTS, slotsState);
+      renderSession();
+    });
+    card.querySelector('.slot-niveau').addEventListener('change', (e) => {
+      slot.niveauViseIdx = Number(e.target.value);
+      saveLS(LS_SLOTS, slotsState);
+      renderSession();
+    });
+    card.querySelector('.slot-prenom').addEventListener('input', (e) => {
+      slot.prenom = e.target.value;
+      saveLS(LS_SLOTS, slotsState);
+    });
+    card.querySelector('.slot-clear').addEventListener('click', () => {
+      slot.prenom = ''; slot.scores = {}; slot.commentaires = {};
+      saveLS(LS_SLOTS, slotsState);
+      renderSession();
+    });
+    card.querySelector('.slot-validate').addEventListener('click', async () => {
+      if (!tpl){ toast('Choisissez un modèle'); return; }
+      if (!slot.prenom.trim()){ toast('Indiquez le prénom de l’élève'); return; }
+      const critDetails = tpl.critereIds.map(cid => {
+        const cr = findCritere(cid);
+        /* critère non validé : compté comme A1 */
+        const lvlIdx = (slot.scores[cid] === undefined || slot.scores[cid] === null) ? 0 : slot.scores[cid];
+        return {
+          libelle: cr ? cr.libelle : '(critère supprimé)',
+          competence: cr ? cr.competenceNom : '',
+          conseil: cr ? (cr.conseil || '') : '',
+          attendu: cr ? shortDesc(descFor(cr.niveaux, nextStepIdx(lvlIdx, slot.niveauViseIdx ?? DEFAULT_TARGET_IDX)), 240) : '',
+          attenduNiveau: LEVELS[nextStepIdx(lvlIdx, slot.niveauViseIdx ?? DEFAULT_TARGET_IDX)].code,
+          sequence: cr ? (cr.sequence || '') : '',
+          couleur: cr ? cr.couleur : null,
+          levelIdx: (lvlIdx !== undefined && lvlIdx !== null) ? lvlIdx : null,
+          levelCode: (lvlIdx !== undefined && lvlIdx !== null) ? LEVELS[lvlIdx].code : '…',
+          points: (lvlIdx !== undefined && lvlIdx !== null) ? LEVELS[lvlIdx].pts : 0,
+          commentaire: ((slot.commentaires && slot.commentaires[cid]) || '').trim()
+        };
+      });
+      const targetIdx = slot.niveauViseIdx ?? DEFAULT_TARGET_IDX;
+      const baselineNote = slot.baselineNote ?? DEFAULT_BASELINE_NOTE;
+      const score = computeScore(slot.scores, tpl.critereIds, targetIdx, baselineNote);
+      const ficheTmp = { niveauViseIdx: targetIdx, niveauViseLabel: LEVELS[targetIdx].code, criteres: critDetails };
+      const choix = await pickAxes(ficheTmp, slot.prenom.trim(), score);
+      if (choix === null) return;
+      const axes = choix.axes;
+      completed.push({
+        id: uid(),
+        prenom: slot.prenom.trim(),
+        modeleNom: tpl.nom,
+        typeActivite: tpl.typeActivite,
+        titreSeance: sessionTitreEl.value.trim(),
+        date: sessionDateEl.value || todayISO(),
+        score: choix.note,
+        scoreCalcule: score,
+        niveauViseIdx: targetIdx,
+        niveauViseLabel: LEVELS[targetIdx].code,
+        criteres: critDetails,
+        axes
+      });
+      saveLS(LS_COMPLETED, completed);
+      slot.prenom = ''; slot.scores = {}; slot.commentaires = {};
+      saveLS(LS_SLOTS, slotsState);
+      renderSession();
+      renderCompletedList();
+      toast('Fiche enregistrée');
+    });
+  }
+}
+
+function renderCompletedList(){
+  const el = document.getElementById('completed-list');
+  if (completed.length === 0){
+    el.innerHTML = '<div class="empty-msg">Aucune fiche terminée pour le moment.</div>';
+    return;
+  }
+  el.innerHTML = completed.slice().reverse().map(f => `
+    <div class="completed-row" data-id="${f.id}">
+      <div class="name">${esc(f.prenom)} <span class="muted">(${esc(f.modeleNom)})</span></div>
+      <div class="score" style="color:${scoreColor(f.score)};">${f.score} / 20</div>
+      <button class="btn btn-sm comp-dl" data-id="${f.id}">⬇ PDF</button>
+      <button class="btn btn-sm btn-danger comp-del" data-id="${f.id}">🗑</button>
+    </div>
+  `).join('');
+  el.querySelectorAll('.comp-dl').forEach(b => b.addEventListener('click', () => downloadPDF([completed.find(f=>f.id===b.dataset.id)])));
+  el.querySelectorAll('.comp-del').forEach(b => b.addEventListener('click', async () => {
+    if (!(await askConfirm('Supprimer cette fiche terminée ?'))) return;
+    completed = completed.filter(f=>f.id!==b.dataset.id);
+    saveLS(LS_COMPLETED, completed);
+    renderCompletedList();
+  }));
+}
+
+document.getElementById('btn-download-all').addEventListener('click', saveFichesInFolder);
+document.getElementById('btn-print-all').addEventListener('click', () => {
+  if (completed.length === 0){ toast('Aucune fiche à télécharger'); return; }
+  downloadPDF(completed);
+});
+document.getElementById('btn-clear-completed').addEventListener('click', async () => {
+  if (completed.length === 0) return;
+  if (!(await askConfirm('Vider la liste des fiches terminées de cette session uniquement ? (les autres sessions et les PDF déjà téléchargés ne sont pas affectés)', { okLabel: 'Vider la liste' }))) return;
+  completed = [];
+  saveLS(LS_COMPLETED, completed);
+  renderCompletedList();
+});
+
+/* ============================================================
+   GENERATION PDF (via impression navigateur)
+   ============================================================ */
+function buildAdvice(fiche){
+  const T = (fiche.niveauViseIdx !== undefined && fiche.niveauViseIdx !== null) ? fiche.niveauViseIdx : DEFAULT_TARGET_IDX;
+  const forts = fiche.criteres.filter(c => c.levelIdx !== null && c.levelIdx >= T);
+  const faibles = fiche.criteres.filter(c => c.levelIdx === null || c.levelIdx < T);
+  return { forts, faibles };
+}
+
+function levelColor(code){
+  const lv = LEVELS.find(l => l.code === code);
+  return lv ? lv.color : '#9aaeab';
+}
+
+const ENCOURAGEMENTS = [
+  'Encore un peu de travail pour atteindre le niveau visé : chaque texte que tu écris est un pas de plus. Continue à t’entraîner !',
+  'Ce n’est pas encore le niveau visé, mais les bases sont là : avec un peu plus de pratique, les progrès viendront vite.',
+  'Prends confiance : à force de t’entraîner régulièrement, tu vas progresser sur ces points. Ne lâche rien !'
+];
+function encouragement(fiche){
+  let h = 0;
+  const key = (fiche.id || '') + (fiche.prenom || '');
+  for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
+  return ENCOURAGEMENTS[h % ENCOURAGEMENTS.length];
+}
+
+function axeText(c, fiche){ return adviceParts(c, fiche).body; }
+function pickAxes(fiche, prenom, score){
+  const T = fiche.niveauViseIdx;
+  const { faibles } = buildAdvice(fiche);
+  const items = faibles.map(c => ({ c, gap: (c.levelIdx === null ? 99 : T - c.levelIdx) }));
+  items.sort((a, b) => b.gap - a.gap);
+  return new Promise(resolve => {
+    const back = document.createElement('div');
+    back.className = 'modal-back';
+    back.innerHTML = `<div class="modal-box wide" role="dialog" aria-modal="true">
+      <h3>Validation de la fiche de ${esc(prenom)}</h3>
+      <div class="ax-note"><label for="ax-score">Note finale /20</label><input type="number" id="ax-score" min="0" max="20" step="0.5" value="${score}"><span class="muted">calculée : ${score} (modifiable, par pas de 0,5)</span></div>
+      ${items.length ? '<div class="muted" style="font-size:14px;margin-bottom:12px;">Coche les conseils à garder sur la fiche (les 3 plus éloignés du niveau visé sont cochés). Tu peux modifier chaque texte.</div>' : '<div class="muted" style="margin-bottom:12px;">Tous les critères atteignent le niveau visé : aucun axe de progression à proposer.</div>'}
+      <div class="ax-list">${items.map((it, i) => `<div class="ax-item${i < 3 ? '' : ' off'}" data-i="${i}">
+        <label><input type="checkbox" class="ax-chk"${i < 3 ? ' checked' : ''}> ${esc(it.c.libelle)} <span class="ax-gap">(${esc(it.c.levelCode)})</span></label>
+        <textarea class="ax-txt">${esc(axeText(it.c, fiche))}</textarea></div>`).join('')}</div>
+      <div class="modal-actions"><button class="btn" type="button" id="ax-cancel">Annuler</button><button class="btn btn-primary" type="button" id="ax-ok">Valider la fiche</button></div></div>`;
+    document.body.appendChild(back);
+    back.querySelectorAll('.ax-chk').forEach(ch => ch.addEventListener('change', () => ch.closest('.ax-item').classList.toggle('off', !ch.checked)));
+    const close = v => { back.remove(); document.removeEventListener('keydown', onKey, true); resolve(v); };
+    const onKey = e => { if (e.key === 'Escape'){ e.preventDefault(); e.stopPropagation(); close(null); } };
+    document.addEventListener('keydown', onKey, true);
+    back.querySelector('#ax-cancel').addEventListener('click', () => close(null));
+    back.querySelector('#ax-ok').addEventListener('click', () => {
+      const out = [];
+      back.querySelectorAll('.ax-item').forEach(el => {
+        if (!el.querySelector('.ax-chk').checked) return;
+        const it = items[+el.dataset.i];
+        out.push({ libelle: it.c.libelle, levelCode: it.c.levelCode, texte: el.querySelector('.ax-txt').value.trim() });
+      });
+      let n = parseFloat(String(back.querySelector('#ax-score').value).replace(',', '.'));
+      if (isNaN(n)) n = score;
+      n = Math.max(0, Math.min(20, Math.round(n * 2) / 2));
+      close({ axes: out, note: n });
+    });
+  });
+}
+function axesList(fiche){
+  if (Array.isArray(fiche.axes)) return fiche.axes;
+  return buildAdvice(fiche).faibles.map(c => ({ libelle: c.libelle, levelCode: c.levelCode, texte: axeText(c, fiche) }));
+}
+function axeHead(a){ return (a.levelCode && a.levelCode !== '…') ? ` (${a.levelCode})` : ''; }
+function adviceParts(c, fiche){
+  const cible = fiche.niveauViseLabel || 'visé';
+  const head = (c.levelCode && c.levelCode !== '…') ? `${c.levelCode}, objectif ${cible}` : `objectif ${cible}`;
+  const parts = [];
+  if (c.conseil) parts.push(c.conseil);
+  else if (c.attendu) parts.push(attenduCourt(c));
+  if (c.sequence) parts.push(`Repères de la séquence : ${c.sequence}`);
+  if (!parts.length) parts.push('continuer à travailler ce point.');
+  return { head, body: parts.join(' ') };
+}
+function attenduCourt(c){ return c.attendu ? shortDesc(c.attendu, 170) : ''; }
+function fichePageHTML(fiche){
+  const tIdx = (fiche.niveauViseIdx !== undefined && fiche.niveauViseIdx !== null) ? fiche.niveauViseIdx : DEFAULT_TARGET_IDX;
+  const { forts, faibles } = buildAdvice(fiche);
+  const axes = axesList(fiche);
+  let lastComp = null;
+  const blocks = [];
+  fiche.criteres.forEach(c => {
+    if (c.competence !== lastComp){
+      blocks.push(`<div class="p-comp-title" style="${c.couleur ? 'background:' + c.couleur.fond + ';color:' + c.couleur.texte + ';--cc:' + c.couleur.accent : ''}">${esc(c.competence)}</div>`);
+      lastComp = c.competence;
+    }
+    blocks.push(`
+      <div class="p-crit-row">
+        <div class="p-crit-main">
+          <div class="p-crit-name">${esc(c.libelle)}</div>
+          ${c.commentaire ? `<div class="p-crit-comment">${esc(c.commentaire)}</div>` : ''}
+        </div>
+        <div class="p-level-pill" style="background:${levelColor(c.levelCode)};">${esc(c.levelCode)}</div>
+      </div>
+    `);
+  });
+
+  return `
+    <div class="print-page">
+      <div class="p-header">
+        <div>
+          <div class="p-title">${esc(fiche.titreSeance || 'Évaluation écrite')}</div>
+          <div class="p-sub">${esc(fiche.modeleNom)} · ${esc(fiche.typeActivite)}</div>
+          <div class="p-sub">Élève : <strong>${esc(fiche.prenom)}</strong> · Évaluation du ${esc(dossierDateFR(fiche.date) || fiche.date)}${fiche.niveauViseLabel ? ' · Niveau visé : ' + esc(fiche.niveauViseLabel) : ''}</div>
+          <div class="p-legend"><b>Repère des niveaux (CECRL)</b>${LEVELS.map((l,i)=>`<span class="p-level-pill${i===tIdx?' cible':''}" style="background:${l.color};">${l.code}</span>`).join('')}<span>Entouré : niveau visé</span></div>
+        </div>
+        <div class="p-score-badge" style="color:${scoreColor(fiche.score)};">
+          <div class="num">${fiche.score}</div>
+          <div class="lbl">/ 20</div>
+        </div>
+      </div>
+      <div class="p-grid">${blocks.join('')}</div>
+      <div class="p-advice">
+        <div class="p-advice-box forts">
+          <h4>Points forts</h4>
+          ${forts.length ? `<ul>${forts.map(c=>`<li>${esc(c.libelle)} (${esc(c.levelCode)})</li>`).join('')}</ul>` : `<div>${esc(encouragement(fiche))}</div>`}
+        </div>
+        <div class="p-advice-box faibles">
+          <h4>Axes de progression pour atteindre le niveau ${esc(fiche.niveauViseLabel || 'visé')}</h4>
+          ${axes.length ? `<ul>${axes.map(a=>`<li><strong>${esc(a.libelle)}</strong>${esc(axeHead(a))} : ${esc(a.texte)}</li>`).join('')}</ul>` : (faibles.length ? '' : '<div>Tous les critères atteignent ou dépassent le niveau visé. Excellent travail.</div>')}
+        </div>
+      </div>
+      <div class="p-footer">Made by MissD - Co-créé avec IA générative - RGPD</div>
+    </div>
+  `;
+}
+
+/* ============================================================
+   PDF INDIVIDUELS (générés dans la page, sans bibliothèque) + DOSSIER / ZIP
+   ============================================================ */
+const PDF_W = {
+  r: [278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,1015,
+      667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,333,
+      556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584],
+  b: [278,333,474,556,556,889,722,238,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,333,333,584,584,584,611,975,
+      722,722,722,722,667,611,778,722,278,556,722,611,833,722,778,667,778,722,667,611,722,667,944,667,667,611,333,278,333,584,556,333,
+      556,611,556,611,556,333,611,611,278,278,556,278,889,611,611,611,611,389,556,333,611,556,778,556,556,500,389,280,389,584]
+};
+const PDF_BASE = {}; /* lettre accentuée -> lettre de base, pour la largeur */
+'ÀÁÂÃÄÅ'.split('').forEach(c => PDF_BASE[c]='A'); 'àáâãäå'.split('').forEach(c => PDF_BASE[c]='a');
+'ÈÉÊË'.split('').forEach(c => PDF_BASE[c]='E'); 'èéêë'.split('').forEach(c => PDF_BASE[c]='e');
+'ÌÍÎÏ'.split('').forEach(c => PDF_BASE[c]='I'); 'ìíîï'.split('').forEach(c => PDF_BASE[c]='i');
+'ÒÓÔÕÖ'.split('').forEach(c => PDF_BASE[c]='O'); 'òóôõö'.split('').forEach(c => PDF_BASE[c]='o');
+'ÙÚÛÜ'.split('').forEach(c => PDF_BASE[c]='U'); 'ùúûü'.split('').forEach(c => PDF_BASE[c]='u');
+PDF_BASE['Ç']='C'; PDF_BASE['ç']='c'; PDF_BASE['Ñ']='N'; PDF_BASE['ñ']='n'; PDF_BASE['ÿ']='y'; PDF_BASE['Ý']='Y'; PDF_BASE['ý']='y';
+const PDF_SPECIAL = {0x2019:0x92,0x2018:0x91,0x201C:0x93,0x201D:0x94,0x2026:0x85,0x2013:0x96,0x2014:0x97,0x20AC:0x80,0x0153:0x9C,0x0152:0x8C,0x2022:0x95,0x202F:0x20,0x00A0:0x20};
+function pdfCode(ch){
+  const c = ch.codePointAt(0);
+  if (PDF_SPECIAL[c] !== undefined) return PDF_SPECIAL[c];
+  if (c >= 32 && c < 127) return c;
+  if (c >= 161 && c <= 255) return c;
+  return 63;
+}
+function pdfCharW(ch, bold){
+  if (ch === 'œ' || ch === 'Œ') return 944;
+  if (ch === '«' || ch === '»') return 556;
+  const b = PDF_BASE[ch] || ch;
+  const c = b.charCodeAt(0);
+  const tab = bold ? PDF_W.b : PDF_W.r;
+  return (c >= 32 && c <= 126) ? tab[c - 32] : 556;
+}
+function pdfTextW(str, size, bold){
+  let w = 0; for (const ch of str) w += pdfCharW(ch, bold); return w * size / 1000;
+}
+function pdfWrap(str, size, bold, maxW){
+  const out = [];
+  String(str).split('\n').forEach(par => {
+    const words = par.split(/\s+/).filter(Boolean);
+    let line = '';
+    words.forEach(w => {
+      const t = line ? line + ' ' + w : w;
+      if (pdfTextW(t, size, bold) <= maxW || !line){ line = t; }
+      else { out.push(line); line = w; }
+    });
+    out.push(line);
+  });
+  return out;
+}
+function pdfRGB(hex){
+  const n = parseInt(hex.slice(1), 16);
+  return [(n>>16)&255, (n>>8)&255, n&255].map(v => (v/255).toFixed(3)).join(' ');
+}
+function pdfHex(str){
+  let h = ''; for (const ch of str) h += pdfCode(ch).toString(16).padStart(2, '0'); return h;
+}
+const PDF_PW = 595.28, PDF_PH = 841.89, PDF_MX = 31, PDF_MT = 23;
+function pdfLayout(f, sc, forts, faibles){
+  const axes = axesList(f);
+  const W = PDF_PW, H = PDF_PH, M = PDF_MX, ops = [];
+  const rr = (x, y, w, h, r) => {            /* rectangle arrondi, y mesuré depuis le haut */
+    r = Math.min(r, w / 2, h / 2); const k = r * 0.5523, X = x, Y = H - y - h;
+    const n = v => v.toFixed(2);
+    return `${n(X + r)} ${n(Y)} m ${n(X + w - r)} ${n(Y)} l ${n(X + w - r + k)} ${n(Y)} ${n(X + w)} ${n(Y + r - k)} ${n(X + w)} ${n(Y + r)} c ` +
+      `${n(X + w)} ${n(Y + h - r)} l ${n(X + w)} ${n(Y + h - r + k)} ${n(X + w - r + k)} ${n(Y + h)} ${n(X + w - r)} ${n(Y + h)} c ` +
+      `${n(X + r)} ${n(Y + h)} l ${n(X + r - k)} ${n(Y + h)} ${n(X)} ${n(Y + h - r + k)} ${n(X)} ${n(Y + h - r)} c ` +
+      `${n(X)} ${n(Y + r)} l ${n(X)} ${n(Y + r - k)} ${n(X + r - k)} ${n(Y)} ${n(X + r)} ${n(Y)} c h`;
+  };
+  const rect = (x, y, w, h, col, r) => ops.push(`${pdfRGB(col)} rg ${r ? rr(x, y, w, h, r) + ' f' : `${x.toFixed(2)} ${(H-y-h).toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)} re f`}`);
+  const ring = (x, y, w, h, r, col, lw) => ops.push(`${pdfRGB(col)} RG ${lw} w ${rr(x, y, w, h, r)} S`);
+  const text = (s, x, y, font, size, col) => ops.push(`BT /${font} ${size.toFixed(2)} Tf ${pdfRGB(col)} rg ${x.toFixed(2)} ${(H-y).toFixed(2)} Td <${pdfHex(s)}> Tj ET`);
+  const center = (s, cx, y, font, size, col, bold) => text(s, cx - pdfTextW(s, size, bold) / 2, y, font, size, col);
+
+  /* bandeau : titre, élève, date de l'évaluation, niveau visé, note */
+  const hx = M, hy = PDF_MT, hw = W - 2 * M;
+  const tw = hw - 32 - 62;
+  const titre = pdfWrap(f.titreSeance || 'Évaluation écrite', 14, true, tw).slice(0, 2);
+  const HH = 84 + (titre.length - 1) * 16;
+  ops.push(`q ${rr(hx, hy, hw, HH, 10)} W n /Sh1 sh Q`);
+  let y = hy + 22;
+  titre.forEach(l => { text(l, hx + 16, y, 'F2', 14, '#ffffff'); y += 16; });
+  y = Math.max(y, hy + 36);
+  const sub = [f.modeleNom, f.typeActivite].filter(Boolean).join(' · ');
+  text(pdfWrap(sub, 8.6, false, tw)[0] || '', hx + 16, y, 'F1', 8.6, '#d2efeb');
+  const d = dossierDateFR(f.date) || f.date || '';
+  text(pdfWrap(`Élève : ${f.prenom}  ·  Évaluation du ${d}${f.niveauViseLabel ? '  ·  Niveau visé : ' + f.niveauViseLabel : ''}`, 8.8, true, tw)[0], hx + 16, y + 12.5, 'F2', 8.8, '#ffffff');
+  const cx = hx + hw - 16 - 26, cy = hy + 38;
+  ops.push(`1 1 1 rg ${rr(cx - 26, cy - 26, 52, 52, 26)} f`);
+  center(String(f.score), cx, cy + 3, 'F2', 17, scoreColor(f.score), true);
+  center('/ 20', cx, cy + 13, 'F2', 6.4, '#5b7571', true);
+  /* repère des niveaux intégré au bandeau */
+  const T = (f.niveauViseIdx !== undefined && f.niveauViseIdx !== null) ? f.niveauViseIdx : DEFAULT_TARGET_IDX;
+  const ly = hy + HH - 23, lw = 26, lgap = 4, lblW = 102;
+  text('Repère des niveaux (CECRL)', hx + 16, ly + 8.6, 'F2', 7.2, '#d2efeb');
+  LEVELS.forEach((lv, i) => {
+    const x = hx + 16 + lblW + i * (lw + lgap);
+    rect(x, ly, lw, 12, lv.color, 6);
+    center(lv.code, x + lw / 2, ly + 8.6, 'F2', 7.4, '#ffffff', true);
+    if (i === T) ring(x - 2, ly - 2, lw + 4, 16, 8, '#ffffff', 1.2);
+  });
+  text('Entouré : niveau visé', hx + 16 + lblW + LEVELS.length * (lw + lgap) + 3, ly + 8.6, 'F1', 7.2, '#d2efeb');
+  y = hy + HH + 9;
+
+  /* critères : bandeaux de compétence, lignes séparées, pastilles de niveau */
+  const left = [], rows = f.criteres;
+  let lastComp = null;
+  const pillW = 32 * sc, nameW = W - 2 * M - pillW - 28;
+  rows.forEach((c, idx) => {
+    if (c.competence !== lastComp){
+      lastComp = c.competence; if (idx) y += 5 * sc;
+      const cc = c.couleur || { accent: '#1b6d62', fond: '#e8f6f4', texte: '#114c44' };
+      rect(M, y, W - 2 * M, 14.5 * sc, cc.fond, 4);
+      rect(M, y, 3.5, 14.5 * sc, cc.accent, 1.5);
+      text((c.competence || '').toUpperCase(), M + 10, y + 10 * sc, 'F2', 7.6 * sc, cc.texte);
+      y += 14.5 * sc + 2.5 * sc;
+    }
+    const nl = pdfWrap(c.libelle, 9.3 * sc, false, nameW);
+    const at = [];
+    const cl = c.commentaire ? pdfWrap(c.commentaire, 8.1 * sc, false, nameW) : [];
+    const textH = nl.length * 11.3 * sc + at.length * 9.2 * sc + cl.length * 9.8 * sc + (cl.length ? 1.5 * sc : 0);
+    const h = Math.max(13 * sc, textH) + 5 * sc;
+    const col = levelColor(c.levelCode), py = y + 2.5 * sc;
+    rect(W - M - 8 - pillW, py, pillW, 13 * sc, col, 6.5 * sc);
+    center(c.levelCode, W - M - 8 - pillW / 2, py + 9.4 * sc, 'F2', 7.8 * sc, '#ffffff', true);
+    let ty = y + 2.5 * sc + 9 * sc;
+    nl.forEach(l => { text(l, M + 8, ty, 'F1', 9.3 * sc, '#1b3735'); ty += 11.3 * sc; });
+    ty += 0.3 * sc;
+    at.forEach(l => { text(l, M + 8, ty, 'F1', 7.7 * sc, '#3c6d67'); ty += 9.2 * sc; });
+    ty += 0.5 * sc;
+    cl.forEach(l => { text(l, M + 8, ty, 'F3', 8.1 * sc, '#5b7571'); ty += 9.8 * sc; });
+    y += h;
+    const next = rows[idx + 1];
+    if (next && next.competence === c.competence) rect(M, y - 0.4, W - 2 * M, 0.7, '#e3eeed');
+  });
+
+  /* conseils, ancrés en bas de page comme dans la fiche imprimée */
+  const gap = 8, totW = W - 2 * M - gap, colWs = [totW * 0.34, totW * 0.66];
+  const mk = (title, items, plain, tcol, bg, stripe, colW) => {
+    const inner = colW - 26, lines = [];
+    if (plain) pdfWrap(plain, 8.6 * sc, false, inner).forEach(l => lines.push(['', l, 0]));
+    else items.forEach(it => {
+      const full = it.label ? it.label + ' ' + it.rest : it.rest;
+      pdfWrap(full, 8.6 * sc, false, inner - 9).forEach((l, i) => lines.push([i ? '' : '•', l, i ? 0 : (it.label ? it.label.length : 0)]));
+    });
+    return { title, lines, tcol, bg, stripe, colW, h: 15 + lines.length * 10.8 * sc + 10 };
+  };
+  const bl = mk('POINTS FORTS', forts.map(c => ({ label: '', rest: `${c.libelle} (${c.levelCode})` })), forts.length ? '' : encouragement(f), '#2e8b57', '#e4f5eb', '#2e8b57', colWs[0]);
+  const br = mk('AXES DE PROGRESSION POUR ATTEINDRE LE NIVEAU ' + (f.niveauViseLabel || 'VISÉ'), axes.map(a => ({ label: a.libelle, rest: `${axeHead(a)} : ${a.texte}` })),
+    (axes.length || faibles.length) ? '' : 'Tous les critères atteignent ou dépassent le niveau visé. Excellent travail.', '#c97a2e', '#fbeadb', '#c97a2e', colWs[1]);
+  const bh = Math.max(bl.h, br.h);
+  const footTop = H - PDF_MT - 14;
+  const by = y + 8;
+  let bx = M;
+  [bl, br].forEach((b, i) => {
+    const x = bx; bx += b.colW + gap;
+    rect(x, by, b.colW, bh, b.stripe, 6); rect(x + 3, by, b.colW - 3, bh, b.bg, 5);
+    text(b.title, x + 13, by + 13, 'F2', 8, b.tcol);
+    let ty = by + 13 + 12 * sc;
+    b.lines.forEach(([bul, l, nb]) => {
+      const tx = x + 13 + (bul ? 9 : 0);
+      if (bul) text('•', x + 13, ty, 'F2', 8.6 * sc, '#1b3735');
+      if (nb){
+        const lab = l.slice(0, nb);
+        text(lab, tx, ty, 'F2', 8.6 * sc, '#1b3735');
+        text(l.slice(nb), tx + pdfTextW(lab, 8.6 * sc, true), ty, 'F1', 8.6 * sc, '#1b3735');
+      } else text(l, tx, ty, 'F1', 8.6 * sc, '#1b3735');
+      ty += 10.8 * sc;
+    });
+  });
+  rect(M, footTop, W - 2 * M, 0.7, '#dbe8e7');
+  center('Made by MissD - Co-créé avec IA générative - RGPD', W / 2, footTop + 10, 'F1', 7, '#9aaeab');
+  return { ops, y: by + bh, hh: HH };
+}
+function pdfBuild(ops, hh){
+  const W = PDF_PW, H = PDF_PH;
+  const content = ops.join('\n');
+  const x0 = PDF_MX, x1 = W - PDF_MX, y0 = H - PDF_MT, y1 = H - PDF_MT - hh;
+  const objs = [
+    '<< /Type /Catalog /Pages 2 0 R >>',
+    '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
+    `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /Font << /F1 5 0 R /F2 6 0 R /F3 7 0 R >> /Shading << /Sh1 8 0 R >> >> /Contents 4 0 R >>`,
+    `<< /Length ${content.length} >>\nstream\n${content}\nendstream`,
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>',
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>',
+    `<< /ShadingType 2 /ColorSpace /DeviceRGB /Coords [${x0} ${y0} ${x1} ${y1}] /Function << /FunctionType 2 /Domain [0 1] /C0 [${pdfRGB('#1b6d62')}] /C1 [${pdfRGB('#114c44')}] /N 1 >> /Extend [true true] >>`
+  ];
+  let out = '%PDF-1.4\n'; const offs = [];
+  objs.forEach((o, i) => { offs.push(out.length); out += `${i + 1} 0 obj\n${o}\nendobj\n`; });
+  const xr = out.length;
+  out += `xref\n0 ${objs.length + 1}\n0000000000 65535 f \n` + offs.map(o => String(o).padStart(10, '0') + ' 00000 n \n').join('');
+  out += `trailer\n<< /Size ${objs.length + 1} /Root 1 0 R >>\nstartxref\n${xr}\n%%EOF`;
+  const bytes = new Uint8Array(out.length);
+  for (let i = 0; i < out.length; i++) bytes[i] = out.charCodeAt(i) & 255;
+  return bytes;
+}
+function pdfFicheBytes(f){
+  const { forts, faibles } = buildAdvice(f);
+  let r;
+  for (let sc = 1; sc >= 0.5; sc -= 0.05){
+    r = pdfLayout(f, sc, forts, faibles);
+    if (r.y <= 841.89 - 23 - 22) break;
+  }
+  return pdfBuild(r.ops, r.hh);
+}
+/* ZIP (stockage sans compression) */
+const CRC_TAB = (() => { const t = []; for (let n = 0; n < 256; n++){ let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t.push(c >>> 0); } return t; })();
+function crc32(b){ let c = 0xFFFFFFFF; for (let i = 0; i < b.length; i++) c = CRC_TAB[(c ^ b[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+function zipBuild(files){
+  const enc = new TextEncoder(), parts = [], central = [];
+  const d = new Date();
+  const dt = ((d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1)) & 0xFFFF;
+  const dd = (((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate()) & 0xFFFF;
+  let off = 0;
+  files.forEach(f => {
+    const nm = enc.encode(f.name), crc = crc32(f.data);
+    const lh = new DataView(new ArrayBuffer(30));
+    lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(6, 0x0800, true); lh.setUint16(8, 0, true);
+    lh.setUint16(10, dt, true); lh.setUint16(12, dd, true); lh.setUint32(14, crc, true);
+    lh.setUint32(18, f.data.length, true); lh.setUint32(22, f.data.length, true); lh.setUint16(26, nm.length, true); lh.setUint16(28, 0, true);
+    parts.push(new Uint8Array(lh.buffer), nm, f.data);
+    const ch = new DataView(new ArrayBuffer(46));
+    ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true); ch.setUint16(8, 0x0800, true);
+    ch.setUint16(12, dt, true); ch.setUint16(14, dd, true); ch.setUint32(16, crc, true);
+    ch.setUint32(20, f.data.length, true); ch.setUint32(24, f.data.length, true); ch.setUint16(28, nm.length, true);
+    ch.setUint32(42, off, true);
+    central.push(new Uint8Array(ch.buffer), nm);
+    off += 30 + nm.length + f.data.length;
+  });
+  const csize = central.reduce((a, p) => a + p.length, 0);
+  const end = new DataView(new ArrayBuffer(22));
+  end.setUint32(0, 0x06054b50, true); end.setUint16(8, files.length, true); end.setUint16(10, files.length, true);
+  end.setUint32(12, csize, true); end.setUint32(16, off, true);
+  return new Blob([...parts, ...central, new Uint8Array(end.buffer)], { type: 'application/zip' });
+}
+function safeName(s, fallback){
+  const t = String(s || '').replace(/[\\/:*?"<>|\u0000-\u001f]/g, ' ').replace(/\s+/g, ' ').trim().replace(/[. ]+$/, '');
+  return t || fallback;
+}
+function downloadBlob(blob, name){
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+function ficheFileBase(f){
+  const ev = safeName(f.titreSeance || currentSession().titre, 'Évaluation');
+  return ev + ' - ' + safeName(f.prenom, 'élève');
+}
+async function saveFichesInFolder(){
+  if (completed.length === 0){ toast('Aucune fiche à télécharger'); return; }
+  const folder = safeName(currentSession().titre, 'Session') + ' - fiches élèves';
+  let dir = null;
+  if (window.showDirectoryPicker){
+    try{ dir = await window.showDirectoryPicker({ mode: 'readwrite' }); }
+    catch(e){ if (e && e.name === 'AbortError') return; dir = null; }
+  }
+  const used = {};
+  const files = completed.map(f => {
+    let base = ficheFileBase(f), n = (used[base] = (used[base] || 0) + 1);
+    return { name: (n > 1 ? `${base} (${n})` : base) + '.pdf', data: pdfFicheBytes(f) };
+  });
+  if (dir){
+    try{
+      const sub = await dir.getDirectoryHandle(folder, { create: true });
+      for (const f of files){
+        const fh = await sub.getFileHandle(f.name, { create: true });
+        const w = await fh.createWritable(); await w.write(f.data); await w.close();
+      }
+      toast(`${plural(files.length, 'fiche enregistrée', 'fiches enregistrées')} dans le dossier « ${folder} »`);
+      return;
+    }catch(e){ /* repli sur le ZIP */ }
+  }
+  downloadBlob(zipBuild(files.map(f => ({ name: folder + '/' + f.name, data: f.data }))), folder.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\x20-\x7e]/g, '') + '.zip');
+  toast('Archive ZIP téléchargée : dézippez-la pour obtenir le dossier');
+}
+
+function downloadPDF(fiches){
+  const area = document.getElementById('print-area');
+  area.innerHTML = fiches.map(fichePageHTML).join('');
+  /* chaque fiche est mesurée hors écran et resserrée au besoin pour tenir sur une page */
+  area.classList.add('measuring');
+  area.querySelectorAll('.print-page').forEach(pg => {
+    let z = 1;
+    while (pg.scrollHeight > pg.clientHeight + 1 && z > 0.6){ z -= 0.04; pg.style.setProperty('--z', z.toFixed(2)); }
+  });
+  area.classList.remove('measuring');
+  const oldTitle = document.title;
+  document.title = fiches.length === 1
+    ? ficheFileBase(fiches[0])
+    : 'fiches-notation-ecrite';
+  window.print();
+  setTimeout(() => { document.title = oldTitle; area.innerHTML = ''; }, 500);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+renderBank();
+renderTemplates();
+renderSession();
+renderCompletedList();
+renderDossierBar();
+showWork(!!sessionsStore.open);
+
+})();
+</script>
+</body>
+</html>
