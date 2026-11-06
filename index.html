@@ -44,6 +44,7 @@
     <button class="chip" data-f="tous" aria-pressed="true">Tous</button>
     <button class="chip" data-f="Oral" aria-pressed="false">Oral</button>
     <button class="chip" data-f="Écrit" aria-pressed="false">Écrit</button>
+    <button class="chip" data-f="Créer une grille" aria-pressed="false">Créer une grille</button>
     <input class="search" id="q" type="search" placeholder="Rechercher une grille…" aria-label="Rechercher une grille">
   </div>
   <div class="grid" id="grid"></div>
@@ -55,6 +56,7 @@
 /* Pour ajouter une grille : copier un bloc ci-dessous, puis renseigner le fichier, le titre, le type, la couleur et la description. */
 const ICONS = {
   oral: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="gbo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2f8fb3"/><stop offset="1" stop-color="#1b4965"/></linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#gbo)"/><path d="M144 110H368a48 48 0 0 1 48 48V292a48 48 0 0 1-48 48H236L156 408V340H144a48 48 0 0 1-48-48V158a48 48 0 0 1 48-48Z" fill="#fff"/><rect x="146" y="240" width="42" height="50" rx="13" fill="#d6564a"/><rect x="204" y="204" width="42" height="86" rx="13" fill="#e2a52f"/><rect x="262" y="168" width="42" height="122" rx="13" fill="#9dbd3f"/><rect x="320" y="132" width="42" height="158" rx="13" fill="#2e8b57"/><circle cx="396" cy="120" r="46" fill="#e2a52f" stroke="#1b4965" stroke-width="10"/><path d="M376 120l14 14 28-30" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  creer: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="gbc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9822b"/><stop offset="1" stop-color="#8a3d10"/></linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#gbc)"/><rect x="92" y="110" width="270" height="292" rx="30" fill="#fff"/><rect x="92" y="110" width="270" height="62" rx="30" fill="#f3d9b8"/><rect x="92" y="142" width="270" height="30" fill="#f3d9b8"/><g fill="#d9b48a"><rect x="122" y="196" width="60" height="26" rx="8"/><rect x="198" y="196" width="60" height="26" rx="8"/><rect x="274" y="196" width="60" height="26" rx="8"/><rect x="122" y="240" width="60" height="26" rx="8"/><rect x="198" y="240" width="60" height="26" rx="8"/><rect x="274" y="240" width="60" height="26" rx="8"/><rect x="122" y="284" width="60" height="26" rx="8"/><rect x="198" y="284" width="60" height="26" rx="8"/></g><path d="M388 70l16 44 44 16-44 16-16 44-16-44-44-16 44-16z" fill="#fff"/><path d="M416 280l10 26 26 10-26 10-10 26-10-26-26-10 26-10z" fill="#f6c77a"/></svg>`,
   ecrit: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="gbe" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2fb5a5"/><stop offset="1" stop-color="#0e5a57"/></linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#gbe)"/><rect x="104" y="80" width="250" height="340" rx="34" fill="#fff"/><rect x="146" y="140" width="166" height="20" rx="10" fill="#b4dad5"/><rect x="146" y="188" width="166" height="20" rx="10" fill="#b4dad5"/><rect x="146" y="236" width="120" height="20" rx="10" fill="#b4dad5"/><rect x="146" y="284" width="140" height="20" rx="10" fill="#b4dad5"/><g transform="rotate(38 372 330)"><rect x="346" y="190" width="52" height="170" rx="10" fill="#e2a52f"/><rect x="346" y="164" width="52" height="40" rx="12" fill="#d6564a"/><polygon points="346,360 398,360 372,418" fill="#f6e3bb"/><polygon points="361,391 383,391 372,418" fill="#0e5a57"/></g></svg>`
 };
 const TOOLS = [
@@ -63,7 +65,10 @@ const TOOLS = [
     points: ['Banque de critères CECRL 2021 (oral)', '1 à 4 fiches de notation en parallèle', 'Fiche PDF élève d\'une page, avec conseils'] },
   { fichier: 'notation-ecrit.html', titre: 'Notation expression écrite avec feedbacks', type: 'Écrit', couleur: '#0f6b63', icone: 'ecrit',
     desc: 'Évaluer les productions et interactions écrites, avec une fiche de retour pour chaque élève.',
-    points: ['Banque de critères CECRL 2021 (écrit)', '1 à 4 fiches de notation en parallèle', 'Fiche PDF élève d\'une page, avec conseils'] }
+    points: ['Banque de critères CECRL 2021 (écrit)', '1 à 4 fiches de notation en parallèle', 'Fiche PDF élève d\'une page, avec conseils'] },
+  { fichier: 'CECRL_2021_interactif_v59.html', titre: 'CECRL 2021 interactif : de la tâche finale à la grille', type: 'Créer une grille', couleur: '#b45309', icone: 'creer',
+    desc: 'Construire sa propre grille d\'évaluation à partir de la tâche finale de la séquence, en s\'appuyant sur les descripteurs du CECRL 2021.',
+    points: ['Assistant guidé par l\'IA : de la tâche finale à la grille complète', 'Explorateur des 532 descripteurs du volume complémentaire', 'Export de la grille pour l\'évaluation'] }
 ];
 const grid = document.getElementById('grid'), empty = document.getElementById('empty'), q = document.getElementById('q');
 let filtre = 'tous';
