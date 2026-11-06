@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grilles d'évaluation CECRL</title>
+<style>
+  :root{--ink:#1f2937;--muted:#5b6675;--bg:#f4f5f9;--card:#fff;--line:#e3e6ee;--brand:#3b3f8f;--brand-d:#262a66;}
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;}
+  header{background:linear-gradient(135deg,var(--brand),var(--brand-d));color:#fff;padding:34px 20px 30px;}
+  .wrap{max-width:980px;margin:0 auto;}
+  header h1{margin:0 0 6px;font-size:28px;letter-spacing:-.01em;}
+  header p{margin:0;opacity:.88;max-width:640px;}
+  main{padding:26px 20px 40px;}
+  .bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px;}
+  .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;font:inherit;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;}
+  .chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff;}
+  input.search{flex:1;min-width:200px;border:1px solid var(--line);border-radius:999px;padding:8px 16px;font:inherit;font-size:14px;background:#fff;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px;text-decoration:none;color:inherit;transition:transform .15s,box-shadow .15s,border-color .15s;border-top:5px solid var(--c,#999);}
+  .card:hover,.card:focus-visible{transform:translateY(-3px);box-shadow:0 12px 28px rgba(31,41,55,.12);border-color:var(--c);outline:none;}
+  .top{display:flex;gap:14px;align-items:center;}
+  .ico{width:56px;height:56px;flex:none;}
+  .ico svg{width:100%;height:100%;display:block;}
+  .card h2{margin:0;font-size:18px;line-height:1.25;}
+  .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--c);background:color-mix(in srgb,var(--c) 12%,#fff);padding:2px 9px;border-radius:999px;margin-top:4px;}
+  .card p{margin:0;color:var(--muted);font-size:14.5px;}
+  .card ul{margin:0;padding-left:18px;color:var(--muted);font-size:13.5px;}
+  .go{margin-top:auto;font-weight:700;color:var(--c);font-size:14.5px;}
+  .empty{display:none;color:var(--muted);padding:20px 0;}
+  .note{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 18px;font-size:13.5px;color:var(--muted);}
+  .note b{color:var(--ink);}
+  footer{text-align:center;color:#8a93a3;font-size:12.5px;padding:0 20px 28px;}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <h1>Grilles d'évaluation CECRL</h1>
+  <p>Choisissez l'outil adapté à l'évaluation : fiches de notation personnalisables, repères du CECRL 2021 et fiche de retour pour chaque élève.</p>
+</div></header>
+<main><div class="wrap">
+  <div class="bar" id="bar">
+    <button class="chip" data-f="tous" aria-pressed="true">Tous</button>
+    <button class="chip" data-f="Oral" aria-pressed="false">Oral</button>
+    <button class="chip" data-f="Écrit" aria-pressed="false">Écrit</button>
+    <input class="search" id="q" type="search" placeholder="Rechercher une grille…" aria-label="Rechercher une grille">
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">Aucune grille ne correspond à votre recherche.</div>
+  <div class="note"><b>À savoir :</b> chaque grille garde vos modèles, vos sessions et vos fiches dans ce navigateur, sur cet ordinateur, séparément des autres grilles. Gardez les fichiers de cette page et des grilles dans le même dossier pour que les liens fonctionnent.</div>
+</div></main>
+<footer>Made by MissD - Co-créé avec IA générative - RGPD</footer>
+<script>
+/* Pour ajouter une grille : copier un bloc ci-dessous, puis renseigner le fichier, le titre, le type, la couleur et la description. */
+const ICONS = {
+  oral: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="gbo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2f8fb3"/><stop offset="1" stop-color="#1b4965"/></linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#gbo)"/><path d="M144 110H368a48 48 0 0 1 48 48V292a48 48 0 0 1-48 48H236L156 408V340H144a48 48 0 0 1-48-48V158a48 48 0 0 1 48-48Z" fill="#fff"/><rect x="146" y="240" width="42" height="50" rx="13" fill="#d6564a"/><rect x="204" y="204" width="42" height="86" rx="13" fill="#e2a52f"/><rect x="262" y="168" width="42" height="122" rx="13" fill="#9dbd3f"/><rect x="320" y="132" width="42" height="158" rx="13" fill="#2e8b57"/><circle cx="396" cy="120" r="46" fill="#e2a52f" stroke="#1b4965" stroke-width="10"/><path d="M376 120l14 14 28-30" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  ecrit: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="gbe" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2fb5a5"/><stop offset="1" stop-color="#0e5a57"/></linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#gbe)"/><rect x="104" y="80" width="250" height="340" rx="34" fill="#fff"/><rect x="146" y="140" width="166" height="20" rx="10" fill="#b4dad5"/><rect x="146" y="188" width="166" height="20" rx="10" fill="#b4dad5"/><rect x="146" y="236" width="120" height="20" rx="10" fill="#b4dad5"/><rect x="146" y="284" width="140" height="20" rx="10" fill="#b4dad5"/><g transform="rotate(38 372 330)"><rect x="346" y="190" width="52" height="170" rx="10" fill="#e2a52f"/><rect x="346" y="164" width="52" height="40" rx="12" fill="#d6564a"/><polygon points="346,360 398,360 372,418" fill="#f6e3bb"/><polygon points="361,391 383,391 372,418" fill="#0e5a57"/></g></svg>`
+};
+const TOOLS = [
+  { fichier: 'notation-orale.html', titre: 'Notation production orale avec feedbacks', type: 'Oral', couleur: '#1b6aa5', icone: 'oral',
+    desc: 'Évaluer les prises de parole et les interactions orales, avec une fiche de retour pour chaque élève.',
+    points: ['Banque de critères CECRL 2021 (oral)', '1 à 4 fiches de notation en parallèle', 'Fiche PDF élève d\'une page, avec conseils'] },
+  { fichier: 'notation-ecrit.html', titre: 'Notation expression écrite avec feedbacks', type: 'Écrit', couleur: '#0f6b63', icone: 'ecrit',
+    desc: 'Évaluer les productions et interactions écrites, avec une fiche de retour pour chaque élève.',
+    points: ['Banque de critères CECRL 2021 (écrit)', '1 à 4 fiches de notation en parallèle', 'Fiche PDF élève d\'une page, avec conseils'] }
+];
+const grid = document.getElementById('grid'), empty = document.getElementById('empty'), q = document.getElementById('q');
+let filtre = 'tous';
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function render(){
+  const t = q.value.trim().toLowerCase();
+  const liste = TOOLS.filter(x => (filtre === 'tous' || x.type === filtre) && (!t || (x.titre + ' ' + x.desc + ' ' + x.type + ' ' + x.points.join(' ')).toLowerCase().includes(t)));
+  grid.innerHTML = liste.map(x => `<a class="card" href="${esc(x.fichier)}" style="--c:${esc(x.couleur)}">
+    <div class="top"><div class="ico">${ICONS[x.icone] || ''}</div><div><h2>${esc(x.titre)}</h2><span class="tag">${esc(x.type)}</span></div></div>
+    <p>${esc(x.desc)}</p><ul>${x.points.map(p => '<li>' + esc(p) + '</li>').join('')}</ul>
+    <span class="go">Ouvrir la grille →</span></a>`).join('');
+  empty.style.display = liste.length ? 'none' : 'block';
+}
+document.getElementById('bar').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  filtre = b.dataset.f;
+  document.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === b)));
+  render();
+});
+q.addEventListener('input', render);
+render();
+</script>
+</body>
+</html>
